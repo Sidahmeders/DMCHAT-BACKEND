@@ -34,8 +34,8 @@ const Home = () => {
       <Box bg="white" w="100%" p={4} borderRadius="lg" borderWidth="1px">
         <Tabs isFitted variant="soft-rounded">
           <TabList mb="1em">
-            <Tab>Login</Tab>
-            <Tab>Sign Up</Tab>
+            <Tab>Connexion</Tab>
+            <Tab>S'inscrire</Tab>
           </TabList>
           <TabPanels>
             <TabPanel>

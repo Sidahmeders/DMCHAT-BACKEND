@@ -138,7 +138,7 @@ const SideDrawer = () => {
           <Button variant="ghost" onClick={onOpen}>
             <i className="fas fa-search" />
             <Text display={{ base: 'none', md: 'flex' }} paddingX="2.5">
-              Search User
+              rechercher utilisateur
             </Text>
           </Button>
         </Tooltip>
@@ -160,7 +160,7 @@ const SideDrawer = () => {
             </MenuButton>
 
             <MenuList>
-              {!notification.length && <Text pl="2">No New Messages</Text>}
+              {!notification.length && <Text pl="2">pas de nouveaux messages</Text>}
               {notification.map((notif) => (
                 <MenuItem
                   key={notif._id}
@@ -184,11 +184,11 @@ const SideDrawer = () => {
 
             <MenuList>
               <ProfileModal user={user}>
-                <MenuItem>My Profile</MenuItem>
+                <MenuItem>Mon Profil</MenuItem>
               </ProfileModal>
 
               <MenuDivider />
-              <MenuItem onClick={logoutHandler}>Logout</MenuItem>
+              <MenuItem onClick={logoutHandler}>Déconnecter</MenuItem>
             </MenuList>
           </Menu>
         </div>
@@ -198,18 +198,18 @@ const SideDrawer = () => {
         <DrawerOverlay />
         <DrawerContent>
           <DrawerCloseButton />
-          <DrawerHeader>Search Users</DrawerHeader>
+          <DrawerHeader>Rechercher des utilisateurs</DrawerHeader>
 
           <DrawerBody>
             {/* Search User */}
             <Box display="flex" pb="2">
               <Input
-                placeholder="Search by name or email"
+                placeholder="rechercher par e-mail ou nom"
                 mr="2"
                 value={search}
                 onChange={(e) => setSearch(e.target.value)}
               />
-              <Button onClick={handleSearch}>Go</Button>
+              <Button onClick={handleSearch}>Aller</Button>
             </Box>
 
             {/* Polulate Search Results */}
