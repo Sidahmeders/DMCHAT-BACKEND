@@ -19,115 +19,108 @@ import {
   Tooltip,
   useDisclosure,
   useToast,
-} from "@chakra-ui/react";
-import { BellIcon, ChevronDownIcon } from "@chakra-ui/icons";
-import { useState } from "react";
-import { useNavigate } from "react-router-dom";
+} from '@chakra-ui/react'
+import { BellIcon, ChevronDownIcon } from '@chakra-ui/icons'
+import { useState } from 'react'
+import { useNavigate } from 'react-router-dom'
 
-import { ChatState } from "../../context/ChatProvider";
-import ProfileModal from "./ProfileModal";
-import ChatLoading from "../ChatLoading";
-import UserListItem from "../UserAvatar/UserListItem";
-import { getSender } from "../../config/ChatLogics";
-import "../../App.css";
+import { ChatState } from '../../context/ChatProvider'
+import ProfileModal from './ProfileModal'
+import ChatLoading from '../ChatLoading'
+import UserListItem from '../UserAvatar/UserListItem'
+import { getSender } from '../../config/ChatLogics'
+import '../../App.css'
 
 const SideDrawer = () => {
-  const [search, setSearch] = useState("");
-  const [searchResult, setSearchResult] = useState([]);
-  const [loading, setLoading] = useState(false);
-  const [loadingChat, setLoadingChat] = useState(false);
+  const [search, setSearch] = useState('')
+  const [searchResult, setSearchResult] = useState([])
+  const [loading, setLoading] = useState(false)
+  const [loadingChat, setLoadingChat] = useState(false)
 
-  const {
-    user,
-    setSelectedChat,
-    chats,
-    setChats,
-    notification,
-    setNotification,
-  } = ChatState();
-  const navigate = useNavigate();
-  const { isOpen, onOpen, onClose } = useDisclosure();
-  const toast = useToast();
+  const { user, setSelectedChat, chats, setChats, notification, setNotification } = ChatState()
+  const navigate = useNavigate()
+  const { isOpen, onOpen, onClose } = useDisclosure()
+  const toast = useToast()
 
   const logoutHandler = () => {
-    localStorage.removeItem("userInfo");
-    navigate("/");
-  };
+    localStorage.removeItem('userInfo')
+    navigate('/')
+  }
 
   const handleSearch = async () => {
     if (!search) {
       return toast({
-        title: "Please Enter something in search",
-        status: "warning",
+        title: 'Please Enter something in search',
+        status: 'warning',
         duration: 5000,
         isClosable: true,
-        position: "bottom-left",
-        variant: "solid",
-      });
+        position: 'bottom-left',
+        variant: 'solid',
+      })
     }
 
     try {
-      setLoading(true);
+      setLoading(true)
 
       const response = await fetch(`/api/user?search=${search}`, {
-        method: "GET",
+        method: 'GET',
         headers: {
           Authorization: `Bearer ${user.token}`,
         },
-      });
-      const data = await response.json();
+      })
+      const data = await response.json()
 
-      setLoading(false);
-      setSearchResult(data);
+      setLoading(false)
+      setSearchResult(data)
     } catch (error) {
-      setLoading(false);
+      setLoading(false)
       return toast({
-        title: "Error Occured!",
-        description: "Failed to Load the Search Results",
-        status: "error",
+        title: 'Error Occured!',
+        description: 'Failed to Load the Search Results',
+        status: 'error',
         duration: 5000,
         isClosable: true,
-        position: "bottom-left",
-        variant: "solid",
-      });
+        position: 'bottom-left',
+        variant: 'solid',
+      })
     }
-  };
+  }
 
   const accessChat = async (userId) => {
     try {
-      setLoadingChat(true);
+      setLoadingChat(true)
 
       const response = await fetch(`/api/chat`, {
-        method: "POST",
+        method: 'POST',
         headers: {
-          "Content-Type": "application/json",
+          'Content-Type': 'application/json',
           Authorization: `Bearer ${user.token}`,
         },
         body: JSON.stringify({
           userId,
         }),
-      });
-      const data = await response.json();
+      })
+      const data = await response.json()
 
       // If the chat already inside 'chat' state, append it
-      if (!chats.find((c) => c._id === data._id)) setChats([data, ...chats]);
+      if (!chats.find((c) => c._id === data._id)) setChats([data, ...chats])
 
-      setSelectedChat(data);
-      setLoadingChat(false);
-      onClose(); // Close the side drawer
+      setSelectedChat(data)
+      setLoadingChat(false)
+      onClose() // Close the side drawer
     } catch (error) {
-      setLoadingChat(false);
+      setLoadingChat(false)
       return toast({
-        title: "Error fetching the chat",
+        title: 'Error fetching the chat',
         description: error.message,
-        status: "error",
+        status: 'error',
         duration: 5000,
         isClosable: true,
-        position: "bottom-left",
-        variant: "solid",
-      });
+        position: 'bottom-left',
+        variant: 'solid',
+      })
     }
-  };
+  }
 
   return (
     <>
@@ -139,13 +132,12 @@ const SideDrawer = () => {
         bg="white"
         w="100%"
         p="5px 10px 5px 10px"
-        borderWidth="5px"
-      >
+        borderWidth="5px">
         {/* Search User Section */}
         <Tooltip label="Search users to chat" hasArrow placement="bottom-end">
           <Button variant="ghost" onClick={onOpen}>
             <i className="fas fa-search" />
-            <Text display={{ base: "none", md: "flex" }} paddingX="2.5">
+            <Text display={{ base: 'none', md: 'flex' }} paddingX="2.5">
               Search User
             </Text>
           </Button>
@@ -153,7 +145,7 @@ const SideDrawer = () => {
 
         {/* App Name Section */}
         <Text fontSize="2xl" fontFamily="Work sans">
-          Bit Chat
+          Deghmine M.A
         </Text>
 
         {/* User Profile and Bell Icon Section */}
@@ -163,9 +155,7 @@ const SideDrawer = () => {
               <BellIcon fontSize="2xl" m="1" />
 
               {notification.length > 0 && (
-                <span className="notification-badge">
-                  {notification.length > 9 ? "9+" : notification.length}
-                </span>
+                <span className="notification-badge">{notification.length > 9 ? '9+' : notification.length}</span>
               )}
             </MenuButton>
 
@@ -175,16 +165,12 @@ const SideDrawer = () => {
                 <MenuItem
                   key={notif._id}
                   onClick={() => {
-                    setSelectedChat(notif.chat[0]);
-                    setNotification(notification.filter((n) => n !== notif));
-                  }}
-                >
+                    setSelectedChat(notif.chat[0])
+                    setNotification(notification.filter((n) => n !== notif))
+                  }}>
                   {notif.chat.isGroupChat
                     ? `New Message in ${notif.chat[0].chatName}`
-                    : `New Message from ${getSender(
-                        user,
-                        notif.chat[0].users
-                      )}`}
+                    : `New Message from ${getSender(user, notif.chat[0].users)}`}
                   {/* Change chat[0] to chat from server side */}
                 </MenuItem>
               ))}
@@ -193,12 +179,7 @@ const SideDrawer = () => {
 
           <Menu>
             <MenuButton as={Button} rightIcon={<ChevronDownIcon />}>
-              <Avatar
-                name={user.name}
-                size="sm"
-                cursor="pointer"
-                src={user.pic}
-              />
+              <Avatar name={user.name} size="sm" cursor="pointer" src={user.pic} />
             </MenuButton>
 
             <MenuList>
@@ -236,11 +217,7 @@ const SideDrawer = () => {
               <ChatLoading />
             ) : (
               searchResult?.map((user) => (
-                <UserListItem
-                  key={user._id}
-                  user={user}
-                  handleFunction={() => accessChat(user._id)}
-                />
+                <UserListItem key={user._id} user={user} handleFunction={() => accessChat(user._id)} />
               ))
             )}
 
@@ -250,7 +227,7 @@ const SideDrawer = () => {
         </DrawerContent>
       </Drawer>
     </>
-  );
-};
+  )
+}
 
-export default SideDrawer;
+export default SideDrawer

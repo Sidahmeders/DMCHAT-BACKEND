@@ -1,28 +1,19 @@
-import {
-  Container,
-  Box,
-  Text,
-  Tab,
-  TabList,
-  TabPanel,
-  TabPanels,
-  Tabs,
-} from "@chakra-ui/react";
-import { useEffect } from "react";
-import { useNavigate } from "react-router-dom";
+import { Container, Box, Text, Tab, TabList, TabPanel, TabPanels, Tabs } from '@chakra-ui/react'
+import { useEffect } from 'react'
+import { useNavigate } from 'react-router-dom'
 
-import { Login, Signup } from "../components";
+import { Login, Signup } from '../components'
 
 const Home = () => {
-  const navigate = useNavigate();
+  const navigate = useNavigate()
 
   useEffect(() => {
-    const userInfo = JSON.parse(localStorage.getItem("userInfo"));
+    const userInfo = JSON.parse(localStorage.getItem('userInfo'))
 
     if (!userInfo) {
-      navigate("/");
+      navigate('/')
     }
-  }, [navigate]);
+  }, [navigate])
 
   return (
     <Container maxWidth="xl">
@@ -34,10 +25,9 @@ const Home = () => {
         w="100%"
         m="40px 0 15px 0"
         borderRadius="lg"
-        borderWidth="1px"
-      >
+        borderWidth="1px">
         <Text fontSize="4xl" fontFamily="Work sans" textAlign="center">
-          Bit Chat
+          Deghmine M.A
         </Text>
       </Box>
 
@@ -58,7 +48,7 @@ const Home = () => {
         </Tabs>
       </Box>
     </Container>
-  );
-};
+  )
+}
 
-export default Home;
+export default Home
