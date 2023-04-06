@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { Box, Button, Stack, Text, useDisclosure, useToast } from '@chakra-ui/react'
-import { AddIcon, AtSignIcon } from '@chakra-ui/icons'
+import { AtSignIcon } from '@chakra-ui/icons'
 
 import { ChatState } from '../context/ChatProvider'
 import ChatLoading from './ChatLoading'

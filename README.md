@@ -1,12 +1,6 @@
 <!-- Short description: -->
 <h2>Real-time chat application powered by socket.io</h2>
 
-## 🚀 Demo
-
-This application is deployed on DigitalOcean. Please check it out :smile: [here](https://bitchat.rohittewari.live).
-
-![bitchat](https://user-images.githubusercontent.com/75976169/202241510-bb0dc077-11c2-4a22-9443-b241ecfca77c.gif)
-
 ## 🖥️ Tech Stack
 
 **Frontend:**
