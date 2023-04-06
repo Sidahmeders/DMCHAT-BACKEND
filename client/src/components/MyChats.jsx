@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react'
+import { useNavigate } from 'react-router-dom'
 import { Box, Button, Stack, Text, useDisclosure, useToast } from '@chakra-ui/react'
-import { AddIcon } from '@chakra-ui/icons'
+import { AddIcon, AtSignIcon } from '@chakra-ui/icons'
 
 import { ChatState } from '../context/ChatProvider'
 import ChatLoading from './ChatLoading'
@@ -9,6 +10,7 @@ import GroupChatModal from './miscellaneous/GroupChatModal'
 
 const MyChats = ({ fetchAgain }) => {
   const [loggedUser, setLoggedUser] = useState()
+  const navigate = useNavigate()
 
   const { selectedChat, setSelectedChat, user, chats, setChats } = ChatState()
   const toast = useToast()
@@ -66,10 +68,18 @@ const MyChats = ({ fetchAgain }) => {
         alignItems="center">
         💬
         <GroupChatModal>
-          <Button display="flex" fontSize={{ base: '17px', md: '10px', lg: '17px' }} rightIcon={<AddIcon />}>
-            New Group Chat
+          <Button display="flex" fontSize={{ base: '17px', md: '10px', lg: '17px' }}>
+            nouv. group
           </Button>
         </GroupChatModal>
+        <Button
+          leftIcon={<AtSignIcon />}
+          onClick={() => {
+            localStorage.removeItem('userInfo')
+            navigate('/')
+          }}>
+          déconnecter
+        </Button>
       </Box>
 
       <Box display="flex" flexDir="column" p={3} bg="#F8F8F8" w="100%" h="100%" borderRadius="lg" overflowY="hidden">
