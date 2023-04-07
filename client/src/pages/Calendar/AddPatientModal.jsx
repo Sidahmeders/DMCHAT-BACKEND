@@ -12,9 +12,7 @@ import {
   Stack,
 } from '@chakra-ui/react'
 
-import './Calendar.scss'
-
-function AddPatientModal() {
+export default function AddPatientModal() {
   const { isOpen, onOpen, onClose } = useDisclosure()
   return (
     <>
@@ -51,23 +49,3 @@ function AddPatientModal() {
     </>
   )
 }
-
-const Calendar = () => {
-  return (
-    <div className="calendar-page-container">
-      <AddPatientModal />
-
-      <div className="calendar-list">
-        <div className="waiting-room">
-          <h3>Salle d'attente</h3>
-        </div>
-
-        <div className="next-appointments">
-          <h3>Rendez-vous prochain</h3>
-        </div>
-      </div>
-    </div>
-  )
-}
-
-export default Calendar

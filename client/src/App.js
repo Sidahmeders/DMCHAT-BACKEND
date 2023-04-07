@@ -1,8 +1,8 @@
 import { Routes, Route, Navigate } from 'react-router-dom'
 import { Home, Chat, Calendar } from './pages'
-import TopNavigation from './components/TopNavigation/TopNavigation'
 
 import { ChatState } from './context/ChatProvider'
+import TopNavigation from './components/TopNavigation/TopNavigation'
 
 import './App.css'
 

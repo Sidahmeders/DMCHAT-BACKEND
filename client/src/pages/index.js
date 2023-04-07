@@ -1,3 +1,3 @@
-export { default as Home } from './Home'
-export { default as Chat } from './Chat'
-export { default as Calendar } from './Calendar'
+export { default as Home } from './Home/Home'
+export { default as Chat } from './Chat/Chat'
+export { default as Calendar } from './Calendar/Calendar'
