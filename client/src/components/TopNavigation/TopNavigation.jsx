@@ -3,6 +3,7 @@ import { Link, useLocation } from 'react-router-dom'
 import { MessageCircle, Calendar, PieChart } from 'react-feather'
 
 import { getPageRoute, setPageRoute } from '../../utils'
+import ChatNotification from '../miscellaneous/ChatNotification'
 
 import './TopNavigation.scss'
 
@@ -42,6 +43,7 @@ export default function TopNavigation() {
         to={APP_ROUTES.STATISTICS}>
         <PieChart />
       </Link>
+      <ChatNotification />
     </div>
   )
 }

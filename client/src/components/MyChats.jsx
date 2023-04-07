@@ -66,7 +66,6 @@ const MyChats = ({ fetchAgain }) => {
         w="100%"
         justifyContent="space-between"
         alignItems="center">
-        💬
         <GroupChatModal>
           <Button display="flex" fontSize={{ base: '17px', md: '10px', lg: '17px' }}>
             nouv. group
@@ -94,7 +93,7 @@ const MyChats = ({ fetchAgain }) => {
                 py={2}
                 borderRadius="lg"
                 key={chat._id}>
-                <Text>{!chat.isGroupChat ? getSender(loggedUser, chat) : chat.chatName}</Text>
+                <Text>{!chat.isGroupChat ? getSender(loggedUser, chat.users) : chat.chatName}</Text>
               </Box>
             ))}
           </Stack>

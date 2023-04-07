@@ -1,11 +1,13 @@
 export const getSender = (loggedUser, users) => {
-  console.log(loggedUser, users)
+  const [firstUser, secondUser] = Array.from(users)
 
-  return users[0]._id === loggedUser._id ? users[1].name : users[0].name
+  return firstUser?._id === loggedUser?._id ? secondUser?.name : firstUser?.name
 }
 
 export const getSenderFull = (loggedUser, users) => {
-  return users[0]._id === loggedUser._id ? users[1] : users[0]
+  const [firstUser, secondUser] = Array.from(users)
+
+  return firstUser._id === loggedUser._id ? secondUser : firstUser
 }
 
 export const isSameSender = (messages, currentMessage, currentMessageIndex, loggedUserId) => {
