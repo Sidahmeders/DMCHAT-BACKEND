@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { Box, Button, Stack, Text, useDisclosure, useToast } from '@chakra-ui/react'
-import { AtSignIcon } from '@chakra-ui/icons'
+import { LogOut } from 'react-feather'
 
 import { ChatState } from '../context/ChatProvider'
 import ChatLoading from './ChatLoading'
@@ -72,14 +72,13 @@ const MyChats = ({ fetchAgain }) => {
             nouv. group
           </Button>
         </GroupChatModal>
-        <Button
-          leftIcon={<AtSignIcon />}
+        <LogOut
+          style={{ cursor: 'pointer' }}
           onClick={() => {
             localStorage.removeItem('userInfo')
             navigate('/')
-          }}>
-          déconnecter
-        </Button>
+          }}
+        />
       </Box>
 
       <Box display="flex" flexDir="column" p={3} bg="#F8F8F8" w="100%" h="100%" borderRadius="lg" overflowY="hidden">

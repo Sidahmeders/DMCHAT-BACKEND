@@ -1,9 +1,30 @@
-@import url('https://fonts.googleapis.com/css2?family=Work+Sans:wght@300&display=swap');
+@font-face {
+  font-family: 'Jost';
+  src: url('../public/fonts/Jost-VariableFont_wght.ttf');
+}
+
+@font-face {
+  font-family: 'Montserrat';
+  src: url('../public/fonts/Montserrat-Regular.ttf');
+}
+
+*,
+::before,
+::after {
+  padding: 0;
+  margin: 0;
+  box-sizing: border-box;
+  font-family: Montserrat, sans-serif;
+  user-select: none;
+}
 
 .App {
+  width: 100%;
   min-height: 100vh;
+  align-items: center;
   display: flex;
-  background: linear-gradient(to right, #dbcdeb, #474aff);
+  flex-direction: column;
+  justify-content: center;
 }
 
 ::-webkit-scrollbar {
