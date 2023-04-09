@@ -1,0 +1,11 @@
+.drag-wrapper {
+  &.dragging {
+    display: none;
+  }
+}
+
+.drop-wrapper {
+  &.dropping {
+    background-color: #ff000036;
+  }
+}

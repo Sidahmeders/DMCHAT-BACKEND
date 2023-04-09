@@ -8,7 +8,6 @@ export const HARD_CODED_DATA = [
     diagnostic: 'carie entre les dents',
     treatmentPlan: 'Ipsum Dolor Sit Amet',
     history: 'Ipsum Dolor',
-    prints: 'Ipsum Dolor',
   },
   {
     id: '2',
@@ -19,7 +18,6 @@ export const HARD_CODED_DATA = [
     diagnostic: 'carie entre les dents',
     treatmentPlan: 'Ipsum Dolor Sit Amet',
     history: 'Ipsum Dolor',
-    prints: 'Ipsum Dolor',
   },
   {
     id: '3',
@@ -30,6 +28,5 @@ export const HARD_CODED_DATA = [
     diagnostic: 'carie entre les dents',
     treatmentPlan: 'Ipsum Dolor Sit Amet',
     history: 'Ipsum Dolor',
-    prints: 'Ipsum Dolor',
   },
 ]

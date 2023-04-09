@@ -1,6 +1,10 @@
 import { Table, Thead, Tbody, Tr, Th, Td, TableCaption, TableContainer } from '@chakra-ui/react'
 
+import { TrDragWrapper } from './Dnd'
+
 import { HARD_CODED_DATA } from './data'
+
+import './Next.scss'
 
 export default function NextAppointments() {
   return (
@@ -16,12 +20,11 @@ export default function NextAppointments() {
             <Th>Diagnostique</Th>
             <Th>Plan de traitement</Th>
             <Th>Historique</Th>
-            <Th>Imprimes</Th>
           </Tr>
         </Thead>
         <Tbody>
           {HARD_CODED_DATA.map((item) => (
-            <Tr key={item.id}>
+            <TrDragWrapper key={item.id} id={item.id}>
               <Td>{item.name}</Td>
               <Td>{item.age}</Td>
               <Td>{item.motif}</Td>
@@ -29,8 +32,7 @@ export default function NextAppointments() {
               <Td>{item.diagnostic}</Td>
               <Td>{item.treatmentPlan}</Td>
               <Td>{item.history}</Td>
-              <Td>{item.prints}</Td>
-            </Tr>
+            </TrDragWrapper>
           ))}
         </Tbody>
       </Table>

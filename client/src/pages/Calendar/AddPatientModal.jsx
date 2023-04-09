@@ -33,7 +33,6 @@ export default function AddPatientModal() {
               <Input type="text" placeholder="Diagnostique" />
               <Input type="text" placeholder="Plan de traitement" />
               <Input type="text" placeholder="Historique" />
-              <Input type="text" placeholder="Imprimes" />
             </Stack>
           </ModalBody>
           <ModalFooter>
