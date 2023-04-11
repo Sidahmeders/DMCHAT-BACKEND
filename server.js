@@ -6,32 +6,14 @@ const { connectToMongoDB } = require('./src/config')
 const { userRoutes, chatRoutes, messageRoutes } = require('./src/routes')
 const { notFound, errorHandler } = require('./src/middleware')
 
-// use express js in our app
 const app = express()
-// accept JSON data
 app.use(express.json())
-// specify a custom path if your file containing environment variables is located elsewhere
 dotenv.config({ path: path.join(__dirname, './.env') })
-// connect to Database
 connectToMongoDB()
 
 app.use('/api/user', userRoutes)
 app.use('/api/chat', chatRoutes)
 app.use('/api/message', messageRoutes)
-
-// --------------------------DEPLOYMENT------------------------------
-
-if (process.env.NODE_ENV === 'production') {
-  app.use(express.static(path.join(__dirname, './client/build')))
-
-  app.get('*', (req, res) => {
-    return res.sendFile(path.resolve(__dirname, 'client', 'build', 'index.html'))
-  })
-} else {
-  app.get('/', (req, res) => {
-    res.send('API is running')
-  })
-}
 
 // --------------------------DEPLOYMENT------------------------------
 
