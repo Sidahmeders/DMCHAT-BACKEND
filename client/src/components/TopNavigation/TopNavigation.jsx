@@ -1,17 +1,12 @@
 import { useEffect, useState } from 'react'
 import { Link, useLocation } from 'react-router-dom'
-import { MessageCircle, Calendar, PieChart } from 'react-feather'
+import { MessageCircle, FileText, Calendar, PieChart } from 'react-feather'
 
 import { getPageRoute, setPageRoute } from '../../utils'
 import ChatNotification from '../miscellaneous/ChatNotification'
+import { APP_ROUTES } from '../../config'
 
 import './TopNavigation.scss'
-
-const APP_ROUTES = {
-  PATIENT_LIST: '/chats',
-  CALENDAR: '/calendar',
-  STATISTICS: '/statistics',
-}
 
 export default function TopNavigation() {
   const location = useLocation()
@@ -24,10 +19,17 @@ export default function TopNavigation() {
   return (
     <div className="top-navigation-container">
       <Link
-        className={`${selectedRoute === APP_ROUTES.PATIENT_LIST ? 'selected' : ''}`}
-        onClick={() => setPageRoute(APP_ROUTES.PATIENT_LIST)}
-        to={APP_ROUTES.PATIENT_LIST}>
+        className={`${selectedRoute === APP_ROUTES.CHATS ? 'selected' : ''}`}
+        onClick={() => setPageRoute(APP_ROUTES.CHATS)}
+        to={APP_ROUTES.CHATS}>
         <MessageCircle />
+      </Link>
+
+      <Link
+        className={`${selectedRoute === APP_ROUTES.TODAY_PATIENTS_LIST ? 'selected' : ''}`}
+        onClick={() => setPageRoute(APP_ROUTES.TODAY_PATIENTS_LIST)}
+        to={APP_ROUTES.TODAY_PATIENTS_LIST}>
+        <FileText />
       </Link>
 
       <Link
