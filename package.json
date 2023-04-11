@@ -1,14 +1,14 @@
 {
-  "name": "deghmine_m.a_chat",
+  "name": "dmchatbackend",
   "version": "1.0.0",
   "description": "",
   "main": "server.js",
   "scripts": {
     "start": "node server.js",
     "client": "npm start --prefix client",
-    "server": "nodemon server.js"
+    "dev": "nodemon server.js"
   },
-  "author": "Rohit Tewari",
+  "author": "Ahmed Boutaraa",
   "license": "ISC",
   "dependencies": {
     "bcryptjs": "^2.4.3",
