@@ -25,7 +25,7 @@ const server = app.listen(process.env.PORT, () => console.log(`Server started on
 
 const io = require('socket.io')(server, {
   cors: {
-    origin: 'http://localhost:3000',
+    origin: ['http://localhost:3000', 'https://dnmchat-backend.onrender.com'],
   },
   pingTimeout: 60 * 1000,
 })
