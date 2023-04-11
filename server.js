@@ -1,6 +1,7 @@
 const express = require('express')
 const dotenv = require('dotenv')
 const path = require('path')
+var cors = require('cors')
 
 const { connectToMongoDB } = require('./src/config')
 const { userRoutes, chatRoutes, messageRoutes } = require('./src/routes')
@@ -9,6 +10,8 @@ const { notFound, errorHandler } = require('./src/middleware')
 const app = express()
 app.use(express.json())
 dotenv.config({ path: path.join(__dirname, './.env') })
+app.use(cors({ origin: '*' }))
+
 connectToMongoDB()
 
 app.use('/api/user', userRoutes)
