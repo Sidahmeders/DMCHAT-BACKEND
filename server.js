@@ -10,7 +10,7 @@ const { notFound, errorHandler } = require('./src/middleware')
 const app = express()
 app.use(express.json())
 dotenv.config({ path: path.join(__dirname, './.env') })
-app.use(cors({ origin: '*' }))
+app.use(cors())
 
 connectToMongoDB()
 
