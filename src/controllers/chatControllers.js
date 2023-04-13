@@ -90,7 +90,7 @@ const createGroupChat = async (req, res) => {
     return res.status(400).json({
       success: false,
       statusCode: 400,
-      message: 'Please Fill all the feilds',
+      message: 'Veuillez remplir tous les champs obligatoires',
     })
   }
 
@@ -148,15 +148,7 @@ const renameGroup = async (req, res) => {
   }
 
   try {
-    const updatedChat = await Chat.findByIdAndUpdate(
-      chatId,
-      {
-        chatName: chatName,
-      },
-      {
-        new: true,
-      },
-    )
+    const updatedChat = await Chat.findByIdAndUpdate(chatId, { chatName: chatName }, { new: true })
       .populate('users', '-password')
       .populate('groupAdmin', '-password')
 
@@ -194,15 +186,7 @@ const addToGroup = async (req, res) => {
     })
   }
 
-  const added = await Chat.findByIdAndUpdate(
-    chatId,
-    {
-      $push: { users: userId },
-    },
-    {
-      new: true,
-    },
-  )
+  const added = await Chat.findByIdAndUpdate(chatId, { $push: { users: userId } }, { new: true })
     .populate('users', '-password')
     .populate('groupAdmin', '-password')
 
@@ -233,15 +217,7 @@ const removeFromGroup = async (req, res) => {
     })
   }
 
-  const removed = await Chat.findByIdAndUpdate(
-    chatId,
-    {
-      $pull: { users: userId },
-    },
-    {
-      new: true,
-    },
-  )
+  const removed = await Chat.findByIdAndUpdate(chatId, { $pull: { users: userId } }, { new: true })
     .populate('users', '-password')
     .populate('groupAdmin', '-password')
 

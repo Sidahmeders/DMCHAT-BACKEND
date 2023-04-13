@@ -1,8 +1,14 @@
 const express = require('express')
-const { accessChat, fetchChats, createGroupChat, renameGroup, addToGroup, removeFromGroup } = require('../controllers')
 const { protect } = require('../middleware')
+const {
+  accessChat,
+  fetchChats,
+  createGroupChat,
+  renameGroup,
+  addToGroup,
+  removeFromGroup,
+} = require('../controllers/chatControllers')
 
-// Only logged in user can access the below routes
 const router = express.Router()
 
 // Both requests work on same route

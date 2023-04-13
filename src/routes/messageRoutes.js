@@ -1,11 +1,10 @@
 const express = require('express')
-const { sendMessage, allMessages } = require('../controllers/messageControllers')
-
 const { protect } = require('../middleware')
+const { sendMessage, allMessages } = require('../controllers/messageControllers')
 
 const router = express.Router()
 
 router.route('/').post(protect, sendMessage)
-router.route('/:chatId').get(protect, allMessages) // Fetch all messages for a single chat
+router.route('/:chatId').get(protect, allMessages)
 
 module.exports = router

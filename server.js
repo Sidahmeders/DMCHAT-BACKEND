@@ -4,7 +4,7 @@ const path = require('path')
 var cors = require('cors')
 
 const { connectToMongoDB } = require('./src/config')
-const { userRoutes, chatRoutes, messageRoutes } = require('./src/routes')
+const { userRoutes, chatRoutes, messageRoutes, patientRoutes } = require('./src/routes')
 const { notFound, errorHandler } = require('./src/middleware')
 
 const app = express()
@@ -17,6 +17,7 @@ connectToMongoDB()
 app.use('/api/user', userRoutes)
 app.use('/api/chat', chatRoutes)
 app.use('/api/message', messageRoutes)
+app.use('/api/patient', patientRoutes)
 
 // --------------------------DEPLOYMENT------------------------------
 
@@ -27,9 +28,7 @@ app.use(errorHandler)
 const server = app.listen(process.env.PORT, () => console.log(`Server started on PORT ${process.env.PORT}`))
 
 const io = require('socket.io')(server, {
-  cors: {
-    origin: '*',
-  },
+  cors: { origin: '*' },
   pingTimeout: 60 * 1000,
 })
 
