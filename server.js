@@ -4,7 +4,7 @@ const path = require('path')
 var cors = require('cors')
 
 const { connectToMongoDB } = require('./src/config')
-const { userRoutes, chatRoutes, messageRoutes, patientRoutes } = require('./src/routes')
+const { userRoutes, chatRoutes, messageRoutes, patientRoutes, calendarRoutes } = require('./src/routes')
 const { notFound, errorHandler } = require('./src/middleware')
 
 const app = express()
@@ -18,6 +18,7 @@ app.use('/api/user', userRoutes)
 app.use('/api/chat', chatRoutes)
 app.use('/api/message', messageRoutes)
 app.use('/api/patient', patientRoutes)
+app.use('/api/calendar', calendarRoutes)
 
 // --------------------------DEPLOYMENT------------------------------
 
