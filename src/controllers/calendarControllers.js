@@ -1,6 +1,6 @@
 const { Calendar } = require('../models')
 
-// @description     fetch day availability & appointments
+// @description     fetch day availability
 // @route           GET /api/calendar/:year/:month/:day
 // @access          Protected
 const fetchDayCalendar = async (req, res) => {
@@ -18,7 +18,7 @@ const fetchDayCalendar = async (req, res) => {
 }
 
 // @description     Create A New Working Day
-// @route           POST /api/calendar/:year/:month/:day
+// @route           PUT /api/calendar/:year/:month/:day
 // @access          Protected
 const createCalendarDay = async (req, res) => {
   try {

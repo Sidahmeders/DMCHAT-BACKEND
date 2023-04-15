@@ -1,7 +1,7 @@
 const { Patient } = require('../models')
 
 // @description     Create New Patient
-// @route           POST /api/patient/
+// @route           POST /api/patient
 // @access          Protected
 const createPatient = async (req, res) => {
   try {
@@ -17,7 +17,7 @@ const createPatient = async (req, res) => {
 }
 
 // @description     fetch all patient whose name matches the req.params
-// @route           POST /api/patient/:name
+// @route           GET /api/patient/:name
 // @access          Protected
 const fetchPatientsByName = async (req, res) => {
   try {
