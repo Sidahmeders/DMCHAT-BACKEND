@@ -10,4 +10,8 @@ module.exports = (io, socket) => {
   socket.on(listeners.leaveAppointment, (payload) => {
     io.emit(events.appointmentleft, payload)
   })
+
+  socket.on(listeners.dropAppointment, (payload) => {
+    io.emit(events.appointmentDropped, payload)
+  })
 }

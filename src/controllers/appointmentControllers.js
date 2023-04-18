@@ -1,12 +1,13 @@
 const { Appointment } = require('../models')
 
 // @description     fetch all appointments for a given day
-// @route           GET /api/calendar/:year/:month/:day
+// @route           GET /api/appointment/:year/:month/:day
 // @access          Protected
 const fetchDayAppointments = async (req, res) => {
   try {
     const { year, month, day } = req.params
     const dayAppointments = await Appointment.find({ date: new Date(`${year}-${month}-${day}`) }).populate('patient')
+
     res.status(200).json(dayAppointments)
   } catch (error) {
     return res.status(400).json({
@@ -18,7 +19,7 @@ const fetchDayAppointments = async (req, res) => {
 }
 
 // @description     fetch all appointments for a given month
-// @route           GET /api/calendar/:year/:month
+// @route           GET /api/appointment/:year/:month
 // @access          Protected
 const fetchMonthAppointments = async (req, res) => {
   try {
@@ -42,7 +43,7 @@ const fetchMonthAppointments = async (req, res) => {
 }
 
 // @description     create a new appointment
-// @route           POST /api/calendar/:year/:month/:day
+// @route           POST /api/appointment/:year/:month/:day
 // @access          Protected
 const createAppointment = async (req, res) => {
   try {
@@ -62,7 +63,7 @@ const createAppointment = async (req, res) => {
 }
 
 // @description     toggle "isConfirmed" appointments by Id
-// @route           PUT /api/calendar/:id/confirm
+// @route           PUT /api/appointment/:id/confirm
 // @access          Protected
 const confirmAppointment = async (req, res) => {
   try {
@@ -80,7 +81,7 @@ const confirmAppointment = async (req, res) => {
 }
 
 // @description     toggle "isLeft" appointments by Id
-// @route           PUT /api/calendar/:id/leave
+// @route           PUT /api/appointment/:id/leave
 // @access          Protected
 const leaveAppointment = async (req, res) => {
   try {
@@ -98,12 +99,12 @@ const leaveAppointment = async (req, res) => {
 }
 
 // @description     update appointments status
-// @route           PUT /api/calendar/:id/update
+// @route           PUT /api/appointment/:id/update
 // @access          Protected
 const updateAppointment = async (req, res) => {
   try {
     const { id } = req.params
-    const updatedAppointment = await Appointment.findByIdAndUpdate(id, req.body, { new: true })
+    const updatedAppointment = await Appointment.findByIdAndUpdate(id, req.body, { new: true }).populate('patient')
     res.status(200).json(updatedAppointment)
   } catch (error) {
     return res.status(400).json({
