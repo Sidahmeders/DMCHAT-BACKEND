@@ -18,6 +18,29 @@ const fetchDayAppointments = async (req, res) => {
   }
 }
 
+// @description     fetch all awaiting appointments greater than the given date
+// @route           GET /api/appointment/:year/:month/:day/awaiting
+// @access          Protected
+const fetchDayAwaitingList = async (req, res) => {
+  try {
+    const { year, month, day } = req.params
+    const awaitingAppointments = await Appointment.find({
+      date: { $gt: new Date(`${year}-${month}-${day}`) },
+      isWaitingList: true,
+    })
+      .populate('patient')
+      .limit(10)
+
+    res.status(200).json(awaitingAppointments)
+  } catch (error) {
+    return res.status(400).json({
+      success: false,
+      statusCode: 400,
+      message: error.message,
+    })
+  }
+}
+
 // @description     fetch all appointments for a given month
 // @route           GET /api/appointment/:year/:month
 // @access          Protected
@@ -117,6 +140,7 @@ const updateAppointment = async (req, res) => {
 
 module.exports = {
   fetchDayAppointments,
+  fetchDayAwaitingList,
   fetchMonthAppointments,
   createAppointment,
   confirmAppointment,

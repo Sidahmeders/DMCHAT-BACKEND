@@ -1,9 +1,10 @@
 const express = require('express')
 const { protect } = require('../middleware')
 const {
-  createAppointment,
   fetchMonthAppointments,
+  fetchDayAwaitingList,
   fetchDayAppointments,
+  createAppointment,
   confirmAppointment,
   leaveAppointment,
   updateAppointment,
@@ -12,6 +13,7 @@ const {
 const router = express.Router()
 
 router.route('/:year/:month/:day').get(protect, fetchDayAppointments)
+router.route('/:year/:month/:day/awaiting').get(protect, fetchDayAwaitingList)
 router.route('/:year/:month').get(protect, fetchMonthAppointments)
 router.route('/:year/:month/:day').post(protect, createAppointment)
 router.route('/:id/confirm').put(protect, confirmAppointment)
