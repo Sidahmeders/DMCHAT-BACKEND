@@ -17,10 +17,10 @@ const fetchDayCalendar = async (req, res) => {
   }
 }
 
-// @description     Create A New Working Day
+// @description     Create or Update the Availability of Calendar Day
 // @route           PUT /api/calendar/:year/:month/:day
 // @access          Protected
-const createCalendarDay = async (req, res) => {
+const setCalendarDayAvailability = async (req, res) => {
   try {
     const { year, month, day } = req.params
     const requestedDate = new Date(`${year}-${month}-${day}`)
@@ -44,5 +44,5 @@ const createCalendarDay = async (req, res) => {
 
 module.exports = {
   fetchDayCalendar,
-  createCalendarDay,
+  setCalendarDayAvailability,
 }
