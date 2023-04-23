@@ -54,7 +54,8 @@ const fetchMonthAppointments = async (req, res) => {
         $gte: startDate,
         $lt: endDate,
       },
-    })
+    }).populate('patient')
+
     res.status(200).json(allAppointment)
   } catch (error) {
     return res.status(400).json({
