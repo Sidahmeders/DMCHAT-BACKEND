@@ -8,6 +8,7 @@ const {
   confirmAppointment,
   leaveAppointment,
   updateAppointment,
+  deleteAppointment,
 } = require('../controllers/appointmentControllers')
 
 const router = express.Router()
@@ -19,5 +20,6 @@ router.route('/:year/:month/:day').post(protect, createAppointment)
 router.route('/:id/confirm').put(protect, confirmAppointment)
 router.route('/:id/leave').put(protect, leaveAppointment)
 router.route('/:id/update').put(protect, updateAppointment)
+router.route('/:id').delete(protect, deleteAppointment)
 
 module.exports = router

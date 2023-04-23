@@ -139,6 +139,23 @@ const updateAppointment = async (req, res) => {
   }
 }
 
+// @description     delete appointments by Id
+// @route           DELETE /api/appointment/:id
+// @access          Protected
+const deleteAppointment = async (req, res) => {
+  try {
+    const { id } = req.params
+    const deletedAppointment = await Appointment.findByIdAndDelete(id, { new: true })
+    res.status(200).json(deletedAppointment)
+  } catch (error) {
+    return res.status(400).json({
+      success: false,
+      statusCode: 400,
+      message: error.message,
+    })
+  }
+}
+
 module.exports = {
   fetchDayAppointments,
   fetchDayAwaitingList,
@@ -147,4 +164,5 @@ module.exports = {
   confirmAppointment,
   leaveAppointment,
   updateAppointment,
+  deleteAppointment,
 }
