@@ -6,7 +6,7 @@ const { Patient } = require('../models')
 const createPatient = async (req, res) => {
   try {
     const patient = await Patient.create(req.body)
-    return res.status(200).json(patient)
+    res.status(200).json(patient)
   } catch (error) {
     return res.status(400).json({
       success: false,

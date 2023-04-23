@@ -10,7 +10,6 @@ const PatientSchema = mongoose.Schema(
     diagnostic: { type: String, trim: true },
     treatmentPlan: { type: String, trim: true },
     history: { type: String, trim: true },
-    appointment: { type: Date, required: true },
   },
   { timestamps: true },
 )
