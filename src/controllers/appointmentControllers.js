@@ -6,8 +6,14 @@ const { Appointment } = require('../models')
 const fetchDayAppointments = async (req, res) => {
   try {
     const { year, month, day } = req.params
-    const dayAppointments = await Appointment.find({ date: new Date(`${year}-${month}-${day}`) }).populate('patient')
-
+    const start = new Date(`${year}-${month}-${day}`)
+    const end = new Date(`${year}-${month}-${parseInt(day, 10) + 1}`)
+    const dayAppointments = await Appointment.find({
+      startDate: {
+        $gte: start,
+        $lt: end,
+      },
+    }).populate('patient')
     res.status(200).json(dayAppointments)
   } catch (error) {
     return res.status(400).json({
@@ -25,7 +31,7 @@ const fetchDayAwaitingList = async (req, res) => {
   try {
     const { year, month, day } = req.params
     const awaitingAppointments = await Appointment.find({
-      date: { $gt: new Date(`${year}-${month}-${day}`) },
+      startDate: { $gt: new Date(`${year}-${month}-${day}`) },
       isWaitingList: true,
     })
       .populate('patient')
@@ -47,12 +53,10 @@ const fetchDayAwaitingList = async (req, res) => {
 const fetchMonthAppointments = async (req, res) => {
   try {
     const { year, month } = req.params
-    const startDate = new Date(`${year}-${month}-1`)
-    const endDate = new Date(`${year}-${month}-31`)
     const allAppointment = await Appointment.find({
-      date: {
-        $gte: startDate,
-        $lt: endDate,
+      startDate: {
+        $gte: new Date(`${year}-${month}-1`),
+        $lt: new Date(`${year}-${month}-31`),
       },
     }).populate('patient')
 
@@ -67,14 +71,12 @@ const fetchMonthAppointments = async (req, res) => {
 }
 
 // @description     create a new appointment
-// @route           POST /api/appointment/:year/:month/:day
+// @route           POST /api/appointment
 // @access          Protected
 const createAppointment = async (req, res) => {
   try {
-    const { year, month, day } = req.params
     const newAppointment = await Appointment.create({
       ...req.body,
-      date: new Date(`${year}-${month}-${day}`),
     })
     res.status(200).json(newAppointment)
   } catch (error) {
