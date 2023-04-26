@@ -8,6 +8,7 @@ const listeners = {
   confirmAppointment: 'confirm appointment',
   leaveAppointment: 'leave appointment',
   dropAppointment: 'drop appointment',
+  messageAppointment: 'message appointment',
 }
 
 const events = {
@@ -20,6 +21,7 @@ const events = {
   appointmentConfirmation: 'appointment confirmation',
   appointmentleft: 'appointment left',
   appointmentDropped: 'appointment dropped',
+  appointmentMessaged: 'appointment messaged',
 }
 
 module.exports = {
