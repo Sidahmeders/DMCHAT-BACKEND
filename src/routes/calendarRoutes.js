@@ -5,6 +5,7 @@ const { fetchDayCalendar, setCalendarDayAvailability } = require('../controllers
 const router = express.Router()
 
 router.route('/:year/:month/:day').get(protect, fetchDayCalendar)
+
 router.route('/:year/:month/:day').put(protect, setCalendarDayAvailability)
 
 module.exports = router

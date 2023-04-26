@@ -4,7 +4,8 @@ const { createPatient, fetchPatientsByName } = require('../controllers/patientCo
 
 const router = express.Router()
 
-router.route('/').post(protect, createPatient)
 router.route('/:name').get(protect, fetchPatientsByName)
+
+router.route('/').post(protect, createPatient)
 
 module.exports = router

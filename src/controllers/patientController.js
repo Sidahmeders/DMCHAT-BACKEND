@@ -25,7 +25,11 @@ const fetchPatientsByName = async (req, res) => {
     const patients = await Patient.find({ fullName: { $regex: name, $options: 'i' } })
     res.status(200).json(patients)
   } catch (error) {
-    console.log(error.message)
+    return res.status(400).json({
+      success: false,
+      statusCode: 400,
+      message: error.message,
+    })
   }
 }
 
