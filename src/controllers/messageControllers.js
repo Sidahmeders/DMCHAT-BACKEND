@@ -34,7 +34,7 @@ const sendMessage = async (req, res) => {
     // Update latest message
     await Chat.findByIdAndUpdate(req.body.chatId, { latestMessage: message })
 
-    return res.status(201).json(message) // Send message we just created now
+    return res.status(200).json(message) // Send message we just created now
   } catch (error) {
     return res.status(400).json({
       success: false,
