@@ -1,5 +1,6 @@
 const listeners = {
   // chat listeners
+  setup: 'setup',
   joinChat: 'join chat',
   typing: 'typing',
   stopTyping: 'stop typing',

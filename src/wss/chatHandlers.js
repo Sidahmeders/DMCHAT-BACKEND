@@ -1,7 +1,7 @@
 const { listeners, events } = require('./constant')
 
 module.exports = (io, socket) => {
-  socket.on('setup', (userData) => {
+  socket.on(listeners.setup, (userData) => {
     socket.join(userData._id)
     socket.emit(events.connected)
   })
@@ -21,7 +21,7 @@ module.exports = (io, socket) => {
     })
   })
 
-  socket.off('setup', () => {
+  socket.off(listeners.setup, () => {
     socket.leave(userData._id)
   })
 }
