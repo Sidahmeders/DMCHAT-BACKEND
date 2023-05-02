@@ -5,6 +5,7 @@ const PatientSchema = mongoose.Schema(
     sender: { type: mongoose.Schema.Types.ObjectId, ref: 'User' },
     fullName: { type: String, trim: true, required: true },
     age: { type: Number, trim: true, required: true },
+    phoneNumber: { type: String, required: true },
     motif: { type: String, trim: true, required: true },
     generalState: { type: String, trim: true, required: true },
     diagnostic: { type: String, trim: true },
