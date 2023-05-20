@@ -40,6 +40,8 @@ const server = app.listen(process.env.PORT, () => console.log(`Server started on
 const io = socketIO(server, {
   cors: { origin: '*' },
   pingTimeout: 60 * 1000,
+  transports: ['websocket'],
+  upgrade: false,
 })
 
 initListener(io)
