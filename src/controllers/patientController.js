@@ -1,12 +1,12 @@
 const { Patient } = require('../models')
 
-// @description     Create New Patient
-// @route           POST /api/patient
+// @description     fetch all Patients
+// @route           GET /api/patient
 // @access          Protected
-const createPatient = async (req, res) => {
+const fetchAllPatients = async (req, res) => {
   try {
-    const patient = await Patient.create(req.body)
-    res.status(200).json(patient)
+    const patients = await Patient.find()
+    res.status(200).json(patients)
   } catch (error) {
     return res.status(400).json({
       success: false,
@@ -33,7 +33,24 @@ const fetchPatientsByName = async (req, res) => {
   }
 }
 
+// @description     Create New Patient
+// @route           POST /api/patient
+// @access          Protected
+const createPatient = async (req, res) => {
+  try {
+    const patient = await Patient.create(req.body)
+    res.status(200).json(patient)
+  } catch (error) {
+    return res.status(400).json({
+      success: false,
+      statusCode: 400,
+      message: error.message,
+    })
+  }
+}
+
 module.exports = {
   createPatient,
+  fetchAllPatients,
   fetchPatientsByName,
 }
