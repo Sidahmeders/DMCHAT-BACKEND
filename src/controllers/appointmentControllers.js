@@ -1,4 +1,4 @@
-const { Appointment, AppointmentMessage } = require('../models')
+const { Appointment } = require('../models')
 
 // @description     fetch all appointments for a given day
 // @route           GET /api/appointment/:year/:month/:day
@@ -70,23 +70,6 @@ const fetchMonthAppointments = async (req, res) => {
   }
 }
 
-// @description     fetch all chat messages for a given appointment by Id
-// @route           GET /api/appointment/:id/message
-// @access          Protected
-const fetchAppointmentsMessages = async (req, res) => {
-  try {
-    const { id } = req.params
-    const appointmentMessages = await AppointmentMessage.find({ appointment: id }).populate('sender')
-    res.status(200).json(appointmentMessages)
-  } catch (error) {
-    return res.status(400).json({
-      success: false,
-      statusCode: 400,
-      message: error.message,
-    })
-  }
-}
-
 // @description     create a new appointment
 // @route           POST /api/appointment
 // @access          Protected
@@ -106,24 +89,6 @@ const createAppointment = async (req, res) => {
     }
     newAppointment = await newAppointment.populate('patient')
     res.status(200).json(newAppointment)
-  } catch (error) {
-    return res.status(400).json({
-      success: false,
-      statusCode: 400,
-      message: error.message,
-    })
-  }
-}
-
-// @description     create a new appointment chat message
-// @route           POST /api/appointment/:id/message
-// @access          Protected
-const createAppointmentMessage = async (req, res) => {
-  try {
-    const { id } = req.params
-    let newAppointmentMessage = await AppointmentMessage.create({ ...req.body, appointment: id })
-    newAppointmentMessage = await newAppointmentMessage.populate('sender')
-    res.status(200).json(newAppointmentMessage)
   } catch (error) {
     return res.status(400).json({
       success: false,
@@ -207,9 +172,7 @@ module.exports = {
   fetchDayAppointments,
   fetchDayAwaitingList,
   fetchMonthAppointments,
-  fetchAppointmentsMessages,
   createAppointment,
-  createAppointmentMessage,
   confirmAppointment,
   leaveAppointment,
   updateAppointment,
