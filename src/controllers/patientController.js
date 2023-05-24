@@ -1,7 +1,7 @@
 const { Patient } = require('../models')
 
 // @description     fetch all Patients
-// @route           GET /api/patient
+// @route           GET /api/patients
 // @access          Protected
 const fetchAllPatients = async (req, res) => {
   try {
@@ -17,7 +17,7 @@ const fetchAllPatients = async (req, res) => {
 }
 
 // @description     fetch patient by id
-// @route           GET /api/patient/:id
+// @route           GET /api/patients/:id
 // @access          Protected
 const fetchPatientsById = async (req, res) => {
   try {
@@ -34,7 +34,7 @@ const fetchPatientsById = async (req, res) => {
 }
 
 // @description     fetch all patient whose name matches the req.params
-// @route           GET /api/patient/:name
+// @route           GET /api/patients/fullname/:name
 // @access          Protected
 const fetchPatientsByName = async (req, res) => {
   try {
@@ -51,7 +51,7 @@ const fetchPatientsByName = async (req, res) => {
 }
 
 // @description     Create New Patient
-// @route           POST /api/patient
+// @route           POST /api/patients
 // @access          Protected
 const createPatient = async (req, res) => {
   try {
@@ -67,7 +67,7 @@ const createPatient = async (req, res) => {
 }
 
 // @description     Update Patient by Id
-// @route           POST /api/patient/:id
+// @route           POST /api/patients/:id
 // @access          Protected
 const updatePatient = async (req, res) => {
   try {

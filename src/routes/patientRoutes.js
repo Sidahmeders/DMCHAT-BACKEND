@@ -12,7 +12,7 @@ const router = express.Router()
 
 router.route('/').get(protect, fetchAllPatients)
 router.route('/:id').get(protect, fetchPatientsById)
-router.route('/:name').get(protect, fetchPatientsByName)
+router.route('/fullname/:name').get(protect, fetchPatientsByName)
 
 router.route('/').post(protect, createPatient)
 

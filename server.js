@@ -26,7 +26,7 @@ connectToMongoDB()
 app.use('/api/user', userRoutes)
 app.use('/api/chat', chatRoutes)
 app.use('/api/message', messageRoutes)
-app.use('/api/patient', patientRoutes)
+app.use('/api/patients', patientRoutes)
 app.use('/api/calendar', calendarRoutes)
 app.use('/api/appointment', appointmentRoutes)
 // --------------------------DEPLOYMENT------------------------------

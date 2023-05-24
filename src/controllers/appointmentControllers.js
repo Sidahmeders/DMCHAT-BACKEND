@@ -92,9 +92,19 @@ const fetchAppointmentsMessages = async (req, res) => {
 // @access          Protected
 const createAppointment = async (req, res) => {
   try {
-    const newAppointment = await Appointment.create({
-      ...req.body,
-    })
+    let newAppointment
+    if (req.body.isNewTreatment) {
+      newAppointment = await Appointment.create(req.body)
+    } else {
+      const [baseAppointment] = await Appointment.find({ patient: req.body.patient, isNewTreatment: true })
+        .sort({
+          createdAt: -1,
+        })
+        .limit(1)
+      const { motif, generalState, diagnostic, treatmentPlan } = baseAppointment
+      newAppointment = await Appointment.create({ motif, generalState, diagnostic, treatmentPlan, ...req.body })
+    }
+    newAppointment = await newAppointment.populate('patient')
     res.status(200).json(newAppointment)
   } catch (error) {
     return res.status(400).json({
