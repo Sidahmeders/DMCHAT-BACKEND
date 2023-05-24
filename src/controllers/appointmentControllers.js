@@ -8,7 +8,9 @@ const fetchDayAppointments = async (req, res) => {
     const { year, month, day } = req.params
     const start = new Date(`${year}-${month}-${day}`).setHours(0)
     const end = new Date(`${year}-${month}-${day}`).setHours(24)
-    const dayAppointments = await Appointment.find({ startDate: { $gte: start, $lte: end } }).populate('patient')
+    const dayAppointments = await Appointment.find({
+      startDate: { $gte: new Date(start), $lte: new Date(end) },
+    }).populate('patient')
     res.status(200).json(dayAppointments)
   } catch (error) {
     return res.status(400).json({
