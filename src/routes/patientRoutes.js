@@ -5,7 +5,8 @@ const {
   fetchPatientsById,
   fetchPatientsByName,
   createPatient,
-  updatePatient,
+  updatePatientById,
+  deletePatientById,
 } = require('../controllers/patientController')
 
 const router = express.Router()
@@ -16,6 +17,8 @@ router.route('/fullname/:name').get(protect, fetchPatientsByName)
 
 router.route('/').post(protect, createPatient)
 
-router.route('/:id').put(protect, updatePatient)
+router.route('/:id').put(protect, updatePatientById)
+
+router.route('/:id').delete(protect, deletePatientById)
 
 module.exports = router
