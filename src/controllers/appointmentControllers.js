@@ -70,6 +70,23 @@ const fetchMonthAppointments = async (req, res) => {
   }
 }
 
+// @description     fetch all appointments for a given patient
+// @route           GET /api/appointment/:patientId
+// @access          Protected
+const fetchPatientAppointments = async (req, res) => {
+  try {
+    const { patientId } = req.params
+    const patientAppointments = await Appointment.find({ patient: patientId })
+    res.status(200).json(patientAppointments)
+  } catch (error) {
+    return res.status(400).json({
+      success: false,
+      statusCode: 400,
+      message: error.message,
+    })
+  }
+}
+
 // @description     create a new appointment
 // @route           POST /api/appointment
 // @access          Protected
@@ -172,6 +189,7 @@ module.exports = {
   fetchDayAppointments,
   fetchDayAwaitingList,
   fetchMonthAppointments,
+  fetchPatientAppointments,
   createAppointment,
   confirmAppointment,
   leaveAppointment,
