@@ -8,9 +8,9 @@ module.exports = (io, socket) => {
 
   socket.on(listeners.joinChat, (room) => socket.join(room))
 
-  socket.on(listeners.typing, (room) => socket.in(room).emit(events.typing))
+  socket.on(listeners.typing, (room) => socket.in(room).emit(events.typing, room))
 
-  socket.on(listeners.stopTyping, (room) => socket.in(room).emit(events.stopTyping))
+  socket.on(listeners.stopTyping, (room) => socket.in(room).emit(events.stopTyping, room))
 
   socket.on(listeners.newMessage, (newMessageRecieved) => {
     const chat = newMessageRecieved.chat[0]
