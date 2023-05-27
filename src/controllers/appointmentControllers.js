@@ -96,8 +96,15 @@ const createAppointment = async (req, res) => {
           createdAt: -1,
         })
         .limit(1)
-      const { motif, generalState, diagnostic, treatmentPlan } = baseAppointment || {}
-      newAppointment = await Appointment.create({ motif, generalState, diagnostic, treatmentPlan, ...req.body })
+      const { motif, generalState, diagnostic, treatmentPlan, totalPrice } = baseAppointment || {}
+      newAppointment = await Appointment.create({
+        motif,
+        generalState,
+        diagnostic,
+        treatmentPlan,
+        totalPrice,
+        ...req.body,
+      })
     }
     newAppointment = await newAppointment.populate('patient')
     res.status(200).json(newAppointment)
