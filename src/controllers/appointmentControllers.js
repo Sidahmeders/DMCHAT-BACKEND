@@ -87,22 +87,26 @@ const fetchPatientAppointments = async (req, res) => {
 // @access          Protected
 const createAppointment = async (req, res) => {
   try {
+    const { isNewTreatment, patient, totalPrice, payment } = req.body
     let newAppointment
-    if (req.body.isNewTreatment) {
-      newAppointment = await Appointment.create(req.body)
+
+    if (isNewTreatment) {
+      newAppointment = await Appointment.create({
+        ...req.body,
+        paymentLeft: totalPrice - (payment || 0),
+      })
     } else {
-      const [baseAppointment] = await Appointment.find({ patient: req.body.patient, isNewTreatment: true })
-        .sort({
-          createdAt: -1,
-        })
+      const [baseAppointment] = await Appointment.find({ patient: patient, isNewTreatment: true })
+        .sort({ createdAt: -1 })
         .limit(1)
-      const { motif, generalState, diagnostic, treatmentPlan, totalPrice } = baseAppointment || {}
+      const { motif, generalState, diagnostic, treatmentPlan, totalPrice, paymentLeft } = baseAppointment || {}
       newAppointment = await Appointment.create({
         motif,
         generalState,
         diagnostic,
         treatmentPlan,
         totalPrice,
+        paymentLeft: paymentLeft - payment,
         ...req.body,
       })
     }
