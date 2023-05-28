@@ -99,16 +99,18 @@ const createAppointment = async (req, res) => {
       const [baseAppointment] = await Appointment.find({ patient: patient, isNewTreatment: true })
         .sort({ createdAt: -1 })
         .limit(1)
-      const { motif, generalState, diagnostic, treatmentPlan, totalPrice, paymentLeft } = baseAppointment || {}
+      const { _id, motif, generalState, diagnostic, treatmentPlan, totalPrice, paymentLeft } = baseAppointment || {}
+      const newPaymentLeft = paymentLeft - payment
       newAppointment = await Appointment.create({
+        ...req.body,
         motif,
         generalState,
         diagnostic,
         treatmentPlan,
         totalPrice,
-        paymentLeft: paymentLeft - payment,
-        ...req.body,
+        paymentLeft: newPaymentLeft,
       })
+      await Appointment.findByIdAndUpdate(_id, { paymentLeft: newPaymentLeft })
     }
     newAppointment = await newAppointment.populate('patient')
     res.status(200).json(newAppointment)
