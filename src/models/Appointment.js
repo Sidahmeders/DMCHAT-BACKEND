@@ -11,7 +11,7 @@ const AppointmentSchema = mongoose.Schema(
     totalPrice: { type: Number, required: true, min: [1000, 'total price is too low'] },
     payment: { type: Number },
     paymentLeft: { type: Number },
-    motif: { type: String, trim: true },
+    motif: { type: String, trim: true, required: true },
     diagnostic: { type: String, trim: true },
     treatmentPlan: { type: String, trim: true },
     isConfirmed: { type: Boolean, default: false },
