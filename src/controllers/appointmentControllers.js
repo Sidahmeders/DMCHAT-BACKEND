@@ -1,7 +1,7 @@
 const { Appointment } = require('../models')
 
 // @description     fetch all appointments for a given day
-// @route           GET /api/appointment/:year/:month/:day
+// @route           GET /api/appointments/:year/:month/:day
 // @access          Protected
 const fetchDayAppointments = async (req, res) => {
   try {
@@ -19,8 +19,34 @@ const fetchDayAppointments = async (req, res) => {
   }
 }
 
+// @description     update a list of given appointments
+// @route           PUT /api/appointments/history
+// @access          Protected
+const updateAppointmentsHistory = async (req, res) => {
+  try {
+    const appointments = req.body
+
+    await Appointment.bulkWrite(
+      appointments.map((appointment) => ({
+        updateOne: {
+          filter: { _id: appointment._id },
+          update: appointment,
+        },
+      })),
+    )
+
+    res.status(200).json(appointments)
+  } catch (error) {
+    return res.status(400).json({
+      success: false,
+      statusCode: 400,
+      message: error.message,
+    })
+  }
+}
+
 // @description     fetch all appointments for a given month
-// @route           GET /api/appointment/:year/:month
+// @route           GET /api/appointments/:year/:month
 // @access          Protected
 const fetchMonthAppointments = async (req, res) => {
   try {
@@ -43,7 +69,7 @@ const fetchMonthAppointments = async (req, res) => {
 }
 
 // @description     fetch all appointments for a given patient
-// @route           GET /api/appointment/:patientId
+// @route           GET /api/appointments/:patientId
 // @access          Protected
 const fetchPatientAppointments = async (req, res) => {
   try {
@@ -60,7 +86,7 @@ const fetchPatientAppointments = async (req, res) => {
 }
 
 // @description     create a new appointment
-// @route           POST /api/appointment
+// @route           POST /api/appointments
 // @access          Protected
 const createAppointment = async (req, res) => {
   try {
@@ -101,7 +127,7 @@ const createAppointment = async (req, res) => {
 }
 
 // @description     toggle "isConfirmed" appointments by Id
-// @route           PUT /api/appointment/:id/confirm
+// @route           PUT /api/appointments/:id/confirm
 // @access          Protected
 const confirmAppointment = async (req, res) => {
   try {
@@ -119,7 +145,7 @@ const confirmAppointment = async (req, res) => {
 }
 
 // @description     toggle "isLeft" appointments by Id
-// @route           PUT /api/appointment/:id/leave
+// @route           PUT /api/appointments/:id/leave
 // @access          Protected
 const leaveAppointment = async (req, res) => {
   try {
@@ -137,7 +163,7 @@ const leaveAppointment = async (req, res) => {
 }
 
 // @description     update appointments status
-// @route           PUT /api/appointment/:id/update
+// @route           PUT /api/appointments/:id/update
 // @access          Protected
 const updateAppointment = async (req, res) => {
   try {
@@ -154,7 +180,7 @@ const updateAppointment = async (req, res) => {
 }
 
 // @description     delete appointments by Id
-// @route           DELETE /api/appointment/:id
+// @route           DELETE /api/appointments/:id
 // @access          Protected
 const deleteAppointment = async (req, res) => {
   try {
@@ -172,6 +198,7 @@ const deleteAppointment = async (req, res) => {
 
 module.exports = {
   fetchDayAppointments,
+  updateAppointmentsHistory,
   fetchMonthAppointments,
   fetchPatientAppointments,
   createAppointment,

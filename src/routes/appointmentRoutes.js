@@ -8,6 +8,7 @@ const {
   confirmAppointment,
   leaveAppointment,
   updateAppointment,
+  updateAppointmentsHistory,
   deleteAppointment,
 } = require('../controllers/appointmentControllers')
 
@@ -22,6 +23,7 @@ router.route('/').post(protect, createAppointment)
 router.route('/:id/confirm').put(protect, confirmAppointment)
 router.route('/:id/leave').put(protect, leaveAppointment)
 router.route('/:id/update').put(protect, updateAppointment)
+router.route('/history').put(protect, updateAppointmentsHistory)
 
 router.route('/:id').delete(protect, deleteAppointment)
 
