@@ -4,7 +4,8 @@ const {
   fetchMonthAppointments,
   fetchDayAppointments,
   fetchPatientAppointments,
-  createAppointment,
+  createNewAppointment,
+  relateNewAppointment,
   confirmAppointment,
   leaveAppointment,
   updateAppointment,
@@ -18,7 +19,8 @@ router.route('/:patientId').get(protect, fetchPatientAppointments)
 router.route('/:year/:month').get(protect, fetchMonthAppointments)
 router.route('/:year/:month/:day').get(protect, fetchDayAppointments)
 
-router.route('/').post(protect, createAppointment)
+router.route('/new').post(protect, createNewAppointment)
+router.route('/relate').post(protect, relateNewAppointment)
 
 router.route('/:id/confirm').put(protect, confirmAppointment)
 router.route('/:id/leave').put(protect, leaveAppointment)

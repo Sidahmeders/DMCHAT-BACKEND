@@ -19,32 +19,6 @@ const fetchDayAppointments = async (req, res) => {
   }
 }
 
-// @description     update a list of given appointments
-// @route           PUT /api/appointments/history
-// @access          Protected
-const updateAppointmentsHistory = async (req, res) => {
-  try {
-    const appointments = req.body
-
-    await Appointment.bulkWrite(
-      appointments.map((appointment) => ({
-        updateOne: {
-          filter: { _id: appointment._id },
-          update: appointment,
-        },
-      })),
-    )
-
-    res.status(200).json(appointments)
-  } catch (error) {
-    return res.status(400).json({
-      success: false,
-      statusCode: 400,
-      message: error.message,
-    })
-  }
-}
-
 // @description     fetch all appointments for a given month
 // @route           GET /api/appointments/:year/:month
 // @access          Protected
@@ -88,34 +62,50 @@ const fetchPatientAppointments = async (req, res) => {
 // @description     create a new appointment
 // @route           POST /api/appointments
 // @access          Protected
-const createAppointment = async (req, res) => {
+const createNewAppointment = async (req, res) => {
   try {
-    const { isNewTreatment, patient, totalPrice, payment } = req.body
-    let newAppointment
-
-    if (isNewTreatment) {
-      newAppointment = await Appointment.create({
-        ...req.body,
-        paymentLeft: totalPrice - (payment || 0),
-      })
-    } else {
-      const [baseAppointment] = await Appointment.find({ patient: patient, isNewTreatment: true })
-        .sort({ createdAt: -1 })
-        .limit(1)
-      const { _id, motif, generalState, diagnostic, treatmentPlan, totalPrice, paymentLeft } = baseAppointment || {}
-      const newPaymentLeft = paymentLeft - payment
-      newAppointment = await Appointment.create({
-        ...req.body,
-        motif,
-        generalState,
-        diagnostic,
-        treatmentPlan,
-        totalPrice,
-        paymentLeft: newPaymentLeft,
-      })
-      await Appointment.findByIdAndUpdate(_id, { paymentLeft: newPaymentLeft })
+    const appointment = req.body
+    if (!appointment.isNewTreatment) {
+      return res.status(400).json({ error: 'This endpoint can only handle new appointments!' })
     }
+
+    let newAppointment = await Appointment.create({
+      ...appointment,
+      paymentLeft: appointment.totalPrice - (appointment.payment || 0),
+    })
     newAppointment = await newAppointment.populate('patient')
+
+    res.status(200).json(newAppointment)
+  } catch (error) {
+    return res.status(400).json({
+      success: false,
+      statusCode: 400,
+      message: error.message,
+    })
+  }
+}
+
+const relateNewAppointment = async (req, res) => {
+  try {
+    const appointment = req.body
+    if (appointment.isNewTreatment) {
+      return res.status(400).json({ error: 'This endpoint can only relate existing appointments!' })
+    }
+
+    const baseAppointment = await Appointment.findById(appointment.baseAppointmentId)
+
+    if (!baseAppointment) {
+      return res.status(400).json({ error: 'baseAppointment not found!' })
+    }
+
+    const { motif, generalState, diagnostic, treatmentPlan, totalPrice } = baseAppointment
+    const newPaymentLeft = baseAppointment.paymentLeft - appointment.payment
+
+    const doc = { ...req.body, motif, generalState, diagnostic, treatmentPlan, totalPrice, paymentLeft: newPaymentLeft }
+    const newAppointment = await Appointment.create(doc)
+
+    await Appointment.findByIdAndUpdate(appointment.baseAppointmentId, { paymentLeft: newPaymentLeft })
+
     res.status(200).json(newAppointment)
   } catch (error) {
     return res.status(400).json({
@@ -179,6 +169,32 @@ const updateAppointment = async (req, res) => {
   }
 }
 
+// @description     update a list of given appointments
+// @route           PUT /api/appointments/history
+// @access          Protected
+const updateAppointmentsHistory = async (req, res) => {
+  try {
+    const appointments = req.body
+
+    await Appointment.bulkWrite(
+      appointments.map((appointment) => ({
+        updateOne: {
+          filter: { _id: appointment._id },
+          update: appointment,
+        },
+      })),
+    )
+
+    res.status(200).json(appointments)
+  } catch (error) {
+    return res.status(400).json({
+      success: false,
+      statusCode: 400,
+      message: error.message,
+    })
+  }
+}
+
 // @description     delete appointments by Id
 // @route           DELETE /api/appointments/:id
 // @access          Protected
@@ -201,7 +217,8 @@ module.exports = {
   updateAppointmentsHistory,
   fetchMonthAppointments,
   fetchPatientAppointments,
-  createAppointment,
+  createNewAppointment,
+  relateNewAppointment,
   confirmAppointment,
   leaveAppointment,
   updateAppointment,
