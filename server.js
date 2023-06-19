@@ -5,7 +5,7 @@ const path = require('path')
 const cors = require('cors')
 
 const initListener = require('./src/wss')
-const { connectToMongoDB } = require('./src/config')
+const { connectToMongoDB, setupSwagger } = require('./src/config')
 const { notFound, errorHandler } = require('./src/middleware')
 const {
   userRoutes,
@@ -17,10 +17,12 @@ const {
 } = require('./src/routes')
 
 const app = express()
-app.use(express.json())
-dotenv.config({ path: path.join(__dirname, './.env') })
-app.use(cors())
 
+app.use(express.json())
+app.use(cors())
+dotenv.config({ path: path.join(__dirname, './.env') })
+
+setupSwagger(app)
 connectToMongoDB()
 
 app.use('/api/user', userRoutes)
