@@ -1,9 +1,9 @@
-const userRoutes = require('./userRoutes')
-const chatRoutes = require('./chatRoutes')
-const messageRoutes = require('./messageRoutes')
-const patientRoutes = require('./patientRoutes')
-const calendarRoutes = require('./calendarRoutes')
-const appointmentRoutes = require('./appointmentRoutes')
+const userRoutes = require('./user.routes')
+const chatRoutes = require('./chat.routes')
+const messageRoutes = require('./message.routes')
+const patientRoutes = require('./patient.routes')
+const calendarRoutes = require('./calendar.routes')
+const appointmentRoutes = require('./appointment.routes')
 
 module.exports = {
   userRoutes,
