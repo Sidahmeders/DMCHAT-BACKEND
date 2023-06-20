@@ -79,6 +79,19 @@ const appointmentRoutes = require('./appointment.routes')
  *           format: date-time
  *           description: The last update date of the appointment
  *           readOnly: true
+ *     Patient:
+ *       type: object
+ *       properties:
+ *         sender:
+ *           type: string
+ *         fullName:
+ *           type: string
+ *         age:
+ *           type: integer
+ *         phoneNumber:
+ *           type: string
+ *         generalState:
+ *           type: string
  */
 
 module.exports = {

@@ -24,7 +24,7 @@ const makeSendMessage = require('./messages/sendMessage')
 // ** patients controllers ** //
 const makeCreatePatient = require('./patients/createPatient')
 const makeDeletePatientById = require('./patients/deletePatientById')
-const makeFetchAllPatients = require('./patients/fetchAllPatients')
+const makeFetchPatients = require('./patients/fetchPatients')
 const makeFetchPatientsById = require('./patients/fetchPatientsById')
 const makeFetchPatientsByName = require('./patients/fetchPatientsByName')
 const makeUpdatePatientById = require('./patients/updatePatientById')
@@ -68,7 +68,7 @@ module.exports.messageControllers = {
 module.exports.patientsControllers = {
   createPatient: makeCreatePatient({ Patient }),
   deletePatientById: makeDeletePatientById({ Patient }),
-  fetchAllPatients: makeFetchAllPatients({ Patient }),
+  fetchPatients: makeFetchPatients({ Patient }),
   fetchPatientsById: makeFetchPatientsById({ Patient }),
   fetchPatientsByName: makeFetchPatientsByName({ Patient }),
   updatePatientById: makeUpdatePatientById({ Patient }),
