@@ -16,6 +16,7 @@ const router = express.Router()
  * /api/appointments/{patientId}:
  *   get:
  *     summary: Fetch appointments for a patient
+ *     tags: [Appointments]
  *     description: Retrieve appointments for a specific patient
  *     parameters:
  *       - in: path
@@ -43,6 +44,7 @@ router.get('/:patientId', protect, appointmentsControllers.fetchPatientAppointme
  * /api/appointments/{year}/{month}:
  *   get:
  *     summary: Fetch appointments for a specific month
+ *     tags: [Appointments]
  *     description: Retrieve appointments for a specific month and year
  *     parameters:
  *       - in: path
@@ -76,6 +78,7 @@ router.get('/:year/:month', protect, appointmentsControllers.fetchMonthAppointme
  * /api/appointments/{year}/{month}/{day}:
  *   get:
  *     summary: Fetch appointments for a specific day
+ *     tags: [Appointments]
  *     description: Retrieve appointments for a specific day, month, and year
  *     parameters:
  *       - in: path
@@ -115,6 +118,7 @@ router.get('/:year/:month/:day', protect, appointmentsControllers.fetchDayAppoin
  * /api/appointments/new:
  *   post:
  *     summary: Create a new appointment
+ *     tags: [Appointments]
  *     description: Create a new appointment
  *     requestBody:
  *       required: true
@@ -139,6 +143,7 @@ router.post('/new', protect, appointmentsControllers.createNewAppointment)
  * /api/appointments/relate:
  *   post:
  *     summary: Relate a new appointment
+ *     tags: [Appointments]
  *     description: Relate a new appointment to an existing appointment
  *     requestBody:
  *       required: true
@@ -163,6 +168,7 @@ router.post('/relate', protect, appointmentsControllers.relateNewAppointment)
  * /api/appointments/{id}/toggle-confirmation:
  *   put:
  *     summary: Toggle appointment confirmation
+ *     tags: [Appointments]
  *     description: Toggle the confirmation status of an appointment by ID
  *     parameters:
  *       - in: path
@@ -201,6 +207,7 @@ router.put('/:id/toggle-confirmation', protect, appointmentsControllers.toggleCo
  * /api/appointments/{id}/toggle-leave:
  *   put:
  *     summary: Toggle appointment leave status
+ *     tags: [Appointments]
  *     description: Toggle the leave status of an appointment by ID
  *     parameters:
  *       - in: path
@@ -239,6 +246,7 @@ router.put('/:id/toggle-leave', protect, appointmentsControllers.toggleLeave)
  * /api/appointments/{id}/update:
  *   put:
  *     summary: Update an appointment
+ *     tags: [Appointments]
  *     description: Update an appointment by ID
  *     parameters:
  *       - in: path
@@ -272,6 +280,7 @@ router.put('/:id/update', protect, appointmentsControllers.updateAppointment)
  * /api/appointments/history:
  *   put:
  *     summary: Update appointments history
+ *     tags: [Appointments]
  *     description: Update the history of multiple appointments
  *     requestBody:
  *       required: true
@@ -294,6 +303,7 @@ router.put('/history', protect, appointmentsControllers.updateAppointmentsHistor
  * /api/appointments/{id}:
  *   delete:
  *     summary: Delete an appointment
+ *     tags: [Appointments]
  *     description: Delete an appointment by ID
  *     parameters:
  *       - in: path
