@@ -15,12 +15,45 @@ const options = {
         description: 'Development server',
       },
     ],
+    components: {
+      securitySchemes: {
+        JWTAuth: {
+          type: 'http',
+          scheme: 'bearer',
+          bearerFormat: 'JWT',
+        },
+      },
+    },
+    security: [
+      {
+        JWTAuth: [],
+      },
+    ],
   },
-  apis: ['./src/routes/*.js'],
+  apis: ['./src/routes/*.js', './src/routes/login.js'],
 }
 
 const swaggerSpec = swaggerJSDoc(options)
 
 module.exports = function setupSwagger(app) {
-  app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerSpec))
+  app.use(
+    '/api-docs',
+    swaggerUi.serve,
+    swaggerUi.setup(swaggerSpec, {
+      explorer: true,
+      swaggerOptions: {
+        authActions: {
+          apiKeyAuth: {
+            name: 'Authorization',
+            schema: {
+              type: 'apiKey',
+              in: 'header',
+              description: 'Bearer token',
+            },
+            value: 'Bearer <JWT token>',
+          },
+        },
+      },
+    }),
+  )
 }
