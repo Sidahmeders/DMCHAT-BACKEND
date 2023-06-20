@@ -1,5 +1,5 @@
-module.exports = function createLeaveAppointment({ Appointment }) {
-  return async function leaveAppointment(req, res) {
+module.exports = function makeToggleLeave({ Appointment }) {
+  return async function toggleLeave(req, res) {
     try {
       const { id } = req.params
       const { isLeft } = req.body

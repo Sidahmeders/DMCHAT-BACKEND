@@ -2,14 +2,14 @@ const { Appointment, Calendar, Message, Chat, Patient, User } = require('../mode
 const { generateToken, generateHashedPassword, verifyPassword } = require('../config')
 
 // ** appointment controllers ** //
-const makeConfirmAppointment = require('./appointments/confirmAppointment')
 const makeCreateNewAppointment = require('./appointments/createNewAppointment')
 const makeDeleteAppointment = require('./appointments/deleteAppointment')
 const makeFetchDayAppointments = require('./appointments/fetchDayAppointments')
 const makeFetchMonthAppointments = require('./appointments/fetchMonthAppointments')
 const makeFetchPatientAppointments = require('./appointments/fetchPatientAppointments')
-const makeLeaveAppointment = require('./appointments/leaveAppointment')
 const makeRelateNewAppointment = require('./appointments/relateNewAppointment')
+const makeToggleConfirmation = require('./appointments/toggleConfirmation')
+const makeToggleLeave = require('./appointments/toggleLeave')
 const makeUpdateAppointment = require('./appointments/updateAppointment')
 const makeUpdateAppointmentsHistory = require('./appointments/updateAppointmentsHistory')
 
@@ -43,14 +43,14 @@ const makeRemoveFromGroup = require('./chats/removeFromGroup')
 const makeRenameGroup = require('./chats/renameGroup')
 
 module.exports.appointmentsControllers = {
-  confirmAppointment: makeConfirmAppointment({ Appointment }),
   createNewAppointment: makeCreateNewAppointment({ Appointment }),
   deleteAppointment: makeDeleteAppointment({ Appointment }),
   fetchDayAppointments: makeFetchDayAppointments({ Appointment }),
   fetchMonthAppointments: makeFetchMonthAppointments({ Appointment }),
   fetchPatientAppointments: makeFetchPatientAppointments({ Appointment }),
-  leaveAppointment: makeLeaveAppointment({ Appointment }),
   relateNewAppointment: makeRelateNewAppointment({ Appointment }),
+  toggleConfirmation: makeToggleConfirmation({ Appointment }),
+  toggleLeave: makeToggleLeave({ Appointment }),
   updateAppointment: makeUpdateAppointment({ Appointment }),
   updateAppointmentsHistory: makeUpdateAppointmentsHistory({ Appointment }),
 }

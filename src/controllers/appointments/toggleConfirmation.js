@@ -1,5 +1,5 @@
-module.exports = function makeConfirmAppointment({ Appointment }) {
-  return async function confirmAppointment(req, res) {
+module.exports = function makeToggleConfirmation({ Appointment }) {
+  return async function toggleConfirmation(req, res) {
     try {
       const { id } = req.params
       const { isConfirmed } = req.body
