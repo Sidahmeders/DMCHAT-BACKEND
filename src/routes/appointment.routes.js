@@ -1,6 +1,6 @@
 const express = require('express')
 const { protect } = require('../middleware')
-const { appointmentsControllers } = require('../controllers')
+const { appointmentController } = require('../controllers')
 
 /**
  * @openapi
@@ -37,7 +37,7 @@ const router = express.Router()
  *       '404':
  *         description: Patient not found
  */
-router.get('/:patientId', protect, appointmentsControllers.fetchPatientAppointments)
+router.get('/:patientId', protect, appointmentController.fetchPatientAppointments)
 
 /**
  * @openapi
@@ -71,7 +71,7 @@ router.get('/:patientId', protect, appointmentsControllers.fetchPatientAppointme
  *       '400':
  *         description: Invalid year or month format
  */
-router.get('/:year/:month', protect, appointmentsControllers.fetchMonthAppointments)
+router.get('/:year/:month', protect, appointmentController.fetchMonthAppointments)
 
 /**
  * @openapi
@@ -111,7 +111,7 @@ router.get('/:year/:month', protect, appointmentsControllers.fetchMonthAppointme
  *       '400':
  *         description: Invalid year, month, or day format
  */
-router.get('/:year/:month/:day', protect, appointmentsControllers.fetchDayAppointments)
+router.get('/:year/:month/:day', protect, appointmentController.fetchDayAppointments)
 
 /**
  * @openapi
@@ -136,7 +136,7 @@ router.get('/:year/:month/:day', protect, appointmentsControllers.fetchDayAppoin
  *       '400':
  *         description: Invalid appointment data
  */
-router.post('/new', protect, appointmentsControllers.createNewAppointment)
+router.post('/new', protect, appointmentController.createNewAppointment)
 
 /**
  * @openapi
@@ -161,7 +161,7 @@ router.post('/new', protect, appointmentsControllers.createNewAppointment)
  *       '400':
  *         description: Invalid appointment data or related appointment does not exist
  */
-router.post('/relate', protect, appointmentsControllers.relateNewAppointment)
+router.post('/relate', protect, appointmentController.relateNewAppointment)
 
 /**
  * @openapi
@@ -200,7 +200,7 @@ router.post('/relate', protect, appointmentsControllers.relateNewAppointment)
  *       '404':
  *         description: Appointment not found
  */
-router.put('/:id/toggle-confirmation', protect, appointmentsControllers.toggleConfirmation)
+router.put('/:id/toggle-confirmation', protect, appointmentController.toggleConfirmation)
 
 /**
  * @openapi
@@ -239,7 +239,7 @@ router.put('/:id/toggle-confirmation', protect, appointmentsControllers.toggleCo
  *       '404':
  *         description: Appointment not found
  */
-router.put('/:id/toggle-leave', protect, appointmentsControllers.toggleLeave)
+router.put('/:id/toggle-leave', protect, appointmentController.toggleLeave)
 
 /**
  * @openapi
@@ -273,7 +273,7 @@ router.put('/:id/toggle-leave', protect, appointmentsControllers.toggleLeave)
  *       '404':
  *         description: Appointment not found
  */
-router.put('/:id/update', protect, appointmentsControllers.updateAppointment)
+router.put('/:id/update', protect, appointmentController.updateAppointment)
 
 /**
  * @openapi
@@ -296,7 +296,7 @@ router.put('/:id/update', protect, appointmentsControllers.updateAppointment)
  *       '400':
  *         description: Invalid appointment data
  */
-router.put('/history', protect, appointmentsControllers.updateAppointmentsHistory)
+router.put('/history', protect, appointmentController.updateAppointmentsHistory)
 
 /**
  * @openapi
@@ -320,6 +320,6 @@ router.put('/history', protect, appointmentsControllers.updateAppointmentsHistor
  *       '404':
  *         description: Appointment not found
  */
-router.delete('/:id', protect, appointmentsControllers.deleteAppointment)
+router.delete('/:id', protect, appointmentController.deleteAppointment)
 
 module.exports = router

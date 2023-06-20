@@ -1,5 +1,29 @@
-module.exports = function createSendMessage({ Message, Chat }) {
-  return async function sendMessage(req, res) {
+const BaseController = require('./BaseController')
+
+module.exports = class CalendarController extends BaseController {
+  #Message
+  #Chat
+
+  constructor({ Message, Chat }) {
+    super()
+    this.#Message = Message
+    this.#Chat = Chat
+  }
+
+  fetchMessagesByChatId = async (req, res) => {
+    try {
+      const messages = await this.#Message
+        .find({ chat: req.params.chatId })
+        .populate('sender', 'name pic email')
+        .populate('chat')
+
+      res.status(200).json(messages)
+    } catch (error) {
+      this.handleError(res, error)
+    }
+  }
+
+  sendMessage = async (req, res) => {
     const { content, chatId } = req.body
 
     if (!content || !chatId) {
@@ -12,7 +36,7 @@ module.exports = function createSendMessage({ Message, Chat }) {
 
     try {
       // Create a new message
-      let message = await Message.create({
+      let message = await this.#Message.create({
         sender: req.user._id, // Logged in user id,
         content,
         chat: chatId,
@@ -28,15 +52,11 @@ module.exports = function createSendMessage({ Message, Chat }) {
       })
 
       // Update latest message
-      await Chat.findByIdAndUpdate(req.body.chatId, { latestMessage: message })
+      await this.#Chat.findByIdAndUpdate(req.body.chatId, { latestMessage: message })
 
       return res.status(200).json(message) // Send message we just created now
     } catch (error) {
-      return res.status(400).json({
-        success: false,
-        statusCode: 400,
-        message: 'Failed to create New Message',
-      })
+      this.handleError(res, error)
     }
   }
 }
