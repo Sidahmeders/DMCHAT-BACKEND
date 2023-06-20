@@ -1,10 +1,16 @@
 const errorHandler = (err, req, res, next) => {
-  const statusCode = res.statusCode === 200 ? 500 : res.statusCode
-  res.status(statusCode)
-  res.json({
-    message: err.message,
-    stack: process.env.NODE_ENV === 'production' ? null : err.stack,
-  })
+  const statusCode = err.statusCode || 500
+  const errorMessage = err.message || 'Unexpected Internal Error'
+
+  const errorResponse = {
+    error: {
+      message: errorMessage,
+      code: err.code || undefined,
+      details: err.details || undefined,
+    },
+  }
+
+  res.status(statusCode).json(errorResponse)
 }
 
 module.exports = { errorHandler }
