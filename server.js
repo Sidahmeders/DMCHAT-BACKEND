@@ -6,7 +6,7 @@ const cors = require('cors')
 
 const initListener = require('./src/wss')
 const { connectToMongoDB, setupSwagger } = require('./src/config')
-const { notFound, errorHandler } = require('./src/middleware')
+const { errorHandler } = require('./src/middleware')
 const {
   userRoutes,
   chatRoutes,
@@ -21,6 +21,7 @@ const app = express()
 app.use(express.json())
 app.use(cors())
 dotenv.config({ path: path.join(__dirname, './.env') })
+app.use(errorHandler)
 
 setupSwagger(app)
 connectToMongoDB()
@@ -31,11 +32,6 @@ app.use('/api/message', messageRoutes)
 app.use('/api/patients', patientRoutes)
 app.use('/api/calendar', calendarRoutes)
 app.use('/api/appointments', appointmentRoutes)
-// --------------------------DEPLOYMENT------------------------------
-
-// handle invalid routes
-app.use(notFound)
-app.use(errorHandler)
 
 const server = app.listen(process.env.PORT, () => console.log(`Server started on PORT ${process.env.PORT}`))
 

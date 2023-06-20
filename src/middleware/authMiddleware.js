@@ -2,14 +2,20 @@ const jwt = require('jsonwebtoken')
 const { User } = require('../models')
 
 const protect = async (req, res, next) => {
-  let token
-
-  // If 'authorization' header present and starts Wwth 'Bearer' word
   if (req.headers.authorization && req.headers.authorization.startsWith('Bearer')) {
     try {
-      token = req.headers.authorization.split(' ')[1] // Splits "Bearer <TOKEN>"
+      // Splits "Bearer <TOKEN>"
+      const token = req.headers.authorization.split(' ')[1]
 
-      //decodes token id
+      if (!token) {
+        return res.status(401).json({
+          error: {
+            message: 'Not authorized, no token provided',
+          },
+        })
+      }
+
+      // Decodes token id
       const decoded = jwt.verify(token, process.env.JWT_SECRET)
 
       // Find user with the id and return it without the password
@@ -17,21 +23,20 @@ const protect = async (req, res, next) => {
 
       next() // Move on to next operation
     } catch (error) {
-      return res.status(401).json({
-        success: false,
-        statusCode: 401,
-        message: 'Not authorized, token failed',
-      })
+      if (error.name === 'MongooseError') {
+        return res.status(503).json({
+          error: {
+            message: `Mongoose error: ${error.message}`,
+          },
+        })
+      } else {
+        return res.status(401).json({
+          error: {
+            message: 'Not authorized, token failed',
+          },
+        })
+      }
     }
-  }
-
-  // If token is not present
-  if (!token) {
-    return res.status(401).json({
-      success: false,
-      statusCode: 401,
-      message: 'Not authorized, no token provided',
-    })
   }
 }
 
