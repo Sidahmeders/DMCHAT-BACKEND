@@ -21,13 +21,7 @@ const makeSetCalendarDayAvailability = require('./calendar/setCalendarDayAvailab
 const makeFetchMessagesByChatId = require('./messages/fetchMessagesByChatId')
 const makeSendMessage = require('./messages/sendMessage')
 
-// ** patients controllers ** //
-const makeCreatePatient = require('./patients/createPatient')
-const makeDeletePatientById = require('./patients/deletePatientById')
-const makeFetchPatients = require('./patients/fetchPatients')
-const makeFetchPatientsById = require('./patients/fetchPatientsById')
-const makeFetchPatientsByName = require('./patients/fetchPatientsByName')
-const makeUpdatePatientById = require('./patients/updatePatientById')
+const PatientController = require('./PatientController')
 
 // ** users controllers ** //
 const makeAuthenticateUser = require('./users/authenticateUser')
@@ -41,6 +35,8 @@ const makeCreateGroupChat = require('./chats/createGroupChat')
 const makeFetchChats = require('./chats/fetchChats')
 const makeRemoveFromGroup = require('./chats/removeFromGroup')
 const makeRenameGroup = require('./chats/renameGroup')
+
+module.exports.patientController = new PatientController({ Patient })
 
 module.exports.appointmentsControllers = {
   createNewAppointment: makeCreateNewAppointment({ Appointment }),
@@ -63,15 +59,6 @@ module.exports.calendarControllers = {
 module.exports.messageControllers = {
   fetchMessagesByChatId: makeFetchMessagesByChatId({ Message }),
   sendMessage: makeSendMessage({ Message, Chat }),
-}
-
-module.exports.patientsControllers = {
-  createPatient: makeCreatePatient({ Patient }),
-  deletePatientById: makeDeletePatientById({ Patient }),
-  fetchPatients: makeFetchPatients({ Patient }),
-  fetchPatientsById: makeFetchPatientsById({ Patient }),
-  fetchPatientsByName: makeFetchPatientsByName({ Patient }),
-  updatePatientById: makeUpdatePatientById({ Patient }),
 }
 
 module.exports.usersControllers = {

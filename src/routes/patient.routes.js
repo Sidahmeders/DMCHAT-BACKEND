@@ -1,7 +1,7 @@
 const express = require('express')
 
 const { protect } = require('../middleware')
-const { patientsControllers } = require('../controllers')
+const { patientController } = require('../controllers')
 
 /**
  * @openapi
@@ -47,16 +47,16 @@ const router = express.Router()
  *       '400':
  *         description: Bad request
  */
-router.get('/', protect, patientsControllers.fetchPatients)
+router.get('/', protect, patientController.fetchPatients)
 
-router.route('/:id').get(protect, patientsControllers.fetchPatientsById)
+router.route('/:id').get(protect, patientController.fetchPatientsById)
 
-router.route('/fullname/:name').get(protect, patientsControllers.fetchPatientsByName)
+router.route('/fullname/:name').get(protect, patientController.fetchPatientsByName)
 
-router.route('/').post(protect, patientsControllers.createPatient)
+router.route('/').post(protect, patientController.createPatient)
 
-router.route('/:id').put(protect, patientsControllers.updatePatientById)
+router.route('/:id').put(protect, patientController.updatePatientById)
 
-router.route('/:id').delete(protect, patientsControllers.deletePatientById)
+router.route('/:id').delete(protect, patientController.deletePatientById)
 
 module.exports = router
