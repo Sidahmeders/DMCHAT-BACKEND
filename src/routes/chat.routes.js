@@ -1,19 +1,19 @@
 const express = require('express')
 
 const { protect } = require('../middleware')
-const { chatControllers } = require('../controllers')
+const { chatController } = require('../controllers')
 
 const router = express.Router()
 
 // Both requests work on same route
-router.route('/').post(protect, chatControllers.accessChat).get(protect, chatControllers.fetchChats)
+router.route('/').post(protect, chatController.accessChat).get(protect, chatController.fetchChats)
 // Create group chat
-router.route('/group').post(protect, chatControllers.createGroupChat)
+router.route('/group').post(protect, chatController.createGroupChat)
 // Rename group chat
-router.route('/rename').put(protect, chatControllers.renameGroup)
+router.route('/rename').put(protect, chatController.renameGroup)
 // Add someone to the group
-router.route('/groupadd').put(protect, chatControllers.addToGroup)
+router.route('/groupadd').put(protect, chatController.addToGroup)
 // Remove someone or leave the group
-router.route('/groupremove').put(protect, chatControllers.removeFromGroup)
+router.route('/groupremove').put(protect, chatController.removeFromGroup)
 
 module.exports = router
