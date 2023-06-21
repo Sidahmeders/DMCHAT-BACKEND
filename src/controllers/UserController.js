@@ -28,10 +28,10 @@ module.exports = class UserController extends BaseController {
       }
 
       // Check if user already exists in our DB
-      const userExists = await User.findOne({ email }).exec()
+      const userExists = await this.#User.findOne({ email }).exec()
 
       // If user exists and password is verified
-      if (userExists && (await verifyPassword(password, userExists.password))) {
+      if (userExists && (await this.#verifyPassword(password, userExists.password))) {
         return res.status(200).json({
           success: true,
           statusCode: 200,
@@ -39,7 +39,7 @@ module.exports = class UserController extends BaseController {
           name: userExists.name,
           email: userExists.email,
           pic: userExists.pic,
-          token: generateToken(userExists._id, userExists.email),
+          token: this.#generateToken(userExists._id, userExists.email),
           message: 'Authenticated Successfully',
         })
       } else {
@@ -67,7 +67,8 @@ module.exports = class UserController extends BaseController {
         : {}
 
       // Find and return users except current user
-      const userExists = await User.find(keyword)
+      const userExists = await this.#User
+        .find(keyword)
         .find({ _id: { $ne: req.user._id } })
         .exec()
 
@@ -91,7 +92,7 @@ module.exports = class UserController extends BaseController {
       }
 
       // Check if user already exists in our DB
-      const userExists = await User.findOne({ email }).exec()
+      const userExists = await this.#User.findOne({ email }).exec()
 
       if (userExists) {
         return res.status(400).json({
@@ -102,18 +103,18 @@ module.exports = class UserController extends BaseController {
       }
 
       // Register and store the new user
-      const userCreated = await User.create(
+      const userCreated = await this.#User.create(
         // If there is no picture present, remove 'pic'
         pic === undefined || pic.length === 0
           ? {
               name,
               email,
-              password: await generateHashedPassword(password),
+              password: await this.#generateHashedPassword(password),
             }
           : {
               name,
               email,
-              password: await generateHashedPassword(password),
+              password: await this.#generateHashedPassword(password),
               pic,
             },
       )
@@ -126,7 +127,7 @@ module.exports = class UserController extends BaseController {
           name: userCreated.name,
           email: userCreated.email,
           pic: userCreated.pic,
-          token: generateToken(userCreated._id, userCreated.email),
+          token: this.#generateToken(userCreated._id, userCreated.email),
           message: 'User Created Successfully',
         })
       } else {
