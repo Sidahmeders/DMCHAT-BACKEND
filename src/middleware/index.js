@@ -1,4 +1,4 @@
-const { notFound, errorHandler } = require('./errorMiddleware')
+const { errorHandler } = require('./errorMiddleware')
 const protect = require('./authMiddleware')
 
-module.exports = { notFound, errorHandler, protect }
+module.exports = { errorHandler, protect }
