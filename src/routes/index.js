@@ -92,6 +92,34 @@ const appointmentRoutes = require('./appointment.routes')
  *           type: string
  *         generalState:
  *           type: string
+ *     Calendar:
+ *       type: object
+ *       properties:
+ *         _id:
+ *           type: string
+ *           description: The ID of the calendar entry
+ *         sender:
+ *           type: string
+ *           description: The ID of the associated user
+ *         date:
+ *           type: string
+ *           format: date-time
+ *           description: The date of the calendar entry
+ *         availability:
+ *           type: string
+ *           enum: [EMPTY, REST, BUSY, LOADED]
+ *           description: The availability status for the calendar entry
+ *         createdAt:
+ *           type: string
+ *           format: date-time
+ *           description: The creation date of the calendar entry
+ *         updatedAt:
+ *           type: string
+ *           format: date-time
+ *           description: The last update date of the calendar entry
+ *       required:
+ *         - date
+ *         - availability
  */
 
 module.exports = {
