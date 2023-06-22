@@ -49,14 +49,143 @@ const router = express.Router()
  */
 router.get('/', protect, patientController.fetchPatients)
 
+/**
+ * @openapi
+ * /api/patients/{id}:
+ *   get:
+ *     summary: Fetch patient by ID
+ *     tags: [Patients]
+ *     description: Retrieve a patient by ID
+ *     parameters:
+ *       - in: path
+ *         name: id
+ *         schema:
+ *           type: string
+ *         required: true
+ *         description: The ID of the patient
+ *     responses:
+ *       '200':
+ *         description: Successful operation
+ *         content:
+ *           application/json:
+ *             schema:
+ *               $ref: '#/components/schemas/Patient'
+ *       '400':
+ *         description: Bad request
+ *       '404':
+ *         description: Patient not found
+ */
 router.route('/:id').get(protect, patientController.fetchPatientsById)
 
+/**
+ * @openapi
+ * /api/patients/fullname/{name}:
+ *   get:
+ *     summary: Fetch patients by name
+ *     tags: [Patients]
+ *     description: Retrieve a list of patients matching the specified name
+ *     parameters:
+ *       - in: path
+ *         name: name
+ *         schema:
+ *           type: string
+ *         required: true
+ *         description: The name to search for
+ *     responses:
+ *       '200':
+ *         description: Successful operation
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: array
+ *               items:
+ *                 $ref: '#/components/schemas/Patient'
+ *       '400':
+ *         description: Bad request
+ */
 router.route('/fullname/:name').get(protect, patientController.fetchPatientsByName)
 
+/**
+ * @openapi
+ * /api/patients:
+ *   post:
+ *     summary: Create a new patient
+ *     tags: [Patients]
+ *     description: Create a new patient with the provided data
+ *     requestBody:
+ *       required: true
+ *       content:
+ *         application/json:
+ *           schema:
+ *             $ref: '#/components/schemas/Patient'
+ *     responses:
+ *       '200':
+ *         description: Successful operation
+ *         content:
+ *           application/json:
+ *             schema:
+ *               $ref: '#/components/schemas/Patient'
+ *       '400':
+ *         description: Bad request
+ */
 router.route('/').post(protect, patientController.createPatient)
 
+/**
+ * @openapi
+ * /api/patients/{id}:
+ *   put:
+ *     summary: Update patient by ID
+ *     tags: [Patients]
+ *     description: Update the data of a patient specified by ID
+ *     parameters:
+ *       - in: path
+ *         name: id
+ *         schema:
+ *           type: string
+ *         required: true
+ *         description: The ID of the patient to update
+ *     requestBody:
+ *       required: true
+ *       content:
+ *         application/json:
+ *           schema:
+ *             $ref: '#/components/schemas/Patient'
+ *     responses:
+ *       '200':
+ *         description: Successful operation
+ *         content:
+ *           application/json:
+ *             schema:
+ *               $ref: '#/components/schemas/Patient'
+ *       '400':
+ *         description: Bad request
+ *       '404':
+ *         description: Patient not found
+ */
 router.route('/:id').put(protect, patientController.updatePatientById)
 
+/**
+ * @openapi
+ * /api/patients/{id}:
+ *   delete:
+ *     summary: Delete patient by ID
+ *     tags: [Patients]
+ *     description: Delete a patient specified by ID
+ *     parameters:
+ *       - in: path
+ *         name: id
+ *         schema:
+ *           type: string
+ *         required: true
+ *         description: The ID of the patient to delete
+ *     responses:
+ *       '200':
+ *         description: Successful operation
+ *       '400':
+ *         description: Bad request
+ *       '404':
+ *         description: Patient not found
+ */
 router.route('/:id').delete(protect, patientController.deletePatientById)
 
 module.exports = router
