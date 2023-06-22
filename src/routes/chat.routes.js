@@ -66,10 +66,6 @@ router.route('/').get(protect, chatController.fetchChats)
  *               $ref: '#/components/schemas/Chat'
  *       '400':
  *         description: Bad Request. User ID not provided.
- *         content:
- *           application/json:
- *             schema:
- *               $ref: '#/components/schemas/ErrorResponse'
  *       '401':
  *         description: Unauthorized Error
  *       '404':
@@ -77,11 +73,11 @@ router.route('/').get(protect, chatController.fetchChats)
  *       '500':
  *         description: Internal Server Error
  */
-router.route('/').post(protect, chatController.accessChat)
+router.route('/access').post(protect, chatController.accessChat)
 
 /**
  * @openapi
- * /api/chat/group:
+ * /api/chat/groups:
  *   post:
  *     summary: Create a group chat
  *     description: Create a new group chat.
@@ -116,11 +112,11 @@ router.route('/').post(protect, chatController.accessChat)
  *       '500':
  *         description: Internal Server Error
  */
-router.route('/group').post(protect, chatController.createGroupChat)
+router.route('/groups').post(protect, chatController.createGroupChat)
 
 /**
  * @openapi
- * /api/chat/rename:
+ * /api/chat/groups/rename:
  *   put:
  *     summary: Rename a group chat
  *     description: Rename an existing group chat.
@@ -155,13 +151,13 @@ router.route('/group').post(protect, chatController.createGroupChat)
  *       '500':
  *         description: Internal Server Error
  */
-router.route('/rename').put(protect, chatController.renameGroup)
+router.route('/groups/rename').put(protect, chatController.renameGroup)
 
 /**
  * @openapi
- * /api/chat/groupadd:
+ * /api/chat/groups/join:
  *   put:
- *     summary: Add a user to a group chat
+ *     summary: Join a user to a group chat
  *     description: Add a user to an existing group chat.
  *     tags: [Chats]
  *     security:
@@ -194,11 +190,11 @@ router.route('/rename').put(protect, chatController.renameGroup)
  *       '500':
  *         description: Internal Server Error
  */
-router.route('/groupadd').put(protect, chatController.addToGroup)
+router.route('/groups/join').put(protect, chatController.addToGroup)
 
 /**
  * @openapi
- * /api/chat/groupremove:
+ * /api/chat/groups/leave:
  *   put:
  *     summary: Remove a user from a group chat
  *     description: Remove a user from an existing group chat.
@@ -229,6 +225,6 @@ router.route('/groupadd').put(protect, chatController.addToGroup)
  *       '500':
  *         description: Internal Server Error.
  */
-router.route('/groupremove').put(protect, chatController.removeFromGroup)
+router.route('/groups/leave').put(protect, chatController.removeFromGroup)
 
 module.exports = router

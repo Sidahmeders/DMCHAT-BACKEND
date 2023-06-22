@@ -135,9 +135,7 @@ module.exports = class ChatController extends BaseController {
   fetchChats = async (req, res) => {
     try {
       let results = await this.#Chat
-        .find({
-          users: { $elemMatch: { $eq: req.user._id } },
-        })
+        .find({ users: { $elemMatch: { $eq: req.user._id } } })
         .populate('users', '-password')
         .populate('groupAdmin', '-password')
         .populate('latestMessage')
