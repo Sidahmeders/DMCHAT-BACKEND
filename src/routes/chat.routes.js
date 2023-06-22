@@ -3,17 +3,232 @@ const express = require('express')
 const { protect } = require('../middleware')
 const { chatController } = require('../controllers')
 
+/**
+ * @openapi
+ * tags:
+ *   name: Chats
+ *   description: API endpoints for managing the chats
+ */
+
 const router = express.Router()
 
-// Both requests work on same route
-router.route('/').post(protect, chatController.accessChat).get(protect, chatController.fetchChats)
-// Create group chat
+/**
+ * @openapi
+ * /api/chat:
+ *   get:
+ *     summary: Fetch all chats
+ *     description: Retrieve a list of all chats.
+ *     tags: [Chats]
+ *     security:
+ *       - bearerAuth: []
+ *     responses:
+ *       '200':
+ *         description: OK. List of chats fetched successfully.
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: array
+ *               items:
+ *                 $ref: '#/components/schemas/Chat'
+ *       '401':
+ *         description: Unauthorized Error
+ *       '500':
+ *         description: Internal Server Error
+ */
+router.route('/').get(protect, chatController.fetchChats)
+
+/**
+ * @openapi
+ * /api/chat:
+ *   post:
+ *     summary: Access a chat
+ *     description: Access a chat by providing the user's ID.
+ *     tags: [Chats]
+ *     security:
+ *       - bearerAuth: []
+ *     requestBody:
+ *       required: true
+ *       content:
+ *         application/json:
+ *           schema:
+ *             type: object
+ *             properties:
+ *               userId:
+ *                 type: string
+ *             required:
+ *               - userId
+ *     responses:
+ *       '200':
+ *         description: OK. Chat accessed successfully.
+ *         content:
+ *           application/json:
+ *             schema:
+ *               $ref: '#/components/schemas/Chat'
+ *       '400':
+ *         description: Bad Request. User ID not provided.
+ *         content:
+ *           application/json:
+ *             schema:
+ *               $ref: '#/components/schemas/ErrorResponse'
+ *       '401':
+ *         description: Unauthorized Error
+ *       '404':
+ *         description: Not Found. Chat not found.
+ *       '500':
+ *         description: Internal Server Error
+ */
+router.route('/').post(protect, chatController.accessChat)
+
+/**
+ * @openapi
+ * /api/chat/group:
+ *   post:
+ *     summary: Create a group chat
+ *     description: Create a new group chat.
+ *     tags: [Chats]
+ *     security:
+ *       - bearerAuth: []
+ *     requestBody:
+ *       required: true
+ *       content:
+ *         application/json:
+ *           schema:
+ *             type: object
+ *             properties:
+ *               users:
+ *                 type: string
+ *               name:
+ *                 type: string
+ *             required:
+ *               - users
+ *               - name
+ *     responses:
+ *       '200':
+ *         description: OK. Group chat created successfully.
+ *         content:
+ *           application/json:
+ *             schema:
+ *               $ref: '#/components/schemas/Chat'
+ *       '400':
+ *         description: Bad Request. Missing required fields or insufficient users for group chat.
+ *       '401':
+ *         description: Unauthorized Error
+ *       '500':
+ *         description: Internal Server Error
+ */
 router.route('/group').post(protect, chatController.createGroupChat)
-// Rename group chat
+
+/**
+ * @openapi
+ * /api/chat/rename:
+ *   put:
+ *     summary: Rename a group chat
+ *     description: Rename an existing group chat.
+ *     tags: [Chats]
+ *     security:
+ *       - bearerAuth: []
+ *     requestBody:
+ *       required: true
+ *       content:
+ *         application/json:
+ *           schema:
+ *             type: object
+ *             properties:
+ *               chatId:
+ *                 type: string
+ *               chatName:
+ *                 type: string
+ *             required:
+ *               - chatId
+ *               - chatName
+ *     responses:
+ *       '200':
+ *         description: OK. Group chat renamed successfully.
+ *         content:
+ *           application/json:
+ *             schema:
+ *               $ref: '#/components/schemas/Chat'
+ *       '401':
+ *         description: Unauthorized Error
+ *       '404':
+ *         description: Not Found. Chat not found.
+ *       '500':
+ *         description: Internal Server Error
+ */
 router.route('/rename').put(protect, chatController.renameGroup)
-// Add someone to the group
+
+/**
+ * @openapi
+ * /api/chat/groupadd:
+ *   put:
+ *     summary: Add a user to a group chat
+ *     description: Add a user to an existing group chat.
+ *     tags: [Chats]
+ *     security:
+ *       - bearerAuth: []
+ *     requestBody:
+ *       required: true
+ *       content:
+ *         application/json:
+ *           schema:
+ *             type: object
+ *             properties:
+ *               chatId:
+ *                 type: string
+ *               userId:
+ *                 type: string
+ *             required:
+ *               - chatId
+ *               - userId
+ *     responses:
+ *       '200':
+ *         description: OK. User added to group chat successfully.
+ *         content:
+ *           application/json:
+ *             schema:
+ *               $ref: '#/components/schemas/Chat'
+ *       '401':
+ *         description: Unauthorized Error
+ *       '404':
+ *         description: Not Found. Chat not found.
+ *       '500':
+ *         description: Internal Server Error
+ */
 router.route('/groupadd').put(protect, chatController.addToGroup)
-// Remove someone or leave the group
+
+/**
+ * @openapi
+ * /api/chat/groupremove:
+ *   put:
+ *     summary: Remove a user from a group chat
+ *     description: Remove a user from an existing group chat.
+ *     tags: [Chats]
+ *     security:
+ *       - bearerAuth: []
+ *     requestBody:
+ *       required: true
+ *       content:
+ *         application/json:
+ *           schema:
+ *             type: object
+ *             properties:
+ *               chatId:
+ *                 type: string
+ *               userId:
+ *                 type: string
+ *             required:
+ *               - chatId
+ *               - userId
+ *     responses:
+ *       '200':
+ *         description: OK. User removed from group chat successfully.
+ *       '401':
+ *         description: Unauthorized Error.
+ *       '404':
+ *         description: Not Found. Chat not found.
+ *       '500':
+ *         description: Internal Server Error.
+ */
 router.route('/groupremove').put(protect, chatController.removeFromGroup)
 
 module.exports = router
