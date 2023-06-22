@@ -9,7 +9,6 @@ const { calendarController } = require('../controllers')
  *   name: Calendar
  *   description: API endpoints for managing the calendar
  */
-
 const router = express.Router()
 
 /**

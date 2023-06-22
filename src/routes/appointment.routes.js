@@ -8,7 +8,6 @@ const { appointmentController } = require('../controllers')
  *   name: Appointments
  *   description: API endpoints for managing appointments
  */
-
 const router = express.Router()
 
 /**

@@ -9,7 +9,6 @@ const { chatController } = require('../controllers')
  *   name: Chats
  *   description: API endpoints for managing the chats
  */
-
 const router = express.Router()
 
 /**

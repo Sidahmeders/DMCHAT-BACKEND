@@ -9,7 +9,6 @@ const { messageController } = require('../controllers')
  *   - name: Messages
  *     description: API endpoints for managing messages
  */
-
 const router = express.Router()
 
 /**

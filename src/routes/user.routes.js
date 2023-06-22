@@ -9,7 +9,6 @@ const { userController } = require('../controllers')
  *   name: Users
  *   description: API endpoints for managing users
  */
-
 const router = express.Router()
 
 /**

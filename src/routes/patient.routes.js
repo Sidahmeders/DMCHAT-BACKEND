@@ -9,7 +9,6 @@ const { patientController } = require('../controllers')
  *   name: Patients
  *   description: API endpoints for managing patients
  */
-
 const router = express.Router()
 
 /**
@@ -35,6 +34,11 @@ const router = express.Router()
  *           maximum: 100
  *           default: 10
  *         description: The number of patients to fetch per page
+ *       - in: query
+ *         name: fullName
+ *         schema:
+ *           type: string
+ *         description: The sub-string of the patient fullname
  *     responses:
  *       '200':
  *         description: Successful operation
@@ -76,34 +80,6 @@ router.get('/', protect, patientController.fetchPatients)
  *         description: Patient not found
  */
 router.route('/:id').get(protect, patientController.fetchPatientsById)
-
-/**
- * @openapi
- * /api/patients/fullname/{name}:
- *   get:
- *     summary: Fetch patients by name
- *     tags: [Patients]
- *     description: Retrieve a list of patients matching the specified name
- *     parameters:
- *       - in: path
- *         name: name
- *         schema:
- *           type: string
- *         required: true
- *         description: The name to search for
- *     responses:
- *       '200':
- *         description: Successful operation
- *         content:
- *           application/json:
- *             schema:
- *               type: array
- *               items:
- *                 $ref: '#/components/schemas/Patient'
- *       '400':
- *         description: Bad request
- */
-router.route('/fullname/:name').get(protect, patientController.fetchPatientsByName)
 
 /**
  * @openapi

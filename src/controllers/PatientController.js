@@ -12,10 +12,12 @@ module.exports = class PatientController extends BaseController {
     try {
       const page = parseInt(req.query.page) || 1
       const pageSize = parseInt(req.query.pageSize) || 10
+      const fullName = req.query.fullName || ''
       const totalCount = await this.#Patient.countDocuments()
       const totalPages = Math.ceil(totalCount / pageSize)
+
       const patients = await this.#Patient
-        .find()
+        .find({ fullName: { $regex: fullName, $options: 'i' } })
         .skip((page - 1) * pageSize)
         .limit(pageSize)
 
@@ -38,16 +40,6 @@ module.exports = class PatientController extends BaseController {
       const { id } = req.params
       const patient = await this.#Patient.findById(id)
       res.status(200).json(patient)
-    } catch (error) {
-      this.handleError(res, error)
-    }
-  }
-
-  fetchPatientsByName = async (req, res) => {
-    try {
-      const { name } = req.params
-      const patients = await this.#Patient.find({ fullName: { $regex: name, $options: 'i' } })
-      res.status(200).json(patients)
     } catch (error) {
       this.handleError(res, error)
     }
