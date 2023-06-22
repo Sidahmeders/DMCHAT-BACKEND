@@ -79,6 +79,12 @@ const appointmentRoutes = require('./appointment.routes')
  *           format: date-time
  *           description: The last update date of the appointment
  *           readOnly: true
+ */
+
+/**
+ * @openapi
+ * components:
+ *   schemas:
  *     Patient:
  *       type: object
  *       properties:
@@ -92,6 +98,12 @@ const appointmentRoutes = require('./appointment.routes')
  *           type: string
  *         generalState:
  *           type: string
+ */
+
+/**
+ * @openapi
+ * components:
+ *   schemas:
  *     Calendar:
  *       type: object
  *       properties:
@@ -120,6 +132,82 @@ const appointmentRoutes = require('./appointment.routes')
  *       required:
  *         - date
  *         - availability
+ */
+
+/**
+ * @openapi
+ * components:
+ *   schemas:
+ *     Chat:
+ *       type: object
+ *       properties:
+ *         _id:
+ *           type: string
+ *           description: The ID of the chat
+ *         chatName:
+ *           type: string
+ *           description: The name of the chat
+ *         isGroupChat:
+ *           type: boolean
+ *           default: false
+ *           description: Indicates if the chat is a group chat
+ *         users:
+ *           type: array
+ *           items:
+ *             type: string
+ *             description: The IDs of the users participating in the chat
+ *         latestMessage:
+ *           type: string
+ *           description: The ID of the latest message in the chat
+ *         groupAdmin:
+ *           type: string
+ *           description: The ID of the group chat admin user
+ *         createdAt:
+ *           type: string
+ *           format: date-time
+ *           description: The creation date of the chat
+ *         updatedAt:
+ *           type: string
+ *           format: date-time
+ *           description: The last update date of the chat
+ *       required:
+ *         - chatName
+ *         - users
+ */
+
+/**
+ * @openapi
+ * components:
+ *   schemas:
+ *     Message:
+ *       type: object
+ *       properties:
+ *         _id:
+ *           type: string
+ *           description: The ID of the message
+ *         sender:
+ *           type: string
+ *           description: The ID of the message sender
+ *         content:
+ *           type: string
+ *           description: The content of the message
+ *         chat:
+ *           type: array
+ *           items:
+ *             type: string
+ *             description: The IDs of the chats the message belongs to
+ *         createdAt:
+ *           type: string
+ *           format: date-time
+ *           description: The creation date of the message
+ *         updatedAt:
+ *           type: string
+ *           format: date-time
+ *           description: The last update date of the message
+ *       required:
+ *         - sender
+ *         - content
+ *         - chat
  */
 
 module.exports = {

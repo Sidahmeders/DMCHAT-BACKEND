@@ -1,6 +1,6 @@
 const BaseController = require('./BaseController')
 
-module.exports = class CalendarController extends BaseController {
+module.exports = class MessageController extends BaseController {
   #Message
   #Chat
 
