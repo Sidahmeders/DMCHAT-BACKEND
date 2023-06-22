@@ -26,7 +26,7 @@ app.use(errorHandler)
 setupSwagger(app)
 connectToMongoDB()
 
-app.use('/api/user', userRoutes)
+app.use('/api/users', userRoutes)
 app.use('/api/chat', chatRoutes)
 app.use('/api/message', messageRoutes)
 app.use('/api/patients', patientRoutes)

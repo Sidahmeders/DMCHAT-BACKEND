@@ -210,6 +210,36 @@ const appointmentRoutes = require('./appointment.routes')
  *         - chat
  */
 
+/**
+ * @openapi
+ * components:
+ *   schemas:
+ *     User:
+ *       type: object
+ *       properties:
+ *         _id:
+ *           type: string
+ *           description: The ID of the user
+ *           readOnly: true
+ *         name:
+ *           type: string
+ *           description: The name of the user
+ *         email:
+ *           type: string
+ *           description: The email address of the user
+ *         password:
+ *           type: string
+ *           description: The password of the user
+ *         pic:
+ *           type: string
+ *           description: The profile picture URL of the user
+ *         createdAt:
+ *           type: string
+ *           format: date-time
+ *           description: The creation date of the user
+ *           readOnly: true
+ */
+
 module.exports = {
   userRoutes,
   chatRoutes,

@@ -14,7 +14,7 @@ const router = express.Router()
 
 /**
  * @openapi
- * /messages/{chatId}:
+ * /api/messages/{chatId}:
  *   get:
  *     summary: Fetch messages by chat ID
  *     tags: [Messages]
@@ -41,7 +41,7 @@ router.route('/:chatId').get(protect, messageController.fetchMessagesByChatId)
 
 /**
  * @openapi
- * /messages:
+ * /api/messages:
  *   post:
  *     summary: Send a message
  *     tags: [Messages]
