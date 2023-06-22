@@ -70,4 +70,28 @@ router.route('/:chatId').get(protect, messageController.fetchMessagesByChatId)
  */
 router.route('/').post(protect, messageController.sendMessage)
 
+/**
+ * @swagger
+ * /api/messages/{chatId}:
+ *   delete:
+ *     summary: Delete messages by chat ID
+ *     tags: [Messages]
+ *     description: Deletes all messages associated with a specific chat ID.
+ *     parameters:
+ *       - in: path
+ *         name: chatId
+ *         schema:
+ *           type: string
+ *         required: true
+ *         description: The ID of the chat whose messages should be deleted.
+ *     responses:
+ *      '200':
+ *        description: Messages successfully deleted.
+ *      '400':
+ *        description: Invalid request parameters.
+ *      '500':
+ *        description: Internal server error occurred.
+ */
+router.route('/:chatId').delete(protect, messageController.deleteMessagesByChatId)
+
 module.exports = router

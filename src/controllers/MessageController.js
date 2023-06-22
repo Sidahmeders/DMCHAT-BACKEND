@@ -59,4 +59,13 @@ module.exports = class MessageController extends BaseController {
       this.handleError(res, error)
     }
   }
+
+  deleteMessagesByChatId = async (req, res) => {
+    try {
+      await this.#Message.deleteMany({ chat: req.params.chatId })
+      res.status(200).end()
+    } catch (error) {
+      this.handleError(res, error)
+    }
+  }
 }

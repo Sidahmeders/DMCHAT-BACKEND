@@ -24,12 +24,13 @@ module.exports = class ChatController extends BaseController {
 
     let chatExists = await this.#Chat
       .find({
-        isGroupChat: false, // 'isGroupChat' will be false as it is one-to-one chat
+        // isGroupChat will be false as it is one-to-one chat
+        isGroupChat: false,
         // logged in user's id and the user id we sent should be same in the 'users' array
         $and: [{ users: { $elemMatch: { $eq: req.user._id } } }, { users: { $elemMatch: { $eq: userId } } }],
       })
-      .populate('users', '-password') // Return 'users' without 'password'
-      .populate('latestMessage') // Return 'latestMessage'
+      .populate('users', '-password')
+      .populate('latestMessage')
 
     chatExists = await this.#User.populate(chatExists, {
       path: 'latestMessage.sender',
