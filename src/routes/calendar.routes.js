@@ -54,7 +54,7 @@ router.route('/:year/:month/:day').get(protect, calendarController.fetchDayCalen
 
 /**
  * @openapi
- * /api/calendar/{year}/{month}/{day}:
+ * /api/calendar/{year}/{month}/{day}/availability:
  *   put:
  *     summary: Set calendar day availability
  *     tags: [Calendar]
@@ -100,6 +100,6 @@ router.route('/:year/:month/:day').get(protect, calendarController.fetchDayCalen
  *       '400':
  *         description: Bad request
  */
-router.route('/:year/:month/:day').put(protect, calendarController.setCalendarDayAvailability)
+router.route('/:year/:month/:day/availability').put(protect, calendarController.setCalendarDayAvailability)
 
 module.exports = router
