@@ -13,11 +13,11 @@ const router = express.Router()
 
 /**
  * @openapi
- * /api/calendar/{year}/{month}/{day}:
+ * /api/calendar/{year}/{month}:
  *   get:
- *     summary: Fetch day calendar
+ *     summary: Fetch month calendar
  *     tags: [Calendar]
- *     description: Retrieve the calendar for a specific day
+ *     description: Retrieve the calendar for a specific month
  *     parameters:
  *       - in: path
  *         name: year
@@ -31,12 +31,6 @@ const router = express.Router()
  *           type: integer
  *         required: true
  *         description: The month of the calendar
- *       - in: path
- *         name: day
- *         schema:
- *           type: integer
- *         required: true
- *         description: The day of the calendar
  *     responses:
  *       '200':
  *         description: Successful operation
@@ -49,7 +43,7 @@ const router = express.Router()
  *       '404':
  *         description: Calendar not found
  */
-router.route('/:year/:month/:day').get(protect, calendarController.fetchDayCalendar)
+router.route('/:year/:month').get(protect, calendarController.fetchMonthCalendar)
 
 /**
  * @openapi
