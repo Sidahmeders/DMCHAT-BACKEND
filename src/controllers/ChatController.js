@@ -133,7 +133,7 @@ module.exports = class ChatController extends BaseController {
     }
   }
 
-  fetchChats = async (req, res) => {
+  fetchUserChats = async (req, res) => {
     try {
       let results = await this.#Chat
         .find({ users: { $elemMatch: { $eq: req.user._id } } })

@@ -15,8 +15,8 @@ const router = express.Router()
  * @openapi
  * /api/chat:
  *   get:
- *     summary: Fetch all chats
- *     description: Retrieve a list of all chats.
+ *     summary: Fetch User chats
+ *     description: Retrieve a list of all chats for the logged in user.
  *     tags: [Chats]
  *     security:
  *       - bearerAuth: []
@@ -34,7 +34,7 @@ const router = express.Router()
  *       '500':
  *         description: Internal Server Error
  */
-router.route('/').get(protect, chatController.fetchChats)
+router.route('/').get(protect, chatController.fetchUserChats)
 
 /**
  * @openapi
