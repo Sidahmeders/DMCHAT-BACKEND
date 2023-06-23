@@ -11,15 +11,43 @@ module.exports = class AppointmentController extends BaseController {
   createNewAppointment = async (req, res) => {
     try {
       const appointment = req.body
-      if (!appointment.isNewTreatment) {
-        return res.status(400).json({ error: 'This endpoint can only handle new appointments!' })
-      }
 
       let newAppointment = await this.#Appointment.create({
         ...appointment,
+        isNewTreatment: true,
         paymentLeft: appointment.totalPrice - (appointment.payment || 0),
       })
       newAppointment = await newAppointment.populate('patient')
+
+      res.status(200).json(newAppointment)
+    } catch (error) {
+      this.handleError(res, error)
+    }
+  }
+
+  relateNewAppointment = async (req, res) => {
+    try {
+      const appointment = req.body
+      const baseAppointment = await this.#Appointment.findById(appointment.baseAppointmentId)
+      if (!baseAppointment) {
+        return res.status(400).json({ error: 'baseAppointment not found!' })
+      }
+
+      const { motif, generalState, diagnostic, treatmentPlan, totalPrice } = baseAppointment
+      const newPaymentLeft = baseAppointment.paymentLeft - appointment.payment
+
+      const doc = {
+        ...req.body,
+        motif,
+        generalState,
+        diagnostic,
+        treatmentPlan,
+        totalPrice,
+        paymentLeft: newPaymentLeft,
+      }
+      const newAppointment = await this.#Appointment.create(doc)
+
+      await this.#Appointment.findByIdAndUpdate(appointment.baseAppointmentId, { paymentLeft: newPaymentLeft })
 
       res.status(200).json(newAppointment)
     } catch (error) {
@@ -74,41 +102,6 @@ module.exports = class AppointmentController extends BaseController {
       const { patientId } = req.params
       const patientAppointments = await this.#Appointment.find({ patient: patientId })
       res.status(200).json(patientAppointments)
-    } catch (error) {
-      this.handleError(res, error)
-    }
-  }
-
-  relateNewAppointment = async (req, res) => {
-    try {
-      const appointment = req.body
-      if (appointment.isNewTreatment) {
-        return res.status(400).json({ error: 'This endpoint can only relate existing appointments!' })
-      }
-
-      const baseAppointment = await this.#Appointment.findById(appointment.baseAppointmentId)
-
-      if (!baseAppointment) {
-        return res.status(400).json({ error: 'baseAppointment not found!' })
-      }
-
-      const { motif, generalState, diagnostic, treatmentPlan, totalPrice } = baseAppointment
-      const newPaymentLeft = baseAppointment.paymentLeft - appointment.payment
-
-      const doc = {
-        ...req.body,
-        motif,
-        generalState,
-        diagnostic,
-        treatmentPlan,
-        totalPrice,
-        paymentLeft: newPaymentLeft,
-      }
-      const newAppointment = await this.#Appointment.create(doc)
-
-      await this.#Appointment.findByIdAndUpdate(appointment.baseAppointmentId, { paymentLeft: newPaymentLeft })
-
-      res.status(200).json(newAppointment)
     } catch (error) {
       this.handleError(res, error)
     }
