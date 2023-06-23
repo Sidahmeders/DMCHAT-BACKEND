@@ -30,8 +30,8 @@ module.exports = class AppointmentController extends BaseController {
   deleteAppointment = async (req, res) => {
     try {
       const { id } = req.params
-      const deletedAppointment = await this.#Appointment.findByIdAndDelete(id, { new: true })
-      res.status(200).json(deletedAppointment)
+      await this.#Appointment.findByIdAndDelete(id, { new: true })
+      res.status(200).end()
     } catch (error) {
       this.handleError(res, error)
     }
