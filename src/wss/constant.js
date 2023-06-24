@@ -1,4 +1,4 @@
-const listeners = {
+const LISTENERS = {
   // chat listeners
   setup: 'setup',
   joinChat: 'join chat',
@@ -10,9 +10,10 @@ const listeners = {
   leaveAppointment: 'leave appointment',
   dropAppointment: 'drop appointment',
   messageAppointment: 'message appointment',
+  paymentAppointment: 'payment appointment',
 }
 
-const events = {
+const EVENTS = {
   // chat listeners
   connected: 'connected',
   typing: 'typing',
@@ -23,9 +24,10 @@ const events = {
   appointmentleft: 'appointment left',
   appointmentDropped: 'appointment dropped',
   appointmentMessaged: 'appointment messaged',
+  appointmentPaid: 'appointment paid',
 }
 
 module.exports = {
-  listeners,
-  events,
+  LISTENERS,
+  EVENTS,
 }

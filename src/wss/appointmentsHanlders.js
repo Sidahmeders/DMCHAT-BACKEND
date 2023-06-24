@@ -1,21 +1,25 @@
-const { listeners, events } = require('./constant')
+const { LISTENERS, EVENTS } = require('./constant')
 
 module.exports = (io, socket) => {
-  socket.on(listeners.joinChat, (room) => socket.join(room))
+  socket.on(LISTENERS.joinChat, (room) => socket.join(room))
 
-  socket.on(listeners.confirmAppointment, (payload) => {
-    io.emit(events.appointmentConfirmation, payload)
+  socket.on(LISTENERS.confirmAppointment, (payload) => {
+    io.emit(EVENTS.appointmentConfirmation, payload)
   })
 
-  socket.on(listeners.leaveAppointment, (payload) => {
-    io.emit(events.appointmentleft, payload)
+  socket.on(LISTENERS.leaveAppointment, (payload) => {
+    io.emit(EVENTS.appointmentleft, payload)
   })
 
-  socket.on(listeners.dropAppointment, (payload) => {
-    io.emit(events.appointmentDropped, payload)
+  socket.on(LISTENERS.dropAppointment, (payload) => {
+    io.emit(EVENTS.appointmentDropped, payload)
   })
 
-  socket.on(listeners.messageAppointment, (payload) => {
-    io.emit(events.appointmentMessaged, payload)
+  socket.on(LISTENERS.messageAppointment, (payload) => {
+    io.emit(EVENTS.appointmentMessaged, payload)
+  })
+
+  socket.on(LISTENERS.paymentAppointment, (payload) => {
+    io.emit(EVENTS.appointmentPaid, payload)
   })
 }

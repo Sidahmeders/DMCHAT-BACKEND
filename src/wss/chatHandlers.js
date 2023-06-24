@@ -1,27 +1,27 @@
-const { listeners, events } = require('./constant')
+const { LISTENERS, EVENTS } = require('./constant')
 
 module.exports = (io, socket) => {
-  socket.on(listeners.setup, (userData) => {
+  socket.on(LISTENERS.setup, (userData) => {
     socket.join(userData._id)
-    socket.emit(events.connected)
+    socket.emit(EVENTS.connected)
   })
 
-  socket.on(listeners.joinChat, (room) => socket.join(room))
+  socket.on(LISTENERS.joinChat, (room) => socket.join(room))
 
-  socket.on(listeners.typing, (room) => socket.in(room).emit(events.typing, room))
+  socket.on(LISTENERS.typing, (room) => socket.in(room).emit(EVENTS.typing, room))
 
-  socket.on(listeners.stopTyping, (room) => socket.in(room).emit(events.stopTyping, room))
+  socket.on(LISTENERS.stopTyping, (room) => socket.in(room).emit(EVENTS.stopTyping, room))
 
-  socket.on(listeners.newMessage, (newMessageRecieved) => {
+  socket.on(LISTENERS.newMessage, (newMessageRecieved) => {
     const chat = newMessageRecieved.chat[0]
     if (!chat.users) return
     chat.users.forEach((user) => {
       if (user._id === newMessageRecieved.sender._id) return
-      socket.in(user._id).emit(events.messageRecieved, newMessageRecieved)
+      socket.in(user._id).emit(EVENTS.messageRecieved, newMessageRecieved)
     })
   })
 
-  socket.off(listeners.setup, () => {
+  socket.off(LISTENERS.setup, () => {
     socket.leave(userData._id)
   })
 }
