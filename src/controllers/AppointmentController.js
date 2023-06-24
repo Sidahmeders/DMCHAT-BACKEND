@@ -55,6 +55,19 @@ module.exports = class AppointmentController extends BaseController {
     }
   }
 
+  updateAppointment = async (req, res) => {
+    try {
+      const { id } = req.params
+      const updatedAppointment = await this.#Appointment
+        .findByIdAndUpdate(id, req.body, { new: true })
+        .populate('patient')
+
+      res.status(200).json(updatedAppointment)
+    } catch (error) {
+      this.handleError(res, error)
+    }
+  }
+
   deleteAppointment = async (req, res) => {
     try {
       const { id } = req.params
@@ -82,7 +95,7 @@ module.exports = class AppointmentController extends BaseController {
   fetchMonthAppointments = async (req, res) => {
     try {
       const { year, month } = req.params
-      const allAppointment = await this.#Appointment
+      const monthAppointments = await this.#Appointment
         .find({
           startDate: {
             $gte: new Date(`${year}-${month}-1`),
@@ -91,7 +104,7 @@ module.exports = class AppointmentController extends BaseController {
         })
         .populate('patient')
 
-      res.status(200).json(allAppointment)
+      res.status(200).json(monthAppointments)
     } catch (error) {
       this.handleError(res, error)
     }
@@ -127,18 +140,6 @@ module.exports = class AppointmentController extends BaseController {
       const { id } = req.params
       const { isLeft } = req.body
       const updatedAppointment = await this.#Appointment.findByIdAndUpdate(id, { isLeft: !isLeft }, { new: true })
-      res.status(200).json(updatedAppointment)
-    } catch (error) {
-      this.handleError(res, error)
-    }
-  }
-
-  updateAppointment = async (req, res) => {
-    try {
-      const { id } = req.params
-      const updatedAppointment = await this.#Appointment
-        .findByIdAndUpdate(id, req.body, { new: true })
-        .populate('patient')
       res.status(200).json(updatedAppointment)
     } catch (error) {
       this.handleError(res, error)
