@@ -29,7 +29,7 @@ module.exports = class PatientController extends BaseController {
         totalPages,
       }
 
-      res.status(200).json(patientsData)
+      this.handleSuccess(res, patientsData)
     } catch (error) {
       this.handleError(res, error)
     }
@@ -39,7 +39,8 @@ module.exports = class PatientController extends BaseController {
     try {
       const { id } = req.params
       const patient = await this.#Patient.findById(id)
-      res.status(200).json(patient)
+
+      this.handleSuccess(res, patient)
     } catch (error) {
       this.handleError(res, error)
     }
@@ -48,7 +49,8 @@ module.exports = class PatientController extends BaseController {
   createPatient = async (req, res) => {
     try {
       const patient = await this.#Patient.create(req.body)
-      res.status(200).json(patient)
+
+      this.handleSuccess(res, patient)
     } catch (error) {
       this.handleError(res, error)
     }
@@ -58,7 +60,8 @@ module.exports = class PatientController extends BaseController {
     try {
       const { id } = req.params
       const patient = await this.#Patient.findByIdAndUpdate(id, req.body, { new: true })
-      res.status(200).json(patient)
+
+      this.handleSuccess(res, patient)
     } catch (error) {
       this.handleError(res, error)
     }
@@ -68,7 +71,8 @@ module.exports = class PatientController extends BaseController {
     try {
       const { id } = req.params
       await this.#Patient.findByIdAndDelete(id, req.body)
-      res.status(200).end()
+
+      this.handleSuccess(res)
     } catch (error) {
       this.handleError(res, error)
     }

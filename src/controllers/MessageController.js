@@ -17,7 +17,7 @@ module.exports = class MessageController extends BaseController {
         .populate('sender', 'name pic email')
         .populate('chat')
 
-      res.status(200).json(messages)
+      this.handleSuccess(res, messages)
     } catch (error) {
       this.handleError(res, error)
     }
@@ -35,9 +35,8 @@ module.exports = class MessageController extends BaseController {
     }
 
     try {
-      // Create a new message
       let message = await this.#Message.create({
-        sender: req.user._id, // Logged in user id,
+        sender: req.user._id,
         content,
         chat: chatId,
       })
@@ -51,10 +50,9 @@ module.exports = class MessageController extends BaseController {
         populate: { path: 'users', select: 'name email pic', model: 'User' },
       })
 
-      // Update latest message
       await this.#Chat.findByIdAndUpdate(req.body.chatId, { latestMessage: message })
 
-      return res.status(200).json(message) // Send message we just created now
+      this.handleSuccess(res, message)
     } catch (error) {
       this.handleError(res, error)
     }
@@ -63,7 +61,8 @@ module.exports = class MessageController extends BaseController {
   deleteMessagesByChatId = async (req, res) => {
     try {
       await this.#Message.deleteMany({ chat: req.params.chatId })
-      res.status(200).end()
+
+      this.handleSuccess(res)
     } catch (error) {
       this.handleError(res, error)
     }

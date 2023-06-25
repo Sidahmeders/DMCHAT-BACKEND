@@ -19,7 +19,7 @@ module.exports = class AppointmentController extends BaseController {
       })
       newAppointment = await newAppointment.populate('patient')
 
-      res.status(200).json(newAppointment)
+      this.handleSuccess(res, newAppointment)
     } catch (error) {
       this.handleError(res, error)
     }
@@ -49,7 +49,7 @@ module.exports = class AppointmentController extends BaseController {
 
       await this.#Appointment.findByIdAndUpdate(appointment.baseAppointmentId, { paymentLeft: newPaymentLeft })
 
-      res.status(200).json(newAppointment)
+      this.handleSuccess(res, newAppointment)
     } catch (error) {
       this.handleError(res, error)
     }
@@ -62,7 +62,7 @@ module.exports = class AppointmentController extends BaseController {
         .findByIdAndUpdate(id, req.body, { new: true })
         .populate('patient')
 
-      res.status(200).json(updatedAppointment)
+      this.handleSuccess(res, updatedAppointment)
     } catch (error) {
       this.handleError(res, error)
     }
@@ -72,7 +72,8 @@ module.exports = class AppointmentController extends BaseController {
     try {
       const { id } = req.params
       await this.#Appointment.findByIdAndDelete(id, { new: true })
-      res.status(200).end()
+
+      this.handleSuccess(res)
     } catch (error) {
       this.handleError(res, error)
     }
@@ -86,7 +87,8 @@ module.exports = class AppointmentController extends BaseController {
       const dayAppointments = await this.#Appointment
         .find({ startDate: { $gte: start, $lte: end } })
         .populate('patient')
-      res.status(200).json(dayAppointments)
+
+      this.handleSuccess(res, dayAppointments)
     } catch (error) {
       this.handleError(res, error)
     }
@@ -104,7 +106,7 @@ module.exports = class AppointmentController extends BaseController {
         })
         .populate('patient')
 
-      res.status(200).json(monthAppointments)
+      this.handleSuccess(res, monthAppointments)
     } catch (error) {
       this.handleError(res, error)
     }
@@ -114,7 +116,8 @@ module.exports = class AppointmentController extends BaseController {
     try {
       const { patientId } = req.params
       const patientAppointments = await this.#Appointment.find({ patient: patientId })
-      res.status(200).json(patientAppointments)
+
+      this.handleSuccess(res, patientAppointments)
     } catch (error) {
       this.handleError(res, error)
     }
@@ -129,7 +132,8 @@ module.exports = class AppointmentController extends BaseController {
         { isConfirmed: !isConfirmed },
         { new: true },
       )
-      res.status(200).json(updatedAppointment)
+
+      this.handleSuccess(res, updatedAppointment)
     } catch (error) {
       this.handleError(res, error)
     }
@@ -140,7 +144,8 @@ module.exports = class AppointmentController extends BaseController {
       const { id } = req.params
       const { isLeft } = req.body
       const updatedAppointment = await this.#Appointment.findByIdAndUpdate(id, { isLeft: !isLeft }, { new: true })
-      res.status(200).json(updatedAppointment)
+
+      this.handleSuccess(res, updatedAppointment)
     } catch (error) {
       this.handleError(res, error)
     }
@@ -159,7 +164,7 @@ module.exports = class AppointmentController extends BaseController {
         })),
       )
 
-      res.status(200).json(appointments)
+      this.handleSuccess(res, appointments)
     } catch (error) {
       this.handleError(res, error)
     }

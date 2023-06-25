@@ -18,7 +18,7 @@ module.exports = class CalendarController extends BaseController {
         },
       })
 
-      res.status(200).json(monthCalendar)
+      this.handleSuccess(res, monthCalendar)
     } catch (error) {
       this.handleError(res, error)
     }
@@ -32,11 +32,11 @@ module.exports = class CalendarController extends BaseController {
 
       if (foundCalendar) {
         const updatedCalendarDay = await this.#Calendar.findByIdAndUpdate(foundCalendar._id, req.body, { new: true })
-        return res.status(200).json(updatedCalendarDay)
-      } else {
-        const newCalendarDay = await this.#Calendar.create({ ...req.body, date: requestedDate })
-        return res.status(201).json(newCalendarDay)
+        return this.handleSuccess(res, updatedCalendarDay)
       }
+      const newCalendarDay = await this.#Calendar.create({ ...req.body, date: requestedDate })
+
+      this.handleSuccess(res, newCalendarDay, 201)
     } catch (error) {
       this.handleError(res, error)
     }

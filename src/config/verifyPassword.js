@@ -1,8 +1,8 @@
 const bcrypt = require('bcryptjs')
 
 const verifyPassword = async (enteredPassword, existingPassword) => {
-  // Returns True if the password entered by the user matches
-  return await bcrypt.compare(enteredPassword, existingPassword)
+  const isMatch = await bcrypt.compare(enteredPassword, existingPassword)
+  return Boolean(isMatch)
 }
 
 module.exports = verifyPassword

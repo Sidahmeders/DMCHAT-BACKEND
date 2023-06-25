@@ -20,35 +20,29 @@ module.exports = class UserController extends BaseController {
 
       // Check if any of them is undefined
       if (!email || !password) {
-        return res.status(400).json({
-          success: false,
+        return this.handleError(res, {
           statusCode: 400,
-          message: 'Please enter all the fields',
+          message: 'Please enter all the required fields',
         })
       }
 
-      // Check if user already exists in our DB
       const userExists = await this.#User.findOne({ email }).exec()
+      const isPasswordMatch = await this.#verifyPassword(password, userExists.password)
 
-      // If user exists and password is verified
-      if (userExists && (await this.#verifyPassword(password, userExists.password))) {
-        return res.status(200).json({
-          success: true,
-          statusCode: 200,
-          _id: userExists._id,
-          name: userExists.name,
-          email: userExists.email,
-          pic: userExists.pic,
-          token: this.#generateToken(userExists._id, userExists.email),
-          message: 'Authenticated Successfully',
-        })
-      } else {
-        return res.status(400).json({
-          success: false,
+      if (!userExists || !isPasswordMatch) {
+        return this.handleError(res, {
           statusCode: 400,
           message: 'Invalid Email or Password',
         })
       }
+
+      this.handleSuccess(res, {
+        _id: userExists._id,
+        name: userExists.name,
+        email: userExists.email,
+        pic: userExists.pic,
+        token: this.#generateToken(userExists._id, userExists.email),
+      })
     } catch (error) {
       this.handleError(res, error)
     }
@@ -72,7 +66,7 @@ module.exports = class UserController extends BaseController {
         .find({ _id: { $ne: req.user._id } })
         .exec()
 
-      return res.status(200).json(userExists)
+      this.handleSuccess(res, userExists)
     } catch (error) {
       this.handleError(res, error)
     }
@@ -82,61 +76,44 @@ module.exports = class UserController extends BaseController {
     try {
       const { name, email, password, pic } = req.body
 
-      // Check if any of them is undefined
       if (!name || !email || !password) {
-        return res.status(400).json({
-          success: false,
+        return this.handleSuccess(res, {
           statusCode: 400,
-          message: 'Please enter all the fields',
+          message: 'Please enter all the required fields',
         })
       }
 
-      // Check if user already exists in our DB
       const userExists = await this.#User.findOne({ email }).exec()
 
       if (userExists) {
-        return res.status(400).json({
-          success: false,
+        return this.handleError(res, {
           statusCode: 400,
           message: 'User already exists',
         })
       }
 
-      // Register and store the new user
-      const userCreated = await this.#User.create(
-        // If there is no picture present, remove 'pic'
-        pic === undefined || pic.length === 0
-          ? {
-              name,
-              email,
-              password: await this.#generateHashedPassword(password),
-            }
-          : {
-              name,
-              email,
-              password: await this.#generateHashedPassword(password),
-              pic,
-            },
-      )
+      const userCreated = await this.#User.create({
+        name,
+        email,
+        pic,
+        password: await this.#generateHashedPassword(password),
+      })
 
-      if (userCreated) {
-        return res.status(201).json({
-          success: true,
-          statusCode: 201,
+      if (!userCreated) {
+        return this.handleError(res, { statusCode: 400, message: 'Failed to create the User' })
+      }
+
+      this.handleSuccess(
+        res,
+        {
           _id: userCreated._id,
           name: userCreated.name,
           email: userCreated.email,
           pic: userCreated.pic,
           token: this.#generateToken(userCreated._id, userCreated.email),
-          message: 'User Created Successfully',
-        })
-      } else {
-        return res.status(400).json({
-          success: false,
-          statusCode: 400,
-          message: 'Failed to create the User',
-        })
-      }
+        },
+        201,
+      )
     } catch (error) {
       this.handleError(res, error)
     }

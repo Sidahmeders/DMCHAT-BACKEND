@@ -11,49 +11,46 @@ module.exports = class ChatController extends BaseController {
   }
 
   accessChat = async (req, res) => {
-    const { userId } = req.body
+    try {
+      const { userId } = req.body
 
-    // If chat with 'userId' not present in request
-    if (!userId) {
-      return res.status(400).json({
-        success: false,
-        statusCode: 400,
-        message: 'UserId param not sent with request',
-      })
-    }
-
-    let chatExists = await this.#Chat
-      .find({
-        // isGroupChat will be false as it is one-to-one chat
-        isGroupChat: false,
-        // logged in user's id and the user id we sent should be same in the 'users' array
-        $and: [{ users: { $elemMatch: { $eq: req.user._id } } }, { users: { $elemMatch: { $eq: userId } } }],
-      })
-      .populate('users', '-password')
-      .populate('latestMessage')
-
-    chatExists = await this.#User.populate(chatExists, {
-      path: 'latestMessage.sender',
-      select: 'name pic email', // Fields we want to populate
-    })
-
-    // Check if chat exists, else create a new chat
-    if (chatExists.length > 0) {
-      return res.status(200).send(chatExists[0])
-    } else {
-      let newChatData = {
-        chatName: 'sender',
-        isGroupChat: false,
-        users: [req.user._id, userId],
+      if (!userId) {
+        return this.handleError(res, {
+          statusCode: 400,
+          message: 'UserId param not sent with request',
+        })
       }
 
-      try {
+      let chatExists = await this.#Chat
+        .find({
+          // isGroupChat will be false as it is one-to-one chat
+          isGroupChat: false,
+          // logged in user's id and the user id we sent should be same in the 'users' array
+          $and: [{ users: { $elemMatch: { $eq: req.user._id } } }, { users: { $elemMatch: { $eq: userId } } }],
+        })
+        .populate('users', '-password')
+        .populate('latestMessage')
+
+      chatExists = await this.#User.populate(chatExists, {
+        path: 'latestMessage.sender',
+        select: 'name pic email', // Fields we want to populate
+      })
+
+      if (chatExists.length > 0) {
+        return this.handleSuccess(res, chatExists[0])
+      } else {
+        let newChatData = {
+          chatName: 'sender',
+          isGroupChat: false,
+          users: [req.user._id, userId],
+        }
         const createdChat = await this.#Chat.create(newChatData)
         const FullChat = await this.#Chat.findOne({ _id: createdChat._id }).populate('users', '-password')
-        res.status(200).json(FullChat)
-      } catch (error) {
-        this.handleError(res, error)
+
+        this.handleSuccess(res, FullChat)
       }
+    } catch (error) {
+      this.handleError(res, error)
     }
   }
 
@@ -63,8 +60,7 @@ module.exports = class ChatController extends BaseController {
 
       const isAdmin = await this.#Chat.findOne({ groupAdmin: req.user._id }).exec()
       if (!isAdmin) {
-        return res.status(401).json({
-          success: false,
+        return this.handleError(res, {
           statusCode: 401,
           message: 'You are not authorized',
         })
@@ -91,18 +87,17 @@ module.exports = class ChatController extends BaseController {
 
   createGroupChat = async (req, res) => {
     try {
-      // If any of them is missing
-      if (!req.body.users || !req.body.name) {
-        return res.status(400).json({
-          success: false,
+      const { users, name } = req.body
+      if (!users || !name) {
+        return this.handleError(res, {
           statusCode: 400,
-          message: 'Veuillez remplir tous les champs obligatoires',
+          message: 'Please fill in all required fields',
         })
       }
 
-      let users = JSON.parse(req.body.users)
+      const groupUsers = JSON.parse(users)
 
-      if (users.length < 2) {
+      if (groupUsers.length < 2) {
         return res.status(400).json({
           success: false,
           statusCode: 400,
@@ -111,13 +106,13 @@ module.exports = class ChatController extends BaseController {
       }
 
       // If current user not present in users array
-      if (!users.includes(req.user._id.toString())) {
-        users.push(req.user) // Add current user along with all the people
+      if (!groupUsers.includes(req.user._id.toString())) {
+        groupUsers.push(req.user) // Add current user along with all the people
       }
 
       const groupChat = await this.#Chat.create({
         chatName: req.body.name,
-        users,
+        users: groupUsers,
         isGroupChat: true,
         groupAdmin: req.user, // As current user is creating the group
       })
@@ -127,7 +122,7 @@ module.exports = class ChatController extends BaseController {
         .populate('users', '-password')
         .populate('groupAdmin', '-password')
 
-      return res.status(200).json(fullGroupChat)
+      this.handleSuccess(res, fullGroupChat)
     } catch (error) {
       this.handleError(res, error)
     }
@@ -148,7 +143,7 @@ module.exports = class ChatController extends BaseController {
         select: 'name pic email',
       })
 
-      return res.status(200).send(results)
+      this.handleSuccess(res, results)
     } catch (error) {
       this.handleError(res, error)
     }
@@ -160,8 +155,7 @@ module.exports = class ChatController extends BaseController {
 
       const isAdmin = await this.#Chat.findOne({ groupAdmin: req.user._id }).exec()
       if (!isAdmin) {
-        return res.status(401).json({
-          success: false,
+        return this.handleError(res, {
           statusCode: 401,
           message: 'You are not authorized',
         })
@@ -173,14 +167,13 @@ module.exports = class ChatController extends BaseController {
         .populate('groupAdmin', '-password')
 
       if (!removed) {
-        return res.status(404).json({
-          success: false,
+        return this.handleError(res, {
           statusCode: 404,
           message: 'Chat Not Found',
         })
-      } else {
-        return res.status(200).json(removed)
       }
+
+      this.handleSuccess(res, removed)
     } catch (error) {
       this.handleError(res, error)
     }
@@ -192,8 +185,7 @@ module.exports = class ChatController extends BaseController {
 
       const isAdmin = await this.#Chat.findOne({ groupAdmin: req.user._id }).exec()
       if (!isAdmin) {
-        return res.status(401).json({
-          success: false,
+        return this.handleError(res, {
           statusCode: 401,
           message: 'You are not authorized',
         })
@@ -205,14 +197,13 @@ module.exports = class ChatController extends BaseController {
         .populate('groupAdmin', '-password')
 
       if (!updatedChat) {
-        return res.status(404).json({
-          success: false,
+        return this.handleError(res, {
           statusCode: 404,
           message: 'Chat Not Found',
         })
-      } else {
-        return res.status(200).json(updatedChat)
       }
+
+      this.handleSuccess(res, updatedChat)
     } catch (error) {
       this.handleError(res, error)
     }
