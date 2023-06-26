@@ -62,6 +62,9 @@ module.exports = class AppointmentController extends BaseController {
         .findByIdAndUpdate(id, req.body, { new: true })
         .populate('patient')
 
+      const { baseAppointmentId, totalPrice, paymentLeft } = updatedAppointment
+      await this.#Appointment.findByIdAndUpdate(baseAppointmentId, { totalPrice, paymentLeft })
+
       this.handleSuccess(res, updatedAppointment)
     } catch (error) {
       this.handleError(res, error)
@@ -71,7 +74,8 @@ module.exports = class AppointmentController extends BaseController {
   deleteAppointment = async (req, res) => {
     try {
       const { id } = req.params
-      await this.#Appointment.findByIdAndDelete(id, { new: true })
+      const { baseAppointmentId, payment, paymentLeft } = await this.#Appointment.findByIdAndDelete(id, { new: true })
+      await this.#Appointment.findByIdAndUpdate(baseAppointmentId, { paymentLeft: payment + paymentLeft })
 
       this.handleSuccess(res)
     } catch (error) {
