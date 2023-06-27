@@ -36,18 +36,6 @@ const appointmentRoutes = require('./appointment.routes')
  *         title:
  *           type: string
  *           description: The title of the appointment
- *         isNewTreatment:
- *           type: boolean
- *           description: Indicates if the appointment is for a new treatment
- *         totalPrice:
- *           type: number
- *           description: The total price of the appointment
- *         payment:
- *           type: number
- *           description: The payment amount
- *         paymentLeft:
- *           type: number
- *           description: The remaining payment amount
  *         motif:
  *           type: string
  *           description: The motif of the appointment
@@ -57,6 +45,18 @@ const appointmentRoutes = require('./appointment.routes')
  *         treatmentPlan:
  *           type: string
  *           description: The treatment plan
+ *         totalPrice:
+ *           type: number
+ *           description: The total price of the appointment
+ *         payment:
+ *           type: number
+ *           description: The payment amount
+ *         paymentLeft:
+ *           type: number
+ *           description: The remaining payment amount
+ *         isNewTreatment:
+ *           type: boolean
+ *           description: Indicates if the appointment is for a new treatment
  *         isConfirmed:
  *           type: boolean
  *           description: Indicates if the appointment is confirmed

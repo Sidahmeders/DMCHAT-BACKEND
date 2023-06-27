@@ -4,7 +4,7 @@ const AppointmentSchema = mongoose.Schema(
   {
     sender: { type: mongoose.Schema.Types.ObjectId, ref: 'User' },
     patient: { type: mongoose.Schema.Types.ObjectId, ref: 'Patient' },
-    baseAppointmentId: { type: mongoose.Schema.Types.ObjectId, ref: 'Appointment' },
+    baseAppointmentId: { type: mongoose.Schema.Types.ObjectId, ref: 'Appointment', default: null },
     startDate: { type: Date, required: true },
     endDate: { type: Date, required: true },
     title: { type: String, trim: true, required: true },
