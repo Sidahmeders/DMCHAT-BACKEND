@@ -1,5 +1,6 @@
 const express = require('express')
 const { protect } = require('../middleware')
+const { validateAppointment } = require('../middleware/validation/appointment.validations')
 const { appointmentController } = require('../controllers')
 
 /**
@@ -135,7 +136,7 @@ router.get('/:year/:month/:day', protect, appointmentController.fetchDayAppointm
  *       '400':
  *         description: Invalid appointment data
  */
-router.post('/new', protect, appointmentController.createNewAppointment)
+router.post('/new', protect, validateAppointment, appointmentController.createNewAppointment)
 
 /**
  * @openapi
@@ -160,7 +161,7 @@ router.post('/new', protect, appointmentController.createNewAppointment)
  *       '400':
  *         description: Invalid appointment data or related appointment does not exist
  */
-router.post('/relate', protect, appointmentController.relateNewAppointment)
+router.post('/relate', protect, validateAppointment, appointmentController.relateNewAppointment)
 
 /**
  * @openapi
