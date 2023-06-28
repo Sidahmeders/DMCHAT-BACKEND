@@ -14,6 +14,7 @@ const {
   patientRoutes,
   calendarRoutes,
   appointmentRoutes,
+  paymentRoutes,
 } = require('./src/routes')
 
 const app = express()
@@ -32,6 +33,7 @@ app.use('/api/messages', messageRoutes)
 app.use('/api/patients', patientRoutes)
 app.use('/api/calendar', calendarRoutes)
 app.use('/api/appointments', appointmentRoutes)
+app.use('/api/payments', paymentRoutes)
 
 const server = app.listen(process.env.PORT, () => console.log(`Server started on PORT ${process.env.PORT}`))
 

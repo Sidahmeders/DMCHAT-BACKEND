@@ -4,6 +4,7 @@ const messageRoutes = require('./message.routes')
 const patientRoutes = require('./patient.routes')
 const calendarRoutes = require('./calendar.routes')
 const appointmentRoutes = require('./appointment.routes')
+const paymentRoutes = require('./payment.routes')
 
 /**
  * @openapi
@@ -240,6 +241,36 @@ const appointmentRoutes = require('./appointment.routes')
  *           readOnly: true
  */
 
+/**
+ * @swagger
+ * components:
+ *   schemas:
+ *     Payment:
+ *       type: object
+ *       properties:
+ *         sender:
+ *           type: string
+ *           description: The ID of the sender user.
+ *         patient:
+ *           type: string
+ *           description: The ID of the patient.
+ *         amount:
+ *           type: number
+ *           description: The payment amount.
+ *           minimum: 0
+ *         payerName:
+ *           type: string
+ *           description: The name of the payer.
+ *         date:
+ *           type: string
+ *           format: date
+ *           description: The date of the payment.
+ *       required:
+ *         - amount
+ *         - payerName
+ *         - date
+ */
+
 module.exports = {
   userRoutes,
   chatRoutes,
@@ -247,4 +278,5 @@ module.exports = {
   patientRoutes,
   calendarRoutes,
   appointmentRoutes,
+  paymentRoutes,
 }

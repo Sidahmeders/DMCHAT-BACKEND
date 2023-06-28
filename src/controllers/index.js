@@ -1,4 +1,4 @@
-const { Appointment, Calendar, Message, Chat, Patient, User } = require('../models')
+const { Appointment, Calendar, Message, Chat, Patient, User, Payment } = require('../models')
 const { generateToken, generateHashedPassword, verifyPassword } = require('../config')
 
 const UserController = require('./UserController')
@@ -7,6 +7,7 @@ const AppointmentController = require('./AppointmentController')
 const CalendarController = require('./CalendarController')
 const MessageController = require('./MessageController')
 const ChatController = require('./ChatController')
+const PaymentController = require('./PaymentController')
 
 module.exports = {
   userController: new UserController({ User, generateToken, verifyPassword, generateHashedPassword }),
@@ -15,4 +16,5 @@ module.exports = {
   calendarController: new CalendarController({ Calendar }),
   messageController: new MessageController({ Message, Chat }),
   chatController: new ChatController({ Chat, User }),
+  paymentController: new PaymentController({ Payment }),
 }
