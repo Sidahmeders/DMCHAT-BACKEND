@@ -37,13 +37,14 @@ module.exports = class AppointmentController extends BaseController {
       const { diagnostic, treatmentPlan, totalPrice } = baseAppointment
       const newPaymentLeft = baseAppointment.paymentLeft - appointment.payment
 
-      const newAppointment = await this.#Appointment.create({
+      let newAppointment = await this.#Appointment.create({
         ...req.body,
         diagnostic,
         treatmentPlan,
         totalPrice,
         paymentLeft: newPaymentLeft,
       })
+      newAppointment = await newAppointment.populate('patient')
 
       await this.#Appointment.findByIdAndUpdate(appointment.baseAppointmentId, { paymentLeft: newPaymentLeft })
 
