@@ -28,24 +28,22 @@ module.exports = class AppointmentController extends BaseController {
   relateNewAppointment = async (req, res) => {
     try {
       const appointment = req.body
+
       const baseAppointment = await this.#Appointment.findById(appointment.baseAppointmentId)
       if (!baseAppointment) {
         return res.status(400).json({ error: 'baseAppointment not found!' })
       }
 
-      const { motif, generalState, diagnostic, treatmentPlan, totalPrice } = baseAppointment
+      const { diagnostic, treatmentPlan, totalPrice } = baseAppointment
       const newPaymentLeft = baseAppointment.paymentLeft - appointment.payment
 
-      const doc = {
+      const newAppointment = await this.#Appointment.create({
         ...req.body,
-        motif,
-        generalState,
         diagnostic,
         treatmentPlan,
         totalPrice,
         paymentLeft: newPaymentLeft,
-      }
-      const newAppointment = await this.#Appointment.create(doc)
+      })
 
       await this.#Appointment.findByIdAndUpdate(appointment.baseAppointmentId, { paymentLeft: newPaymentLeft })
 

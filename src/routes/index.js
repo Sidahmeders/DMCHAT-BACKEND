@@ -38,8 +38,20 @@ const paymentRoutes = require('./payment.routes')
  *           type: string
  *           description: The title of the appointment
  *         motif:
- *           type: string
- *           description: The motif of the appointment
+ *           type: object
+ *           properties:
+ *             name:
+ *               type: string
+ *               description: The name of the motif.
+ *               example: Example Motif Name
+ *             value:
+ *               type: string
+ *               enum: [pain, functional, aesthetic, others]
+ *               description: The value of the motif.
+ *               example: aesthetic
+ *           required:
+ *             - name
+ *             - value
  *         diagnostic:
  *           type: string
  *           description: The diagnostic information
