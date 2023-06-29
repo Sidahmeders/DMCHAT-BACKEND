@@ -31,7 +31,7 @@ module.exports = class AppointmentController extends BaseController {
 
       const baseAppointment = await this.#Appointment.findById(appointment.baseAppointmentId)
       if (!baseAppointment) {
-        return res.status(400).json({ error: 'baseAppointment not found!' })
+        return this.handleError(res, { message: 'baseAppointment not found!' })
       }
 
       const { diagnostic, treatmentPlan, totalPrice } = baseAppointment
