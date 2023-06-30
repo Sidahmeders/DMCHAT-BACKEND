@@ -12,12 +12,13 @@ module.exports = (io, socket) => {
 
   socket.on(LISTENERS.stopTyping, (room) => socket.in(room).emit(EVENTS.stopTyping, room))
 
-  socket.on(LISTENERS.newMessage, (newMessageRecieved) => {
-    const chat = newMessageRecieved.chat[0]
+  socket.on(LISTENERS.newMessage, (payload) => {
+    const { createdMessage } = payload
+    const chat = createdMessage.chat[0]
     if (!chat.users) return
     chat.users.forEach((user) => {
-      if (user._id === newMessageRecieved.sender._id) return
-      socket.in(user._id).emit(EVENTS.messageRecieved, newMessageRecieved)
+      if (user._id === createdMessage.sender._id) return
+      socket.in(user._id).emit(EVENTS.messageRecieved, payload)
     })
   })
 
