@@ -1,6 +1,5 @@
 const express = require('express')
-const { protect } = require('../middleware')
-const { validateAppointment } = require('../middleware/validation/appointment.validations')
+const { protect, validateAppointment } = require('../middleware')
 const { appointmentController } = require('../controllers')
 
 /**

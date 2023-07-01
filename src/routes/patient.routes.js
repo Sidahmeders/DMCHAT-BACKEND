@@ -1,6 +1,6 @@
 const express = require('express')
 
-const { protect } = require('../middleware')
+const { protect, validatePatient } = require('../middleware')
 const { patientController } = require('../controllers')
 
 /**
@@ -104,7 +104,7 @@ router.route('/:id').get(protect, patientController.fetchPatientsById)
  *       '400':
  *         description: Bad request
  */
-router.route('/').post(protect, patientController.createPatient)
+router.route('/').post(protect, validatePatient, patientController.createPatient)
 
 /**
  * @openapi
