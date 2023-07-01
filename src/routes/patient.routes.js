@@ -138,7 +138,7 @@ router.route('/').post(protect, validatePatient, patientController.createPatient
  *       '404':
  *         description: Patient not found
  */
-router.route('/:id').put(protect, patientController.updatePatientById)
+router.route('/:id').put(protect, validatePatient, patientController.updatePatientById)
 
 /**
  * @openapi
