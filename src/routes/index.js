@@ -5,6 +5,7 @@ const patientRoutes = require('./patient.routes')
 const calendarRoutes = require('./calendar.routes')
 const appointmentRoutes = require('./appointment.routes')
 const paymentRoutes = require('./payment.routes')
+const statisticsRoutes = require('./statistics.routes')
 
 /**
  * @openapi
@@ -291,4 +292,5 @@ module.exports = {
   calendarRoutes,
   appointmentRoutes,
   paymentRoutes,
+  statisticsRoutes,
 }
