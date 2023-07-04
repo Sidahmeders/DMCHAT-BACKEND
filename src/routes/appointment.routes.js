@@ -276,6 +276,40 @@ router.put('/:id/update', protect, appointmentController.updateAppointment)
 
 /**
  * @openapi
+ * /api/appointments/{id}/update-sync:
+ *   put:
+ *     summary: Update an appointment and synchronize treatment
+ *     tags: [Appointments]
+ *     description: Update an appointment and synchronize between appointment updates by baseAppointmentId
+ *     parameters:
+ *       - in: path
+ *         name: id
+ *         required: true
+ *         schema:
+ *           type: string
+ *         description: The ID of the appointment
+ *     requestBody:
+ *       required: true
+ *       content:
+ *         application/json:
+ *           schema:
+ *             $ref: '#/components/schemas/Appointment'
+ *     responses:
+ *       '200':
+ *         description: Appointment updated successfully
+ *         content:
+ *           application/json:
+ *             schema:
+ *               $ref: '#/components/schemas/Appointment'
+ *       '400':
+ *         description: Invalid appointment ID or data
+ *       '404':
+ *         description: Appointment not found
+ */
+router.put('/:id/update-sync', protect, appointmentController.updateAppointmentSync)
+
+/**
+ * @openapi
  * /api/appointments/history:
  *   put:
  *     summary: Update appointments history

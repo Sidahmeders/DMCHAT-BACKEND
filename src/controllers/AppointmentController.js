@@ -61,8 +61,27 @@ module.exports = class AppointmentController extends BaseController {
         .findByIdAndUpdate(id, req.body, { new: true })
         .populate('patient')
 
+      this.handleSuccess(res, updatedAppointment)
+    } catch (error) {
+      this.handleError(res, error)
+    }
+  }
+
+  updateAppointmentSync = async (req, res) => {
+    try {
+      const { id } = req.params
+      const updatedAppointment = await this.#Appointment
+        .findByIdAndUpdate(id, req.body, { new: true })
+        .populate('patient')
+
       const { baseAppointmentId, totalPrice, paymentLeft } = updatedAppointment
-      await this.#Appointment.findByIdAndUpdate(baseAppointmentId, { totalPrice, paymentLeft })
+
+      if (baseAppointmentId === null) {
+        const { totalPrice, paymentLeft } = req.body
+        await this.#Appointment.updateMany({ baseAppointmentId: id }, { totalPrice, paymentLeft })
+      } else {
+        await this.#Appointment.findByIdAndUpdate(baseAppointmentId, { totalPrice, paymentLeft })
+      }
 
       this.handleSuccess(res, updatedAppointment)
     } catch (error) {
