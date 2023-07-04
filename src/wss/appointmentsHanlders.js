@@ -22,4 +22,8 @@ module.exports = (io, socket) => {
   socket.on(LISTENERS.paymentAppointment, (payload) => {
     io.emit(EVENTS.appointmentPaid, payload)
   })
+
+  socket.on(LISTENERS.updateAppointment, (payload) => {
+    io.emit(EVENTS.appointmentUpdate, payload)
+  })
 }
