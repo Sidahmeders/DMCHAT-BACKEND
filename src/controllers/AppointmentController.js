@@ -1,3 +1,4 @@
+const { Types } = require('mongoose')
 const BaseController = require('./BaseController')
 
 module.exports = class AppointmentController extends BaseController {
@@ -6,6 +7,20 @@ module.exports = class AppointmentController extends BaseController {
   constructor({ Appointment }) {
     super()
     this.#Appointment = Appointment
+  }
+
+  #aggregateTotalPaymentById = async (id) => {
+    try {
+      const result = await this.#Appointment.aggregate([
+        { $match: { $or: [{ _id: Types.ObjectId(id) }, { baseAppointmentId: Types.ObjectId(id) }] } },
+        { $group: { _id: null, totalPayments: { $sum: '$payment' } } },
+      ])
+
+      const [firstMatch] = result
+      return firstMatch?.totalPayments || null
+    } catch (error) {
+      throw new Error(error)
+    }
   }
 
   createNewAppointment = async (req, res) => {
@@ -69,21 +84,30 @@ module.exports = class AppointmentController extends BaseController {
 
   updateAppointmentSync = async (req, res) => {
     try {
-      const { id } = req.params
-      const updatedAppointment = await this.#Appointment
-        .findByIdAndUpdate(id, req.body, { new: true })
-        .populate('patient')
+      const { body, params } = req
+      const targetAppointment = await this.#Appointment.findById(params.id)
 
-      const { baseAppointmentId, totalPrice, paymentLeft } = updatedAppointment
-
-      if (baseAppointmentId === null) {
-        const { totalPrice, paymentLeft } = req.body
-        await this.#Appointment.updateMany({ baseAppointmentId: id }, { totalPrice, paymentLeft })
-      } else {
-        await this.#Appointment.findByIdAndUpdate(baseAppointmentId, { totalPrice, paymentLeft })
+      if (!targetAppointment) {
+        return this.handleError(res, { statusCode: 404, message: 'Appointment not Found!' })
       }
 
-      this.handleSuccess(res, updatedAppointment)
+      const { payment: targetPreviousPayment } = targetAppointment
+
+      const updatedAppointment = await this.#Appointment
+        .findByIdAndUpdate(params.id, { ...body, payment: body.payment + targetPreviousPayment }, { new: true })
+        .populate('patient')
+
+      const { baseAppointmentId, totalPrice } = updatedAppointment
+      const appointmentId = baseAppointmentId || params.id
+      const previousPayments = await this.#aggregateTotalPaymentById(appointmentId)
+      const paymentLeft = totalPrice - previousPayments
+
+      await this.#Appointment.updateMany(
+        { $or: [{ _id: appointmentId }, { baseAppointmentId: appointmentId }] },
+        { $set: { totalPrice, paymentLeft } },
+      )
+
+      this.handleSuccess(res, { ...updatedAppointment._doc, paymentLeft })
     } catch (error) {
       this.handleError(res, error)
     }
