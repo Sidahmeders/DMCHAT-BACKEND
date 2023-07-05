@@ -17,6 +17,7 @@ const LISTENERS = {
 const EVENTS = {
   // chat listeners
   connected: 'connected',
+  chatError: 'chat error',
   typing: 'typing',
   stopTyping: 'stop typing',
   messageRecieved: 'message recieved',

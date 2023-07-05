@@ -13,13 +13,19 @@ module.exports = (io, socket) => {
   socket.on(LISTENERS.stopTyping, (room) => socket.in(room).emit(EVENTS.stopTyping, room))
 
   socket.on(LISTENERS.newMessage, (payload) => {
-    const { createdMessage } = payload
-    const chat = createdMessage.chat[0]
-    if (!chat.users) return
-    chat.users.forEach((user) => {
-      if (user._id === createdMessage.sender._id) return
-      socket.in(user._id).emit(EVENTS.messageRecieved, payload)
-    })
+    try {
+      const { createdMessage } = payload
+      const [firstChat] = createdMessage.chat
+      if (!firstChat.users) return
+
+      firstChat.users.forEach((user) => {
+        if (user._id === createdMessage.sender._id) return
+        socket.in(user._id).emit(EVENTS.messageRecieved, payload)
+      })
+    } catch (error) {
+      console.log(error.message)
+      socket.emit(EVENTS.chatError, error.message)
+    }
   })
 
   socket.off(LISTENERS.setup, () => {

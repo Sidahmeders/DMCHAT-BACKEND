@@ -6,6 +6,10 @@ function initListener(io) {
     chatHandlers(io, socket)
     appointmentsHanlders(io, socket)
   })
+
+  io.on('error', (error) => {
+    console.error('Socket.IO Error:', error.message)
+  })
 }
 
 module.exports = initListener
