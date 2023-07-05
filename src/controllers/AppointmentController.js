@@ -113,25 +113,6 @@ module.exports = class AppointmentController extends BaseController {
     }
   }
 
-  updateAppointmentsHistory = async (req, res) => {
-    try {
-      const appointments = req.body
-
-      await this.#Appointment.bulkWrite(
-        appointments.map((appointment) => ({
-          updateOne: {
-            filter: { _id: appointment._id },
-            update: appointment,
-          },
-        })),
-      )
-
-      this.handleSuccess(res, appointments)
-    } catch (error) {
-      this.handleError(res, error)
-    }
-  }
-
   deleteAppointment = async (req, res) => {
     try {
       const { id } = req.params

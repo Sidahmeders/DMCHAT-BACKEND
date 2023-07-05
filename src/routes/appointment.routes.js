@@ -310,29 +310,6 @@ router.put('/:id/update-sync', protect, appointmentController.updateAppointmentS
 
 /**
  * @openapi
- * /api/appointments/history:
- *   put:
- *     summary: Update appointments history
- *     tags: [Appointments]
- *     description: Update the history of multiple appointments
- *     requestBody:
- *       required: true
- *       content:
- *         application/json:
- *           schema:
- *             type: array
- *             items:
- *               $ref: '#/components/schemas/Appointment'
- *     responses:
- *       '200':
- *         description: Appointments history updated successfully
- *       '400':
- *         description: Invalid appointment data
- */
-router.put('/history', protect, appointmentController.updateAppointmentsHistory)
-
-/**
- * @openapi
  * /api/appointments/{id}:
  *   delete:
  *     summary: Delete an appointment
