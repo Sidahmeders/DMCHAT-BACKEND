@@ -13,7 +13,7 @@ const router = express.Router()
 
 /**
  * @swagger
- * /payments/{year}/{month}/{day}:
+ * /api/payments/{year}/{month}/{day}:
  *   get:
  *     summary: Fetch payments for a specific day
  *     tags: [Payments]
@@ -56,7 +56,7 @@ router.route('/:year/:month/:day').get(protect, paymentController.fetchDayPaymen
 
 /**
  * @swagger
- * /payments/{year}/{month}/{day}:
+ * /api/payments/{year}/{month}/{day}:
  *   post:
  *     summary: Create a new payment for a specific day
  *     tags: [Payments]
