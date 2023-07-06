@@ -30,7 +30,7 @@ module.exports = (io, socket) => {
 
   socket.on(LISTENERS.updateAppointment, (payload) => {
     // console.log(payload, 'updateAppointment')
-    io.emit(EVENTS.appointmentUpdate, payload)
+    io.emit(EVENTS.appointmentUpdated, payload)
   })
 
   socket.on(LISTENERS.reorderAppointment, (payload) => {
