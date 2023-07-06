@@ -26,6 +26,7 @@ const AppointmentSchema = mongoose.Schema(
     isLeft: { type: Boolean, default: false },
     isWaitingRoom: { type: Boolean, default: false },
     isDone: { type: Boolean, default: false },
+    order: { type: Number },
   },
   { timestamps: true },
 )

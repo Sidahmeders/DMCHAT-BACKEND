@@ -12,6 +12,7 @@ const LISTENERS = {
   messageAppointment: 'message appointment',
   paymentAppointment: 'payment appointment',
   updateAppointment: 'update appointment',
+  reorderAppointment: 'reorder appointment',
 }
 
 const EVENTS = {
@@ -27,7 +28,8 @@ const EVENTS = {
   appointmentDropped: 'appointment dropped',
   appointmentMessaged: 'appointment messaged',
   appointmentPaid: 'appointment paid',
-  appointmentUpdate: 'appointment update',
+  appointmentUpdated: 'appointment updated',
+  appointmentReordered: 'appointment reordered',
 }
 
 module.exports = {

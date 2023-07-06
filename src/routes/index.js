@@ -93,6 +93,9 @@ const statisticsRoutes = require('./statistics.routes')
  *           format: date-time
  *           description: The last update date of the appointment
  *           readOnly: true
+ *         order:
+ *           type: number
+ *           description: Appointment reordering index
  */
 
 /**

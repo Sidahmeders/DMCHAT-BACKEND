@@ -22,6 +22,7 @@ const validateAppointment = (req, res, next) => {
     isLeft: Joi.boolean(),
     isWaitingRoom: Joi.boolean(),
     isDone: Joi.boolean(),
+    order: Joi.number(),
   }).unknown()
 
   const { error } = appointmentSchema.validate(req.body)

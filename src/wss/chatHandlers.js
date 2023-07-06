@@ -23,7 +23,6 @@ module.exports = (io, socket) => {
         socket.in(user._id).emit(EVENTS.messageRecieved, payload)
       })
     } catch (error) {
-      console.log(error.message)
       socket.emit(EVENTS.chatError, error.message)
     }
   })
