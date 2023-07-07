@@ -1,5 +1,5 @@
-const { User } = require('../models')
-const { verifyToken } = require('../utils')
+const { User } = require('../../models')
+const { verifyToken } = require('../../utils')
 
 const authenticate = async (req, res, next) => {
   if (req.headers.authorization && req.headers.authorization.startsWith('Bearer')) {

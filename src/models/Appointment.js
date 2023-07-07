@@ -1,4 +1,5 @@
 const mongoose = require('mongoose')
+const { ENUMs } = require('../config')
 
 const AppointmentSchema = mongoose.Schema(
   {
@@ -16,7 +17,7 @@ const AppointmentSchema = mongoose.Schema(
       name: { type: String, trim: true, required: true },
       value: {
         type: String,
-        enum: ['pain', 'functional', 'aesthetic', 'others'],
+        enum: ENUMs.APPOINTMENT_MOTIF,
         required: true,
       },
     },

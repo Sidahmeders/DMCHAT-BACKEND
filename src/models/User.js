@@ -1,4 +1,5 @@
 const mongoose = require('mongoose')
+const { ENUMs } = require('../config')
 
 const UserSchema = mongoose.Schema(
   {
@@ -8,6 +9,11 @@ const UserSchema = mongoose.Schema(
     pic: {
       type: String,
       default: 'https://icon-library.com/images/anonymous-avatar-icon/anonymous-avatar-icon-25.jpg',
+    },
+    role: {
+      type: String,
+      enum: ENUMs.USER_ROLES,
+      default: 'unauthorized',
     },
   },
   { timestamps: true },

@@ -5,7 +5,7 @@ const path = require('path')
 const cors = require('cors')
 
 const initListener = require('./src/wss')
-const { connectToMongoDB, setupSwagger } = require('./src/config')
+const { baseURLs, connectToMongoDB, setupSwagger } = require('./src/config')
 const {
   userRoutes,
   chatRoutes,
@@ -26,14 +26,14 @@ dotenv.config({ path: path.join(__dirname, './.env') })
 setupSwagger(app)
 connectToMongoDB()
 
-app.use('/api/users', userRoutes)
-app.use('/api/chat', chatRoutes)
-app.use('/api/messages', messageRoutes)
-app.use('/api/patients', patientRoutes)
-app.use('/api/calendar', calendarRoutes)
-app.use('/api/appointments', appointmentRoutes)
-app.use('/api/payments', paymentRoutes)
-app.use('/api/statistics', statisticsRoutes)
+app.use(baseURLs.USERS, userRoutes)
+app.use(baseURLs.CHAT, chatRoutes)
+app.use(baseURLs.PATIENTS, patientRoutes)
+app.use(baseURLs.MESSAGES, messageRoutes)
+app.use(baseURLs.CALENDAR, calendarRoutes)
+app.use(baseURLs.APPOINTMENTS, appointmentRoutes)
+app.use(baseURLs.PAYMENTS, paymentRoutes)
+app.use(baseURLs.STATISTICS, statisticsRoutes)
 
 const server = app.listen(process.env.PORT, () => console.log(`Server started on PORT ${process.env.PORT}`))
 
