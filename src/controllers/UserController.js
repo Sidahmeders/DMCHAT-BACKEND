@@ -4,14 +4,18 @@ module.exports = class UserController extends BaseController {
   #User
   #generateToken
   #verifyPassword
-  #generateHashedPassword
+  #generatePasswordHash
+  #sendEmails
+  #EmailFormTypes
 
-  constructor({ User, generateToken, verifyPassword, generateHashedPassword }) {
+  constructor({ User, generateToken, verifyPassword, generatePasswordHash, sendEmails, EmailFormTypes }) {
     super()
     this.#User = User
     this.#generateToken = generateToken
     this.#verifyPassword = verifyPassword
-    this.#generateHashedPassword = generateHashedPassword
+    this.#generatePasswordHash = generatePasswordHash
+    this.#sendEmails = sendEmails
+    this.#EmailFormTypes = EmailFormTypes
   }
 
   authenticateUser = async (req, res) => {
@@ -26,13 +30,19 @@ module.exports = class UserController extends BaseController {
         })
       }
 
-      const userExists = await this.#User.findOne({ email }).exec()
-      const isPasswordMatch = await this.#verifyPassword(password, userExists.password)
-
-      if (!userExists || !isPasswordMatch) {
+      const userExists = await this.#User.findOne({ email })
+      if (!userExists) {
         return this.handleError(res, {
           statusCode: 400,
-          message: 'Invalid Email or Password',
+          message: 'Email does not exist!',
+        })
+      }
+
+      const isPasswordMatch = await this.#verifyPassword(password, userExists.password)
+      if (!isPasswordMatch) {
+        return this.handleError(res, {
+          statusCode: 400,
+          message: 'Password does not match!',
         })
       }
 
@@ -83,7 +93,7 @@ module.exports = class UserController extends BaseController {
         })
       }
 
-      const userExists = await this.#User.findOne({ email }).exec()
+      const userExists = await this.#User.findOne({ email })
 
       if (userExists) {
         return this.handleError(res, {
@@ -96,7 +106,7 @@ module.exports = class UserController extends BaseController {
         name,
         email,
         pic,
-        password: await this.#generateHashedPassword(password),
+        password: await this.#generatePasswordHash(password),
       })
 
       if (!userCreated) {

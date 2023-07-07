@@ -17,6 +17,7 @@
     "joi": "^17.9.2",
     "jsonwebtoken": "^8.5.1",
     "mongoose": "^6.6.5",
+    "nodemailer": "^6.9.3",
     "socket.io": "^4.5.3",
     "swagger-jsdoc": "^6.2.8",
     "swagger-ui-express": "^4.6.3"
