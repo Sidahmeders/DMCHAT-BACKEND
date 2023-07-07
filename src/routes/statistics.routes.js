@@ -1,6 +1,5 @@
 const express = require('express')
-
-const { protect } = require('../middleware')
+const { authenticate } = require('../middleware')
 const { statisticsController } = require('../controllers')
 
 /**
@@ -46,7 +45,7 @@ const router = express.Router()
  *       '500':
  *         description: Internal server error occurred.
  */
-router.route('/:startDate/:endDate/payments-revenue').get(protect, statisticsController.fetchPaymentsByDateRange)
+router.route('/:startDate/:endDate/payments-revenue').get(authenticate, statisticsController.fetchPaymentsByDateRange)
 
 /**
  * @swagger
@@ -91,6 +90,6 @@ router.route('/:startDate/:endDate/payments-revenue').get(protect, statisticsCon
  */
 router
   .route('/:startDate/:endDate/appointments-revenue')
-  .get(protect, statisticsController.fetchAppointmentsRevenueByDateRange)
+  .get(authenticate, statisticsController.fetchAppointmentsRevenueByDateRange)
 
 module.exports = router

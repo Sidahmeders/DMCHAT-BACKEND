@@ -1,6 +1,5 @@
 const express = require('express')
-
-const { protect } = require('../middleware')
+const { authenticate } = require('../middleware')
 const { userController } = require('../controllers')
 
 /**
@@ -35,7 +34,7 @@ const router = express.Router()
  *               items:
  *                 $ref: '#/components/schemas/User'
  */
-router.route('/').get(protect, userController.fetchAllUsers)
+router.route('/').get(authenticate, userController.fetchAllUsers)
 
 /**
  * @openapi

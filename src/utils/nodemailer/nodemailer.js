@@ -10,9 +10,6 @@ const htmlTemplate = require('./emailTemplate')
  * @returns {{Promise}}
  */
 const sendEmails = async ({ recipients, subject, directUrl, formType }) => {
-  // Generate test SMTP service account from ethereal.email
-  // Only needed if you don't have a real mail account for testing
-
   try {
     // create reusable transporter object using the default SMTP transport
     let transporter = nodemailer.createTransport({

@@ -6,7 +6,6 @@ const cors = require('cors')
 
 const initListener = require('./src/wss')
 const { connectToMongoDB, setupSwagger } = require('./src/config')
-const { errorHandler } = require('./src/middleware')
 const {
   userRoutes,
   chatRoutes,
@@ -23,7 +22,6 @@ const app = express()
 app.use(express.json())
 app.use(cors())
 dotenv.config({ path: path.join(__dirname, './.env') })
-app.use(errorHandler)
 
 setupSwagger(app)
 connectToMongoDB()

@@ -1,6 +1,5 @@
 const express = require('express')
-
-const { protect } = require('../middleware')
+const { authenticate } = require('../middleware')
 const { chatController } = require('../controllers')
 
 /**
@@ -34,7 +33,7 @@ const router = express.Router()
  *       '500':
  *         description: Internal Server Error
  */
-router.route('/').get(protect, chatController.fetchUserChats)
+router.route('/').get(authenticate, chatController.fetchUserChats)
 
 /**
  * @openapi
@@ -72,7 +71,7 @@ router.route('/').get(protect, chatController.fetchUserChats)
  *       '500':
  *         description: Internal Server Error
  */
-router.route('/access').post(protect, chatController.accessChat)
+router.route('/access').post(authenticate, chatController.accessChat)
 
 /**
  * @openapi
@@ -111,7 +110,7 @@ router.route('/access').post(protect, chatController.accessChat)
  *       '500':
  *         description: Internal Server Error
  */
-router.route('/groups').post(protect, chatController.createGroupChat)
+router.route('/groups').post(authenticate, chatController.createGroupChat)
 
 /**
  * @openapi
@@ -150,7 +149,7 @@ router.route('/groups').post(protect, chatController.createGroupChat)
  *       '500':
  *         description: Internal Server Error
  */
-router.route('/groups/rename').put(protect, chatController.renameGroup)
+router.route('/groups/rename').put(authenticate, chatController.renameGroup)
 
 /**
  * @openapi
@@ -189,7 +188,7 @@ router.route('/groups/rename').put(protect, chatController.renameGroup)
  *       '500':
  *         description: Internal Server Error
  */
-router.route('/groups/join').put(protect, chatController.addToGroup)
+router.route('/groups/join').put(authenticate, chatController.addToGroup)
 
 /**
  * @openapi
@@ -224,6 +223,6 @@ router.route('/groups/join').put(protect, chatController.addToGroup)
  *       '500':
  *         description: Internal Server Error.
  */
-router.route('/groups/leave').put(protect, chatController.removeFromGroup)
+router.route('/groups/leave').put(authenticate, chatController.removeFromGroup)
 
 module.exports = router
