@@ -6,16 +6,16 @@ module.exports = class UserController extends BaseController {
   #verifyPassword
   #generatePasswordHash
   #sendEmails
-  #EmailFormTypes
 
-  constructor({ User, generateToken, verifyPassword, generatePasswordHash, sendEmails, EmailFormTypes }) {
+  #baseURL = 'https://dnmchat-backend.onrender.com'
+
+  constructor({ User, generateToken, verifyPassword, generatePasswordHash, sendEmails }) {
     super()
     this.#User = User
     this.#generateToken = generateToken
     this.#verifyPassword = verifyPassword
     this.#generatePasswordHash = generatePasswordHash
     this.#sendEmails = sendEmails
-    this.#EmailFormTypes = EmailFormTypes
   }
 
   authenticateUser = async (req, res) => {
@@ -50,8 +50,9 @@ module.exports = class UserController extends BaseController {
         _id: userExists._id,
         name: userExists.name,
         email: userExists.email,
+        role: userExists.role,
         pic: userExists.pic,
-        token: this.#generateToken(userExists._id, userExists.email),
+        token: this.#generateToken({ id: userExists._id, email: userExists.email }),
       })
     } catch (error) {
       this.handleError(res, error)
@@ -120,12 +121,38 @@ module.exports = class UserController extends BaseController {
           name: userCreated.name,
           email: userCreated.email,
           pic: userCreated.pic,
-          token: this.#generateToken(userCreated._id, userCreated.email),
+          token: this.#generateToken({ id: userCreated._id, email: userCreated.email }),
         },
         201,
       )
     } catch (error) {
       this.handleError(res, error)
+    }
+  }
+
+  forgetPassword = async (req, res) => {
+    try {
+      const { email } = req.body
+
+      const userExists = await this.#User.findOne({ email })
+      if (!userExists) {
+        return this.handleError(res, {
+          statusCode: 400,
+          message: 'Email does not exist!',
+        })
+      }
+
+      const token = await this.#generateToken({ id: userExists._id, email: userExists.email, expiresIn: '10m' })
+
+      this.#sendEmails({
+        recipients: email,
+        subject: 'account password reset',
+        directUrl: `${this.#baseURL}/reset-password/${token}`,
+      })
+
+      this.handleSuccess(res, { message: 'please check your email' })
+    } catch (error) {
+      this.handleError(req, error)
     }
   }
 }

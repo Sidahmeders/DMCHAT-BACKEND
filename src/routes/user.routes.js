@@ -89,4 +89,36 @@ router.route('/').post(userController.registerUser)
  */
 router.post('/login', userController.authenticateUser)
 
+/**
+ * @openapi
+ * /api/users/forget-password:
+ *   post:
+ *     tags: [Users]
+ *     summary: Send email for password reset
+ *     requestBody:
+ *       required: true
+ *       content:
+ *         application/json:
+ *           schema:
+ *             type: object
+ *             properties:
+ *               email:
+ *                 type: string
+ *             required:
+ *               - email
+ *     responses:
+ *       '200':
+ *         description: Success
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 message:
+ *                   type: string
+ *       '400':
+ *         description: Invalid email
+ */
+router.post('/forget-password', userController.forgetPassword)
+
 module.exports = router

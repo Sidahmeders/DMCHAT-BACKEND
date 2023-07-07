@@ -2,7 +2,7 @@ const generatePasswordHash = require('./bcrypt/generatePasswordHash')
 const verifyPassword = require('./bcrypt/verifyPassword')
 const verifyToken = require('./jwt/verifyToken')
 const generateToken = require('./jwt/generateToken')
-const { sendEmails, EmailFormTypes } = require('./nodemailer/nodemailer')
+const sendEmails = require('./nodemailer/sendEmails')
 
 module.exports = {
   generatePasswordHash,
@@ -10,5 +10,4 @@ module.exports = {
   verifyToken,
   generateToken,
   sendEmails,
-  EmailFormTypes,
 }
