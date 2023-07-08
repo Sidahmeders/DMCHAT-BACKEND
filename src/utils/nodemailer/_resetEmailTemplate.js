@@ -34,14 +34,18 @@ const resetEmailTemplate = ({ directUrl }) => `
                                 </tr>
                                 <tr>
                                     <td style="padding:0 35px;">
-                                        <h1 style="color:#1e1e2d; font-weight:500; margin:0;font-size:32px;font-family:'Rubik',sans-serif;">You have
-                                            requested to reset your password</h1>
+                                        <h1 style="color:#1e1e2d; font-weight:500; margin:0;font-size:32px;font-family:'Rubik',sans-serif;">
+                                            Vous avez demandé la réinitialisation de votre mot de passe
+                                        </h1>
                                         <span
                                             style="display:inline-block; vertical-align:middle; margin:29px 0 26px; border-bottom:1px solid #cecece; width:100px;"></span>
                                         <p style="color:#455056; font-size:15px;line-height:24px; margin:0;">
-                                            We cannot simply send you your old password. A unique link to reset your
-                                            password has been generated for you. To reset your password, click the
-                                            following link and follow the instructions.
+                                            Nous ne pouvons pas simplement vous envoyer votre ancien mot de passe.
+                                            Un lien unique pour réinitialiser votre mot de passe a été généré pour vous.
+                                            Pour réinitialiser votre mot de passe, cliquez sur le lien suivant et suivez les instructions.
+                                        </p>
+                                        <p>
+                                            Veuillez noter que si vous ne réinitialisez pas votre mot de passe dans les <strong>10 minutes</strong>. le lien ne fonctionnera plus
                                         </p>
                                         <a
                                             target="blank" 
@@ -52,7 +56,7 @@ const resetEmailTemplate = ({ directUrl }) => `
                                             font-weight:500; margin-top:35px; color:#fff;text-transform:uppercase;
                                             font-size:14px;padding:10px 24px;display:inline-block;border-radius:50px;"
                                             >
-                                            Reset your password
+                                            Réinitialisez votre mot de passe
                                         </a>
                                     </td>
                                 </tr>
@@ -87,8 +91,7 @@ const resetEmailTemplate = ({ directUrl }) => `
             padding-bottom: 32px;
         "
     >
-        This email was sent to&nbsp;you because&nbsp;you
-        made&nbsp;the request&nbsp;to reset your password &nbsp;
+        Cet e-mail vous a été envoyé car vous avez fait la demande de réinitialisation de votre mot de passe
     </footer>
 </body>
 </html>
