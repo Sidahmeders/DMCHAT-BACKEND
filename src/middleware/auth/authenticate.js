@@ -12,9 +12,8 @@ const authenticate = async (req, res, next) => {
         })
       }
 
-      const decoded = verifyToken(token)
-
-      req.user = await User.findById(decoded.id).select('-password')
+      const { id: userId } = verifyToken(token)
+      req.user = await User.findById(userId).select('-password')
 
       next()
     } catch (error) {

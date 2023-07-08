@@ -1,6 +1,7 @@
 const nodemailer = require('nodemailer')
 
 const resetEmailTemplate = require('./_resetEmailTemplate')
+const confirmLoginTemplate = require('./_confirmLoginTemplate')
 
 /**
  * @param recipients - list OR string of receivers
@@ -8,7 +9,7 @@ const resetEmailTemplate = require('./_resetEmailTemplate')
  * @param directUrl - user generated url
  * @returns {{Promise}}
  */
-const sendEmails = async ({ recipients, subject, directUrl }) => {
+const sendEmails = async ({ recipients, subject, directUrl, secretKey }) => {
   try {
     // create reusable transporter object using the default SMTP transport
     let transporter = nodemailer.createTransport({
@@ -20,13 +21,17 @@ const sendEmails = async ({ recipients, subject, directUrl }) => {
       },
     })
 
-    // send mail with defined transport object
-    await transporter.sendMail({
+    const mailPayload = {
       from: 'Deghmine M.A <sidozoldik@gmail.com>',
       to: recipients,
       subject,
-      html: resetEmailTemplate({ directUrl }),
-    })
+    }
+
+    if (directUrl) {
+      await transporter.sendMail({ ...mailPayload, html: resetEmailTemplate({ directUrl }) })
+    } else if (secretKey) {
+      await transporter.sendMail({ ...mailPayload, html: confirmLoginTemplate({ secretKey }) })
+    }
   } catch (error) {
     console.error(`Nodemailer Error: ${error}`)
   }

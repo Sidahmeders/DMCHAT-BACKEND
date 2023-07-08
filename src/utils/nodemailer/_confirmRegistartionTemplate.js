@@ -18,4 +18,4 @@ const confirmationTemplate = ({ userName, email, confirmURL, declineURL }) => `
 </html>
 `
 
-module.exports = { confirmationTemplate }
+module.exports = confirmationTemplate
