@@ -121,4 +121,39 @@ router.post('/login', userController.authenticateUser)
  */
 router.post('/forget-password', userController.forgetPassword)
 
+/**
+ * @openapi
+ * /reset-password/{token}:
+ *   post:
+ *     summary: Reset user password.
+ *     description: Reset user password using a valid reset token.
+ *     tags: [Users]
+ *     parameters:
+ *       - in: path
+ *         name: token
+ *         description: Reset token received by the user.
+ *         required: true
+ *         schema:
+ *           type: string
+ *       - in: body
+ *         name: newPassword
+ *         description: The new password to set.
+ *         required: true
+ *         schema:
+ *           type: object
+ *           properties:
+ *             password1:
+ *               type: string
+ *             password2:
+ *               type: string
+ *     responses:
+ *       200:
+ *         description: Password reset successful.
+ *       400:
+ *         description: Invalid or expired reset token.
+ *       500:
+ *         description: An error occurred while resetting the password.
+ */
+router.post('/reset-password/:token', userController.resetPassword)
+
 module.exports = router
