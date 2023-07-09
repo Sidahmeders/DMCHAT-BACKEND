@@ -51,11 +51,10 @@ module.exports = class UserController extends BaseController {
           }
         : {}
 
-      // Find and return users except current user
       const foundUsers = await this.#User
         .find(keyword)
         .find({ _id: { $ne: req.user._id } })
-        .exec()
+        .select('-password')
 
       this.handleSuccess(res, foundUsers)
     } catch (error) {
@@ -142,17 +141,7 @@ module.exports = class UserController extends BaseController {
         return this.handleError(res, { statusCode: 400, message: 'Failed to create the User' })
       }
 
-      this.handleSuccess(
-        res,
-        {
-          _id: userCreated._id,
-          name: userCreated.name,
-          email: userCreated.email,
-          pic: userCreated.pic,
-          token: this.#generateToken({ id: userCreated._id, email: userCreated.email }),
-        },
-        201,
-      )
+      this.handleSuccess(res, { message: 'account created successfully' })
     } catch (error) {
       this.handleError(res, error)
     }
