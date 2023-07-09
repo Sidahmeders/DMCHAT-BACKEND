@@ -1,5 +1,5 @@
 const express = require('express')
-const { authenticate } = require('../middleware')
+const { authenticate, accessControl } = require('../middleware')
 const { paymentController } = require('../controllers')
 
 /**
@@ -51,7 +51,7 @@ const router = express.Router()
  *       '500':
  *         description: Internal server error occurred.
  */
-router.route('/:year/:month/:day').get(authenticate, paymentController.fetchDayPayments)
+router.get('/:year/:month/:day', authenticate, accessControl, paymentController.fetchDayPayments)
 
 /**
  * @swagger
@@ -98,6 +98,6 @@ router.route('/:year/:month/:day').get(authenticate, paymentController.fetchDayP
  *       '500':
  *         description: Internal server error occurred.
  */
-router.route('/:year/:month/:day').post(authenticate, paymentController.createPayment)
+router.post('/:year/:month/:day', authenticate, accessControl, paymentController.createPayment)
 
 module.exports = router

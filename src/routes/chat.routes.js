@@ -1,5 +1,5 @@
 const express = require('express')
-const { authenticate } = require('../middleware')
+const { authenticate, accessControl } = require('../middleware')
 const { chatController } = require('../controllers')
 
 /**
@@ -33,7 +33,7 @@ const router = express.Router()
  *       '500':
  *         description: Internal Server Error
  */
-router.route('/').get(authenticate, chatController.fetchUserChats)
+router.get('/', authenticate, accessControl, chatController.fetchUserChats)
 
 /**
  * @openapi
@@ -71,7 +71,7 @@ router.route('/').get(authenticate, chatController.fetchUserChats)
  *       '500':
  *         description: Internal Server Error
  */
-router.route('/access').post(authenticate, chatController.accessChat)
+router.post('/access', authenticate, accessControl, chatController.accessChat)
 
 /**
  * @openapi
@@ -110,7 +110,7 @@ router.route('/access').post(authenticate, chatController.accessChat)
  *       '500':
  *         description: Internal Server Error
  */
-router.route('/groups').post(authenticate, chatController.createGroupChat)
+router.post('/groups', authenticate, accessControl, chatController.createGroupChat)
 
 /**
  * @openapi
@@ -149,7 +149,7 @@ router.route('/groups').post(authenticate, chatController.createGroupChat)
  *       '500':
  *         description: Internal Server Error
  */
-router.route('/groups/rename').put(authenticate, chatController.renameGroup)
+router.put('/groups/rename', authenticate, accessControl, chatController.renameGroup)
 
 /**
  * @openapi
@@ -188,7 +188,7 @@ router.route('/groups/rename').put(authenticate, chatController.renameGroup)
  *       '500':
  *         description: Internal Server Error
  */
-router.route('/groups/join').put(authenticate, chatController.addToGroup)
+router.put('/groups/join', authenticate, accessControl, chatController.addToGroup)
 
 /**
  * @openapi
@@ -223,6 +223,6 @@ router.route('/groups/join').put(authenticate, chatController.addToGroup)
  *       '500':
  *         description: Internal Server Error.
  */
-router.route('/groups/leave').put(authenticate, chatController.removeFromGroup)
+router.put('/groups/leave', authenticate, accessControl, chatController.removeFromGroup)
 
 module.exports = router

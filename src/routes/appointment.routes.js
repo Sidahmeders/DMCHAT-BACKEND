@@ -1,5 +1,5 @@
 const express = require('express')
-const { authenticate, validateAppointment } = require('../middleware')
+const { authenticate, accessControl, validateAppointment } = require('../middleware')
 const { appointmentController } = require('../controllers')
 
 /**
@@ -36,7 +36,7 @@ const router = express.Router()
  *       '404':
  *         description: Patient not found
  */
-router.get('/:patientId', authenticate, appointmentController.fetchPatientAppointments)
+router.get('/:patientId', authenticate, accessControl, appointmentController.fetchPatientAppointments)
 
 /**
  * @openapi
@@ -70,7 +70,7 @@ router.get('/:patientId', authenticate, appointmentController.fetchPatientAppoin
  *       '400':
  *         description: Invalid year or month format
  */
-router.get('/:year/:month', authenticate, appointmentController.fetchMonthAppointments)
+router.get('/:year/:month', authenticate, accessControl, appointmentController.fetchMonthAppointments)
 
 /**
  * @openapi
@@ -110,7 +110,7 @@ router.get('/:year/:month', authenticate, appointmentController.fetchMonthAppoin
  *       '400':
  *         description: Invalid year, month, or day format
  */
-router.get('/:year/:month/:day', authenticate, appointmentController.fetchDayAppointments)
+router.get('/:year/:month/:day', authenticate, accessControl, appointmentController.fetchDayAppointments)
 
 /**
  * @openapi
@@ -135,7 +135,7 @@ router.get('/:year/:month/:day', authenticate, appointmentController.fetchDayApp
  *       '400':
  *         description: Invalid appointment data
  */
-router.post('/new', authenticate, validateAppointment, appointmentController.createNewAppointment)
+router.post('/new', authenticate, accessControl, validateAppointment, appointmentController.createNewAppointment)
 
 /**
  * @openapi
@@ -160,7 +160,7 @@ router.post('/new', authenticate, validateAppointment, appointmentController.cre
  *       '400':
  *         description: Invalid appointment data or related appointment does not exist
  */
-router.post('/relate', authenticate, validateAppointment, appointmentController.relateNewAppointment)
+router.post('/relate', authenticate, accessControl, validateAppointment, appointmentController.relateNewAppointment)
 
 /**
  * @openapi
@@ -199,7 +199,7 @@ router.post('/relate', authenticate, validateAppointment, appointmentController.
  *       '404':
  *         description: Appointment not found
  */
-router.put('/:id/toggle-confirmation', authenticate, appointmentController.toggleConfirmation)
+router.put('/:id/toggle-confirmation', authenticate, accessControl, appointmentController.toggleConfirmation)
 
 /**
  * @openapi
@@ -238,7 +238,7 @@ router.put('/:id/toggle-confirmation', authenticate, appointmentController.toggl
  *       '404':
  *         description: Appointment not found
  */
-router.put('/:id/toggle-leave', authenticate, appointmentController.toggleLeave)
+router.put('/:id/toggle-leave', authenticate, accessControl, appointmentController.toggleLeave)
 
 /**
  * @openapi
@@ -272,7 +272,7 @@ router.put('/:id/toggle-leave', authenticate, appointmentController.toggleLeave)
  *       '404':
  *         description: Appointment not found
  */
-router.put('/:id/update', authenticate, appointmentController.updateAppointment)
+router.put('/:id/update', authenticate, accessControl, appointmentController.updateAppointment)
 
 /**
  * @openapi
@@ -306,7 +306,7 @@ router.put('/:id/update', authenticate, appointmentController.updateAppointment)
  *       '404':
  *         description: Appointment not found
  */
-router.put('/:id/update-sync', authenticate, appointmentController.updateAppointmentSync)
+router.put('/:id/update-sync', authenticate, accessControl, appointmentController.updateAppointmentSync)
 
 /**
  * @openapi
@@ -330,6 +330,6 @@ router.put('/:id/update-sync', authenticate, appointmentController.updateAppoint
  *       '404':
  *         description: Appointment not found
  */
-router.delete('/:id', authenticate, appointmentController.deleteAppointment)
+router.delete('/:id', authenticate, accessControl, appointmentController.deleteAppointment)
 
 module.exports = router

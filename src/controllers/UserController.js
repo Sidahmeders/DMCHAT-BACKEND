@@ -62,7 +62,7 @@ module.exports = class UserController extends BaseController {
     }
   }
 
-  authenticateUser = async (req, res) => {
+  loginUser = async (req, res) => {
     try {
       const { email, password } = req.body
 

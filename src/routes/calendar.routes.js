@@ -1,5 +1,5 @@
 const express = require('express')
-const { authenticate } = require('../middleware')
+const { authenticate, accessControl } = require('../middleware')
 const { calendarController } = require('../controllers')
 
 /**
@@ -42,7 +42,7 @@ const router = express.Router()
  *       '404':
  *         description: Calendar not found
  */
-router.route('/:year/:month').get(authenticate, calendarController.fetchMonthCalendar)
+router.get('/:year/:month', authenticate, accessControl, calendarController.fetchMonthCalendar)
 
 /**
  * @openapi
@@ -92,6 +92,11 @@ router.route('/:year/:month').get(authenticate, calendarController.fetchMonthCal
  *       '400':
  *         description: Bad request
  */
-router.route('/:year/:month/:day/availability').put(authenticate, calendarController.setCalendarDayAvailability)
+router.put(
+  '/:year/:month/:day/availability',
+  authenticate,
+  accessControl,
+  calendarController.setCalendarDayAvailability,
+)
 
 module.exports = router

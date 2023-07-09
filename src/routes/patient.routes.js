@@ -1,5 +1,5 @@
 const express = require('express')
-const { authenticate, validatePatient } = require('../middleware')
+const { authenticate, accessControl, validatePatient } = require('../middleware')
 const { patientController } = require('../controllers')
 
 /**
@@ -50,7 +50,7 @@ const router = express.Router()
  *       '400':
  *         description: Bad request
  */
-router.get('/', authenticate, patientController.fetchPatients)
+router.get('/', authenticate, accessControl, patientController.fetchPatients)
 
 /**
  * @openapi
@@ -78,7 +78,7 @@ router.get('/', authenticate, patientController.fetchPatients)
  *       '404':
  *         description: Patient not found
  */
-router.route('/:id').get(authenticate, patientController.fetchPatientsById)
+router.get('/:id', authenticate, accessControl, patientController.fetchPatientsById)
 
 /**
  * @openapi
@@ -103,7 +103,7 @@ router.route('/:id').get(authenticate, patientController.fetchPatientsById)
  *       '400':
  *         description: Bad request
  */
-router.route('/').post(authenticate, validatePatient, patientController.createPatient)
+router.post('/', authenticate, accessControl, validatePatient, patientController.createPatient)
 
 /**
  * @openapi
@@ -137,7 +137,7 @@ router.route('/').post(authenticate, validatePatient, patientController.createPa
  *       '404':
  *         description: Patient not found
  */
-router.route('/:id').put(authenticate, validatePatient, patientController.updatePatientById)
+router.put('/:id', authenticate, accessControl, validatePatient, patientController.updatePatientById)
 
 /**
  * @openapi
@@ -161,6 +161,6 @@ router.route('/:id').put(authenticate, validatePatient, patientController.update
  *       '404':
  *         description: Patient not found
  */
-router.route('/:id').delete(authenticate, patientController.deletePatientById)
+router.delete('/:id', authenticate, accessControl, patientController.deletePatientById)
 
 module.exports = router

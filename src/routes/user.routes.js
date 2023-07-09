@@ -1,5 +1,5 @@
 const express = require('express')
-const { authenticate } = require('../middleware')
+const { authenticate, accessControl } = require('../middleware')
 const { userController } = require('../controllers')
 
 /**
@@ -33,7 +33,7 @@ const router = express.Router()
  *               items:
  *                 $ref: '#/components/schemas/User'
  */
-router.get('/', authenticate, userController.fetchAllUsers)
+router.get('/', authenticate, accessControl, userController.fetchAllUsers)
 
 /**
  * @openapi
@@ -92,7 +92,7 @@ router.post('/', userController.registerUser)
  *       '400':
  *         description: Invalid email or password
  */
-router.post('/login', userController.authenticateUser)
+router.post('/login', userController.loginUser)
 
 /**
  * @swagger
@@ -241,6 +241,6 @@ router.post('/reset-password/:token', userController.resetPassword)
  *       '400':
  *         description: Failed to update the user
  */
-router.put('/', authenticate, userController.updateUser)
+router.put('/', authenticate, accessControl, userController.updateUser)
 
 module.exports = router
