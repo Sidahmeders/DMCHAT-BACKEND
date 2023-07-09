@@ -8,7 +8,7 @@ module.exports = class UserController extends BaseController {
   #generatePasswordHash
   #sendEmails
   #inMemoryTokens = {}
-  #baseURL = 'http://localhost:5000' || 'https://dnmchat-backend.onrender.com'
+  #baseURL = process.env.NODE_ENV === 'development' ? 'http://localhost:5000' : 'https://dnmchat-backend.onrender.com'
 
   constructor({ User, generateToken, verifyToken, verifyPassword, generatePasswordHash, sendEmails }) {
     super()
@@ -67,7 +67,6 @@ module.exports = class UserController extends BaseController {
     try {
       const { email, password } = req.body
 
-      // Check if any of them is undefined
       if (!email || !password) {
         return this.handleError(res, {
           statusCode: 400,
