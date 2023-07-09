@@ -16,8 +16,7 @@ const router = express.Router()
  *   get:
  *     summary: Fetch all users
  *     description: Retrieve a list of all users, optionally filtered by a search query.
- *     tags:
- *       - Users
+ *     tags: [Users]
  *     parameters:
  *       - in: query
  *         name: search
@@ -83,11 +82,64 @@ router.route('/').post(userController.registerUser)
  *         content:
  *           application/json:
  *             schema:
- *               $ref: '#/components/schemas/User'
+ *               type: object
+ *               properties:
+ *                 message:
+ *                   type: string
+ *                 token:
+ *                   type: string
+ *                   description: a short lived jwt token to use and when sending the OTP
  *       '400':
  *         description: Invalid email or password
  */
 router.post('/login', userController.authenticateUser)
+
+/**
+ * @swagger
+ * /api/users/login-confirmation:
+ *   post:
+ *     summary: Login Confirmation
+ *     tags: [Users]
+ *     requestBody:
+ *       required: true
+ *       content:
+ *         application/json:
+ *           schema:
+ *             type: object
+ *             properties:
+ *               token:
+ *                 type: string
+ *               otpCode:
+ *                 type: string
+ *             required:
+ *               - token
+ *               - otpCode
+ *     responses:
+ *       '200':
+ *         description: Successful login confirmation
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 _id:
+ *                   type: string
+ *                 name:
+ *                   type: string
+ *                 email:
+ *                   type: string
+ *                 role:
+ *                   type: string
+ *                 pic:
+ *                   type: string
+ *                 token:
+ *                   type: string
+ *       '400':
+ *         description: Invalid OTP or token not found or timed out
+ *       '500':
+ *         description: Internal server error
+ */
+router.post('/login-confirmation', userController.confirmLogin)
 
 /**
  * @openapi

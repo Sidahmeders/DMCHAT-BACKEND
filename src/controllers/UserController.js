@@ -7,7 +7,7 @@ module.exports = class UserController extends BaseController {
   #verifyPassword
   #generatePasswordHash
   #sendEmails
-
+  #inMemoryTokens = {}
   #baseURL = 'http://localhost:5000' || 'https://dnmchat-backend.onrender.com'
 
   constructor({ User, generateToken, verifyToken, verifyPassword, generatePasswordHash, sendEmails }) {
@@ -18,6 +18,25 @@ module.exports = class UserController extends BaseController {
     this.#verifyPassword = verifyPassword
     this.#generatePasswordHash = generatePasswordHash
     this.#sendEmails = sendEmails
+  }
+
+  #randomNumbers = (n) => {
+    const randomNumbersArray = Array.from({ length: n }, () => Math.floor(Math.random() * 9))
+    return randomNumbersArray.join('')
+  }
+
+  #manageInMemoryTokens = {
+    getTimedToken: (key) => {
+      const timedToken = this.#inMemoryTokens[key]
+      delete this.#inMemoryTokens[key]
+      return timedToken || null
+    },
+    setTimedToken: (key, value, duration) => {
+      this.#inMemoryTokens[key] = value
+      setTimeout(() => {
+        delete this.#inMemoryTokens[key]
+      }, duration)
+    },
   }
 
   fetchAllUsers = async (req, res) => {
@@ -33,12 +52,12 @@ module.exports = class UserController extends BaseController {
         : {}
 
       // Find and return users except current user
-      const userExists = await this.#User
+      const foundUsers = await this.#User
         .find(keyword)
         .find({ _id: { $ne: req.user._id } })
         .exec()
 
-      this.handleSuccess(res, userExists)
+      this.handleSuccess(res, foundUsers)
     } catch (error) {
       this.handleError(res, error)
     }
@@ -56,15 +75,15 @@ module.exports = class UserController extends BaseController {
         })
       }
 
-      const userExists = await this.#User.findOne({ email })
-      if (!userExists) {
+      const foundUser = await this.#User.findOne({ email })
+      if (!foundUser) {
         return this.handleError(res, {
           statusCode: 400,
           message: 'Email does not exist!',
         })
       }
 
-      const isPasswordMatch = await this.#verifyPassword(password, userExists.password)
+      const isPasswordMatch = await this.#verifyPassword(password, foundUser.password)
       if (!isPasswordMatch) {
         return this.handleError(res, {
           statusCode: 400,
@@ -72,14 +91,26 @@ module.exports = class UserController extends BaseController {
         })
       }
 
-      this.handleSuccess(res, {
-        _id: userExists._id,
-        name: userExists.name,
-        email: userExists.email,
-        role: userExists.role,
-        pic: userExists.pic,
-        token: this.#generateToken({ id: userExists._id, email: userExists.email }),
+      const tokenExpiration = 1000 * 60 * 5 // 5 minutes
+      const sixRandomNumbers = this.#randomNumbers(6)
+      const token = this.#generateToken({ expiresIn: '5m' })
+
+      this.#manageInMemoryTokens.setTimedToken(
+        token,
+        {
+          otp: sixRandomNumbers,
+          email: email,
+        },
+        tokenExpiration,
+      )
+
+      this.#sendEmails({
+        recipients: email,
+        subject: 'Login confirmation',
+        secretKey: sixRandomNumbers,
       })
+
+      this.handleSuccess(res, { token, message: 'please check your email' })
     } catch (error) {
       this.handleError(res, error)
     }
@@ -90,15 +121,15 @@ module.exports = class UserController extends BaseController {
       const { name, email, password, pic } = req.body
 
       if (!name || !email || !password) {
-        return this.handleSuccess(res, {
+        return this.handleError(res, {
           statusCode: 400,
           message: 'Please enter all the required fields',
         })
       }
 
-      const userExists = await this.#User.findOne({ email })
+      const foundUser = await this.#User.findOne({ email })
 
-      if (userExists) {
+      if (foundUser) {
         return this.handleError(res, {
           statusCode: 400,
           message: 'User already exists',
@@ -132,19 +163,19 @@ module.exports = class UserController extends BaseController {
     try {
       const { email } = req.body
 
-      const userExists = await this.#User.findOne({ email })
-      if (!userExists) {
+      const foundUser = await this.#User.findOne({ email })
+      if (!foundUser) {
         return this.handleError(res, {
           statusCode: 400,
           message: 'Email does not exist!',
         })
       }
 
-      const token = await this.#generateToken({ id: userExists._id, email: userExists.email, expiresIn: '10m' })
+      const token = await this.#generateToken({ id: foundUser._id, email: foundUser.email, expiresIn: '10m' })
 
       this.#sendEmails({
         recipients: email,
-        subject: 'account password reset',
+        subject: 'Account password reset',
         directUrl: `${this.#baseURL}/reset-password-form/${token}`,
       })
 
@@ -188,6 +219,42 @@ module.exports = class UserController extends BaseController {
       this.handleSuccess(res)
     } catch (error) {
       res.send(error.message)
+    }
+  }
+
+  confirmLogin = async (req, res) => {
+    try {
+      const { token, otpCode } = req.body
+
+      const timedToken = this.#manageInMemoryTokens.getTimedToken(token)
+      if (!timedToken) {
+        return this.handleError(res, { message: 'Token not found or timed out' })
+      }
+
+      if (otpCode !== timedToken.otp) {
+        return this.handleError(res, {
+          statusCode: 400,
+          message: 'OTP did not match!',
+        })
+      }
+
+      const foundUser = await this.#User.findOne({ email: timedToken.email })
+      if (!foundUser) {
+        return this.handleError(res, { message: 'User was not found!' })
+      }
+
+      const userData = {
+        _id: foundUser._id,
+        name: foundUser.name,
+        email: foundUser.email,
+        role: foundUser.role,
+        pic: foundUser.pic,
+        token: this.#generateToken({ id: foundUser._id, email: foundUser.email }),
+      }
+
+      this.handleSuccess(res, userData)
+    } catch (error) {
+      this.handleError(res, error)
     }
   }
 }

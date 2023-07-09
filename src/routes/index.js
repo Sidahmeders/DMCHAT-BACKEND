@@ -247,6 +247,9 @@ const statisticsRoutes = require('./statistics.routes')
  *         password:
  *           type: string
  *           description: The password of the user
+ *         role:
+ *           type: string
+ *           description: Enum('admin', 'doctor', 'assistant', 'unauthorized')
  *         pic:
  *           type: string
  *           description: The profile picture URL of the user
