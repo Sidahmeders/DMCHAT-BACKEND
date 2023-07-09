@@ -33,7 +33,7 @@ const router = express.Router()
  *               items:
  *                 $ref: '#/components/schemas/User'
  */
-router.route('/').get(authenticate, userController.fetchAllUsers)
+router.get('/', authenticate, userController.fetchAllUsers)
 
 /**
  * @openapi
@@ -57,7 +57,7 @@ router.route('/').get(authenticate, userController.fetchAllUsers)
  *       '400':
  *         description: Failed to create the user
  */
-router.route('/').post(userController.registerUser)
+router.post('/', userController.registerUser)
 
 /**
  * @openapi
@@ -207,5 +207,40 @@ router.post('/forget-password', userController.forgetPassword)
  *         description: An error occurred while resetting the password.
  */
 router.post('/reset-password/:token', userController.resetPassword)
+
+/**
+ * @openapi
+ * /api/users:
+ *   put:
+ *     tags: [Users]
+ *     summary: update user data
+ *     parameters:
+ *       - in: query
+ *         name: id
+ *         schema:
+ *           type: string
+ *         description: Th user ID
+ *       - in: query
+ *         name: email
+ *         schema:
+ *           type: string
+ *         description: The user Email
+ *     requestBody:
+ *       required: true
+ *       content:
+ *         application/json:
+ *           schema:
+ *             $ref: '#/components/schemas/User'
+ *     responses:
+ *       '201':
+ *         description: Updated created successfully
+ *         content:
+ *           application/json:
+ *             schema:
+ *               $ref: '#/components/schemas/User'
+ *       '400':
+ *         description: Failed to update the user
+ */
+router.put('/', authenticate, userController.updateUser)
 
 module.exports = router
