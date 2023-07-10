@@ -1,4 +1,5 @@
 const express = require('express')
+const { Endpoints } = require('../config')
 const { authenticate, accessControl } = require('../middleware')
 const { chatController } = require('../controllers')
 
@@ -33,7 +34,7 @@ const router = express.Router()
  *       '500':
  *         description: Internal Server Error
  */
-router.get('/', authenticate, accessControl, chatController.fetchUserChats)
+router.get(Endpoints.CHAT.GET.fetchUserChats, authenticate, accessControl, chatController.fetchUserChats)
 
 /**
  * @openapi
@@ -71,7 +72,7 @@ router.get('/', authenticate, accessControl, chatController.fetchUserChats)
  *       '500':
  *         description: Internal Server Error
  */
-router.post('/access', authenticate, accessControl, chatController.accessChat)
+router.post(Endpoints.CHAT.POST.accessChat, authenticate, accessControl, chatController.accessChat)
 
 /**
  * @openapi
@@ -110,7 +111,7 @@ router.post('/access', authenticate, accessControl, chatController.accessChat)
  *       '500':
  *         description: Internal Server Error
  */
-router.post('/groups', authenticate, accessControl, chatController.createGroupChat)
+router.post(Endpoints.CHAT.POST.createGroupChat, authenticate, accessControl, chatController.createGroupChat)
 
 /**
  * @openapi
@@ -149,7 +150,7 @@ router.post('/groups', authenticate, accessControl, chatController.createGroupCh
  *       '500':
  *         description: Internal Server Error
  */
-router.put('/groups/rename', authenticate, accessControl, chatController.renameGroup)
+router.put(Endpoints.CHAT.PUT.renameGroup, authenticate, accessControl, chatController.renameGroup)
 
 /**
  * @openapi
@@ -188,7 +189,7 @@ router.put('/groups/rename', authenticate, accessControl, chatController.renameG
  *       '500':
  *         description: Internal Server Error
  */
-router.put('/groups/join', authenticate, accessControl, chatController.addToGroup)
+router.put(Endpoints.CHAT.PUT.addToGroup, authenticate, accessControl, chatController.addToGroup)
 
 /**
  * @openapi
@@ -223,6 +224,6 @@ router.put('/groups/join', authenticate, accessControl, chatController.addToGrou
  *       '500':
  *         description: Internal Server Error.
  */
-router.put('/groups/leave', authenticate, accessControl, chatController.removeFromGroup)
+router.put(Endpoints.CHAT.PUT.removeFromGroup, authenticate, accessControl, chatController.removeFromGroup)
 
 module.exports = router

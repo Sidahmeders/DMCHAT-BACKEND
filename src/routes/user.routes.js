@@ -1,4 +1,5 @@
 const express = require('express')
+const { Endpoints } = require('../config')
 const { authenticate, accessControl } = require('../middleware')
 const { userController } = require('../controllers')
 
@@ -33,7 +34,7 @@ const router = express.Router()
  *               items:
  *                 $ref: '#/components/schemas/User'
  */
-router.get('/', authenticate, accessControl, userController.fetchAllUsers)
+router.get(Endpoints.USER.GET.fetchALLUsers, authenticate, accessControl, userController.fetchAllUsers)
 
 /**
  * @openapi
@@ -57,7 +58,7 @@ router.get('/', authenticate, accessControl, userController.fetchAllUsers)
  *       '400':
  *         description: Failed to create the user
  */
-router.post('/', userController.registerUser)
+router.post(Endpoints.USER.POST.registerUser, userController.registerUser)
 
 /**
  * @openapi
@@ -92,7 +93,7 @@ router.post('/', userController.registerUser)
  *       '400':
  *         description: Invalid email or password
  */
-router.post('/login', userController.loginUser)
+router.post(Endpoints.USER.POST.loginUser, userController.loginUser)
 
 /**
  * @swagger
@@ -139,7 +140,7 @@ router.post('/login', userController.loginUser)
  *       '500':
  *         description: Internal server error
  */
-router.post('/login-confirmation', userController.confirmLogin)
+router.post(Endpoints.USER.POST.confirmLogin, userController.confirmLogin)
 
 /**
  * @openapi
@@ -171,7 +172,7 @@ router.post('/login-confirmation', userController.confirmLogin)
  *       '400':
  *         description: Invalid email
  */
-router.post('/forget-password', userController.forgetPassword)
+router.post(Endpoints.USER.POST.forgetPassword, userController.forgetPassword)
 
 /**
  * @openapi
@@ -206,7 +207,7 @@ router.post('/forget-password', userController.forgetPassword)
  *       500:
  *         description: An error occurred while resetting the password.
  */
-router.post('/reset-password/:token', userController.resetPassword)
+router.post(Endpoints.USER.POST.resetPassword, userController.resetPassword)
 
 /**
  * @openapi
@@ -241,6 +242,6 @@ router.post('/reset-password/:token', userController.resetPassword)
  *       '400':
  *         description: Failed to update the user
  */
-router.put('/', authenticate, accessControl, userController.updateUser)
+router.put(Endpoints.USER.PUT.updateUser, authenticate, accessControl, userController.updateUser)
 
 module.exports = router

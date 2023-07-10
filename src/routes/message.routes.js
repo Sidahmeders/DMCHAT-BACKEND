@@ -1,4 +1,5 @@
 const express = require('express')
+const { Endpoints } = require('../config')
 const { authenticate, accessControl } = require('../middleware')
 const { messageController } = require('../controllers')
 
@@ -35,7 +36,12 @@ const router = express.Router()
  *       '400':
  *         description: Bad request
  */
-router.get('/:chatId', authenticate, accessControl, messageController.fetchMessagesByChatId)
+router.get(
+  Endpoints.MESSAGE.GET.fetchMessagesByChatId,
+  authenticate,
+  accessControl,
+  messageController.fetchMessagesByChatId,
+)
 
 /**
  * @openapi
@@ -67,7 +73,7 @@ router.get('/:chatId', authenticate, accessControl, messageController.fetchMessa
  *       '400':
  *         description: Bad request
  */
-router.post('/', authenticate, accessControl, messageController.sendMessage)
+router.post(Endpoints.MESSAGE.POST.sendMessage, authenticate, accessControl, messageController.sendMessage)
 
 /**
  * @swagger
@@ -91,6 +97,11 @@ router.post('/', authenticate, accessControl, messageController.sendMessage)
  *      '500':
  *        description: Internal server error occurred.
  */
-router.delete('/:chatId', authenticate, accessControl, messageController.deleteMessagesByChatId)
+router.delete(
+  Endpoints.MESSAGE.DELETE.deleteMessagesByChatId,
+  authenticate,
+  accessControl,
+  messageController.deleteMessagesByChatId,
+)
 
 module.exports = router

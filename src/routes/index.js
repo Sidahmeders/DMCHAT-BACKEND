@@ -1,3 +1,5 @@
+const { Router } = require('express')
+
 const userRoutes = require('./user.routes')
 const chatRoutes = require('./chat.routes')
 const messageRoutes = require('./message.routes')
@@ -290,13 +292,15 @@ const statisticsRoutes = require('./statistics.routes')
  *         - date
  */
 
-module.exports = {
-  userRoutes,
-  chatRoutes,
-  messageRoutes,
-  patientRoutes,
-  calendarRoutes,
-  appointmentRoutes,
-  paymentRoutes,
-  statisticsRoutes,
-}
+const router = Router()
+
+router.use(userRoutes)
+router.use(chatRoutes)
+router.use(patientRoutes)
+router.use(messageRoutes)
+router.use(calendarRoutes)
+router.use(appointmentRoutes)
+router.use(paymentRoutes)
+router.use(statisticsRoutes)
+
+module.exports = router

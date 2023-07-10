@@ -1,4 +1,5 @@
 const express = require('express')
+const { Endpoints } = require('../config')
 const { authenticate, accessControl } = require('../middleware')
 const { statisticsController } = require('../controllers')
 
@@ -46,7 +47,7 @@ const router = express.Router()
  *         description: Internal server error occurred.
  */
 router.get(
-  '/:startDate/:endDate/payments-revenue',
+  Endpoints.STATISTIC.GET.fetchPaymentsByDateRange,
   authenticate,
   accessControl,
   statisticsController.fetchPaymentsByDateRange,
@@ -94,7 +95,7 @@ router.get(
  *         description: Internal server error
  */
 router.get(
-  '/:startDate/:endDate/appointments-revenue',
+  Endpoints.STATISTIC.GET.fetchAppointmentsRevenueByDateRange,
   authenticate,
   accessControl,
   statisticsController.fetchAppointmentsRevenueByDateRange,

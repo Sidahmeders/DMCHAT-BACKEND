@@ -1,4 +1,5 @@
 const express = require('express')
+const { Endpoints } = require('../config')
 const { authenticate, accessControl, validatePatient } = require('../middleware')
 const { patientController } = require('../controllers')
 
@@ -50,7 +51,7 @@ const router = express.Router()
  *       '400':
  *         description: Bad request
  */
-router.get('/', authenticate, accessControl, patientController.fetchPatients)
+router.get(Endpoints.PATIENT.GET.fetchPatients, authenticate, accessControl, patientController.fetchPatients)
 
 /**
  * @openapi
@@ -78,7 +79,7 @@ router.get('/', authenticate, accessControl, patientController.fetchPatients)
  *       '404':
  *         description: Patient not found
  */
-router.get('/:id', authenticate, accessControl, patientController.fetchPatientsById)
+router.get(Endpoints.PATIENT.GET.fetchPatientsById, authenticate, accessControl, patientController.fetchPatientsById)
 
 /**
  * @openapi
@@ -103,7 +104,13 @@ router.get('/:id', authenticate, accessControl, patientController.fetchPatientsB
  *       '400':
  *         description: Bad request
  */
-router.post('/', authenticate, accessControl, validatePatient, patientController.createPatient)
+router.post(
+  Endpoints.PATIENT.POST.createPatient,
+  authenticate,
+  accessControl,
+  validatePatient,
+  patientController.createPatient,
+)
 
 /**
  * @openapi
@@ -137,7 +144,13 @@ router.post('/', authenticate, accessControl, validatePatient, patientController
  *       '404':
  *         description: Patient not found
  */
-router.put('/:id', authenticate, accessControl, validatePatient, patientController.updatePatientById)
+router.put(
+  Endpoints.PATIENT.PUT.updatePatientById,
+  authenticate,
+  accessControl,
+  validatePatient,
+  patientController.updatePatientById,
+)
 
 /**
  * @openapi
@@ -161,6 +174,11 @@ router.put('/:id', authenticate, accessControl, validatePatient, patientControll
  *       '404':
  *         description: Patient not found
  */
-router.delete('/:id', authenticate, accessControl, patientController.deletePatientById)
+router.delete(
+  Endpoints.PATIENT.DELETE.deletePatientById,
+  authenticate,
+  accessControl,
+  patientController.deletePatientById,
+)
 
 module.exports = router

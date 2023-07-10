@@ -5,18 +5,9 @@ const path = require('path')
 const cors = require('cors')
 
 const initListener = require('./src/wss')
-const { baseURLs, connectToMongoDB, setupSwagger } = require('./src/config')
-const {
-  userRoutes,
-  chatRoutes,
-  messageRoutes,
-  patientRoutes,
-  calendarRoutes,
-  appointmentRoutes,
-  paymentRoutes,
-  statisticsRoutes,
-} = require('./src/routes')
+const { connectToMongoDB, setupSwagger } = require('./src/config')
 const { userController } = require('./src/controllers')
+const allRoutes = require('./src/routes')
 
 const app = express()
 
@@ -29,14 +20,7 @@ setupSwagger(app)
 connectToMongoDB()
 
 // API endpoints
-app.use(baseURLs.USERS, userRoutes)
-app.use(baseURLs.CHAT, chatRoutes)
-app.use(baseURLs.PATIENTS, patientRoutes)
-app.use(baseURLs.MESSAGES, messageRoutes)
-app.use(baseURLs.CALENDAR, calendarRoutes)
-app.use(baseURLs.APPOINTMENTS, appointmentRoutes)
-app.use(baseURLs.PAYMENTS, paymentRoutes)
-app.use(baseURLs.STATISTICS, statisticsRoutes)
+app.use('/api', allRoutes)
 
 // Static pages
 app.use('/reset-password-form/:token', userController.sendResetPasswordForm)

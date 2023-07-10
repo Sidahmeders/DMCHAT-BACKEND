@@ -1,4 +1,5 @@
 const express = require('express')
+const { Endpoints } = require('../config')
 const { authenticate, accessControl, validateAppointment } = require('../middleware')
 const { appointmentController } = require('../controllers')
 
@@ -36,7 +37,12 @@ const router = express.Router()
  *       '404':
  *         description: Patient not found
  */
-router.get('/:patientId', authenticate, accessControl, appointmentController.fetchPatientAppointments)
+router.get(
+  Endpoints.APPOINTMENT.GET.fetchPatientAppointments,
+  authenticate,
+  accessControl,
+  appointmentController.fetchPatientAppointments,
+)
 
 /**
  * @openapi
@@ -70,7 +76,12 @@ router.get('/:patientId', authenticate, accessControl, appointmentController.fet
  *       '400':
  *         description: Invalid year or month format
  */
-router.get('/:year/:month', authenticate, accessControl, appointmentController.fetchMonthAppointments)
+router.get(
+  Endpoints.APPOINTMENT.GET.fetchMonthAppointments,
+  authenticate,
+  accessControl,
+  appointmentController.fetchMonthAppointments,
+)
 
 /**
  * @openapi
@@ -110,7 +121,12 @@ router.get('/:year/:month', authenticate, accessControl, appointmentController.f
  *       '400':
  *         description: Invalid year, month, or day format
  */
-router.get('/:year/:month/:day', authenticate, accessControl, appointmentController.fetchDayAppointments)
+router.get(
+  Endpoints.APPOINTMENT.GET.fetchDayAppointments,
+  authenticate,
+  accessControl,
+  appointmentController.fetchDayAppointments,
+)
 
 /**
  * @openapi
@@ -135,7 +151,13 @@ router.get('/:year/:month/:day', authenticate, accessControl, appointmentControl
  *       '400':
  *         description: Invalid appointment data
  */
-router.post('/new', authenticate, accessControl, validateAppointment, appointmentController.createNewAppointment)
+router.post(
+  Endpoints.APPOINTMENT.POST.createNewAppointment,
+  authenticate,
+  accessControl,
+  validateAppointment,
+  appointmentController.createNewAppointment,
+)
 
 /**
  * @openapi
@@ -160,7 +182,13 @@ router.post('/new', authenticate, accessControl, validateAppointment, appointmen
  *       '400':
  *         description: Invalid appointment data or related appointment does not exist
  */
-router.post('/relate', authenticate, accessControl, validateAppointment, appointmentController.relateNewAppointment)
+router.post(
+  Endpoints.APPOINTMENT.POST.relateNewAppointment,
+  authenticate,
+  accessControl,
+  validateAppointment,
+  appointmentController.relateNewAppointment,
+)
 
 /**
  * @openapi
@@ -199,7 +227,12 @@ router.post('/relate', authenticate, accessControl, validateAppointment, appoint
  *       '404':
  *         description: Appointment not found
  */
-router.put('/:id/toggle-confirmation', authenticate, accessControl, appointmentController.toggleConfirmation)
+router.put(
+  Endpoints.APPOINTMENT.PUT.toggleConfirmation,
+  authenticate,
+  accessControl,
+  appointmentController.toggleConfirmation,
+)
 
 /**
  * @openapi
@@ -238,7 +271,7 @@ router.put('/:id/toggle-confirmation', authenticate, accessControl, appointmentC
  *       '404':
  *         description: Appointment not found
  */
-router.put('/:id/toggle-leave', authenticate, accessControl, appointmentController.toggleLeave)
+router.put(Endpoints.APPOINTMENT.PUT.toggleLeave, authenticate, accessControl, appointmentController.toggleLeave)
 
 /**
  * @openapi
@@ -272,7 +305,12 @@ router.put('/:id/toggle-leave', authenticate, accessControl, appointmentControll
  *       '404':
  *         description: Appointment not found
  */
-router.put('/:id/update', authenticate, accessControl, appointmentController.updateAppointment)
+router.put(
+  Endpoints.APPOINTMENT.PUT.updateAppointment,
+  authenticate,
+  accessControl,
+  appointmentController.updateAppointment,
+)
 
 /**
  * @openapi
@@ -306,7 +344,12 @@ router.put('/:id/update', authenticate, accessControl, appointmentController.upd
  *       '404':
  *         description: Appointment not found
  */
-router.put('/:id/update-sync', authenticate, accessControl, appointmentController.updateAppointmentSync)
+router.put(
+  Endpoints.APPOINTMENT.PUT.updateAppointmentSync,
+  authenticate,
+  accessControl,
+  appointmentController.updateAppointmentSync,
+)
 
 /**
  * @openapi
@@ -330,6 +373,11 @@ router.put('/:id/update-sync', authenticate, accessControl, appointmentControlle
  *       '404':
  *         description: Appointment not found
  */
-router.delete('/:id', authenticate, accessControl, appointmentController.deleteAppointment)
+router.delete(
+  Endpoints.APPOINTMENT.DELETE.deleteAppointment,
+  authenticate,
+  accessControl,
+  appointmentController.deleteAppointment,
+)
 
 module.exports = router
