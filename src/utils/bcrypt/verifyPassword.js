@@ -1,7 +1,7 @@
-const bcrypt = require('bcryptjs')
+const { compare } = require('bcryptjs')
 
 const verifyPassword = async (enteredPassword, existingPassword) => {
-  const isMatch = await bcrypt.compare(enteredPassword, existingPassword)
+  const isMatch = await compare(enteredPassword, existingPassword)
   return Boolean(isMatch)
 }
 
