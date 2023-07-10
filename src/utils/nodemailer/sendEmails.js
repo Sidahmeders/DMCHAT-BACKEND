@@ -3,12 +3,6 @@ const nodemailer = require('nodemailer')
 const resetEmailTemplate = require('./_resetEmailTemplate')
 const confirmLoginTemplate = require('./_confirmLoginTemplate')
 
-/**
- * @param recipients - list OR string of receivers
- * @param subject - the email subject
- * @param directUrl - user generated url
- * @returns {{Promise}}
- */
 const sendEmails = async ({ recipients, subject, directUrl, secretKey }) => {
   try {
     // create reusable transporter object using the default SMTP transport
