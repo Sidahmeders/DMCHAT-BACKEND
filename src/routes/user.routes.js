@@ -211,21 +211,17 @@ router.post(Endpoints.USER.POST.resetPassword, userController.resetPassword)
 
 /**
  * @openapi
- * /api/users:
+ * /api/users/{userId}:
  *   put:
  *     tags: [Users]
  *     summary: update user data
  *     parameters:
- *       - in: query
- *         name: id
+ *       - in: path
+ *         name: userId
  *         schema:
  *           type: string
- *         description: Th user ID
- *       - in: query
- *         name: email
- *         schema:
- *           type: string
- *         description: The user Email
+ *         required: true
+ *         description: The ID of the user to update
  *     requestBody:
  *       required: true
  *       content:
@@ -243,5 +239,26 @@ router.post(Endpoints.USER.POST.resetPassword, userController.resetPassword)
  *         description: Failed to update the user
  */
 router.put(Endpoints.USER.PUT.updateUser, authenticate, accessControl, userController.updateUser)
+
+/**
+ * @swagger
+ * /api/users/{userId}:
+ *   delete:
+ *     summary: Delete user by ID
+ *     parameters:
+ *       - in: path
+ *         name: userId
+ *         schema:
+ *           type: string
+ *         required: true
+ *         description: The ID of the user to delete
+ *     tags: [Users]
+ *     responses:
+ *      '200':
+ *        description: User successfully deleted.
+ *      '500':
+ *        description: Internal server error occurred.
+ */
+router.delete(Endpoints.USER.DELETE.deleteUser, authenticate, accessControl, userController.deleteUser)
 
 module.exports = router

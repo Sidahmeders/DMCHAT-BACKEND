@@ -248,16 +248,19 @@ module.exports = class UserController extends BaseController {
 
   updateUser = async (req, res) => {
     try {
-      const { id, email } = req.query
-      if (!id && !email) {
-        return this.handleError(res, { message: 'No User id or email was found in your query!' })
-      }
-
-      const updatedUser = await this.#User
-        .findOneAndUpdate({ _id: id, email }, req.body, { new: true })
-        .select('-password')
-
+      const { userId } = req.params
+      const updatedUser = await this.#User.findByIdAndUpdate(userId, req.body, { new: true }).select('-password')
       this.handleSuccess(res, updatedUser)
+    } catch (error) {
+      this.handleError(res, error)
+    }
+  }
+
+  deleteUser = async (req, res) => {
+    try {
+      const { userId } = req.params
+      await this.#User.findByIdAndDelete(userId)
+      this.handleSuccess(res)
     } catch (error) {
       this.handleError(res, error)
     }

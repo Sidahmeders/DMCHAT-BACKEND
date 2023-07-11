@@ -11,7 +11,10 @@ module.exports = {
       resetPassword: '/users/reset-password/:token',
     },
     PUT: {
-      updateUser: '/users',
+      updateUser: '/users/:userId',
+    },
+    DELETE: {
+      deleteUser: '/users/:userId',
     },
   },
   CHAT: {
