@@ -1,7 +1,7 @@
 module.exports = {
   USER: {
     GET: {
-      fetchALLUsers: '/users',
+      fetchUsers: '/users',
     },
     POST: {
       registerUser: '/users',
@@ -16,16 +16,16 @@ module.exports = {
   },
   CHAT: {
     GET: {
-      fetchUserChats: '/chat',
+      fetchUserChats: '/chats/user',
     },
     POST: {
-      accessChat: '/chat/access',
-      createGroupChat: '/chat/groups',
+      accessChat: '/chats/access',
+      createGroupChat: '/chats/group',
     },
     PUT: {
-      renameGroup: '/chat/groups/rename',
-      addToGroup: '/chat/groups/join',
-      removeFromGroup: '/chat/groups/leave',
+      renameGroup: '/chats/group/rename',
+      addToGroup: '/chats/group/join',
+      removeFromGroup: '/chats/group/leave',
     },
   },
   MESSAGE: {

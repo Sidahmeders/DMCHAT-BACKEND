@@ -34,7 +34,7 @@ const router = express.Router()
  *               items:
  *                 $ref: '#/components/schemas/User'
  */
-router.get(Endpoints.USER.GET.fetchALLUsers, authenticate, accessControl, userController.fetchAllUsers)
+router.get(Endpoints.USER.GET.fetchUsers, authenticate, accessControl, userController.fetchUsers)
 
 /**
  * @openapi

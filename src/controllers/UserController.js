@@ -39,7 +39,7 @@ module.exports = class UserController extends BaseController {
     },
   }
 
-  fetchAllUsers = async (req, res) => {
+  fetchUsers = async (req, res) => {
     try {
       // Keyword contains search results
       const keyword = req.query.search

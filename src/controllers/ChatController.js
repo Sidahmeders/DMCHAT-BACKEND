@@ -136,7 +136,6 @@ module.exports = class ChatController extends BaseController {
         .populate('groupAdmin', '-password')
         .populate('latestMessage')
         .sort({ updatedAt: -1 })
-        .exec()
 
       results = await this.#User.populate(results, {
         path: 'latestMessage.sender',
