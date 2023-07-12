@@ -69,7 +69,7 @@ module.exports = class UserController extends BaseController {
       if (!email || !password) {
         return this.handleError(res, {
           statusCode: 400,
-          message: 'Please enter all the required fields',
+          message: 'Veuillez saisir tous les champs obligatoires',
         })
       }
 
@@ -77,7 +77,7 @@ module.exports = class UserController extends BaseController {
       if (!foundUser) {
         return this.handleError(res, {
           statusCode: 400,
-          message: 'Email does not exist!',
+          message: "L'e-mail n'existe pas!",
         })
       }
 
@@ -85,7 +85,7 @@ module.exports = class UserController extends BaseController {
       if (!isPasswordMatch) {
         return this.handleError(res, {
           statusCode: 400,
-          message: 'Password does not match!',
+          message: 'Le mot de passe ne correspond pas!',
         })
       }
 
@@ -104,11 +104,11 @@ module.exports = class UserController extends BaseController {
 
       this.#sendEmails({
         recipients: email,
-        subject: 'Login confirmation',
+        subject: 'Confirmation de connexion',
         secretKey: sixRandomNumbers,
       })
 
-      this.handleSuccess(res, { token, message: 'please check your email' })
+      this.handleSuccess(res, { token, message: "pouvez-vous vérifier votre e-mail s'il vous plaît" })
     } catch (error) {
       this.handleError(res, error)
     }
@@ -121,7 +121,7 @@ module.exports = class UserController extends BaseController {
       if (!name || !email || !password) {
         return this.handleError(res, {
           statusCode: 400,
-          message: 'Please enter all the required fields',
+          message: '',
         })
       }
 
@@ -130,7 +130,7 @@ module.exports = class UserController extends BaseController {
       if (foundUser) {
         return this.handleError(res, {
           statusCode: 400,
-          message: 'User already exists',
+          message: "L'utilisateur existe déjà",
         })
       }
 
@@ -138,10 +138,10 @@ module.exports = class UserController extends BaseController {
       const userCreated = await this.#User.create({ name, email, pic, password: passwordHash })
 
       if (!userCreated) {
-        return this.handleError(res, { statusCode: 400, message: 'Failed to create the User' })
+        return this.handleError(res, { statusCode: 400, message: "Impossible de créer l'utilisateur" })
       }
 
-      this.handleSuccess(res, { message: 'account created successfully' })
+      this.handleSuccess(res, { message: 'compte créé avec succès' })
     } catch (error) {
       this.handleError(res, error)
     }
@@ -155,7 +155,7 @@ module.exports = class UserController extends BaseController {
       if (!foundUser) {
         return this.handleError(res, {
           statusCode: 400,
-          message: 'Email does not exist!',
+          message: "L'e-mail n'existe pas!",
         })
       }
 
@@ -163,11 +163,11 @@ module.exports = class UserController extends BaseController {
 
       this.#sendEmails({
         recipients: email,
-        subject: 'Account password reset',
+        subject: 'Réinitialisation du mot de passe du compte',
         directUrl: `${this.#baseURL}/reset-password-form/${token}`,
       })
 
-      this.handleSuccess(res, { message: 'please check your email' })
+      this.handleSuccess(res, { message: "pouvez-vous vérifier votre e-mail s'il vous plaît" })
     } catch (error) {
       this.handleError(req, error)
     }
@@ -194,10 +194,10 @@ module.exports = class UserController extends BaseController {
       const { password1, password2 } = req.body
 
       if (!password1 || !password2) {
-        return res.send('Please fill in both passwords')
+        return res.send('Veuillez renseigner les deux mots de passe')
       }
       if (password1 !== password2) {
-        return res.send('Passwords did not match!')
+        return res.send('Les mots de passe ne correspondent pas!')
       }
 
       const { id: userId } = this.#verifyToken(token)
@@ -216,7 +216,7 @@ module.exports = class UserController extends BaseController {
 
       const timedToken = this.#manageInMemoryTokens.getTimedToken(token)
       if (!timedToken) {
-        return this.handleError(res, { message: 'Token not found or timed out' })
+        return this.handleError(res, { message: 'Token introuvable ou expiré' })
       }
 
       if (otpCode !== timedToken.otp) {
@@ -228,7 +228,7 @@ module.exports = class UserController extends BaseController {
 
       const foundUser = await this.#User.findOne({ email: timedToken.email })
       if (!foundUser) {
-        return this.handleError(res, { message: 'User was not found!' })
+        return this.handleError(res, { message: "L'utilisateur n'a pas été trouvé" })
       }
 
       const userData = {

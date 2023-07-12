@@ -19,7 +19,7 @@ module.exports = class ChatController extends BaseController {
       if (!userId) {
         return this.handleError(res, {
           statusCode: 400,
-          message: 'UserId param not sent with request',
+          message: 'Paramètre UserId non envoyé avec la demande!',
         })
       }
 
@@ -64,7 +64,7 @@ module.exports = class ChatController extends BaseController {
       if (!isAdmin) {
         return this.handleError(res, {
           statusCode: 401,
-          message: 'You are not authorized',
+          message: "Vous n'êtes pas autorisé",
         })
       }
 
@@ -77,7 +77,7 @@ module.exports = class ChatController extends BaseController {
         return res.status(404).json({
           success: false,
           statusCode: 404,
-          message: 'Chat Not Found',
+          message: 'Chat introuvable',
         })
       } else {
         return res.status(200).json(added)
@@ -93,7 +93,7 @@ module.exports = class ChatController extends BaseController {
       if (!users || !name) {
         return this.handleError(res, {
           statusCode: 400,
-          message: 'Please fill in all required fields',
+          message: 'Veuillez remplir tous les champs requis',
         })
       }
 
@@ -103,7 +103,7 @@ module.exports = class ChatController extends BaseController {
         return res.status(400).json({
           success: false,
           statusCode: 400,
-          message: 'More than 2 users are required to form a group chat',
+          message: 'Plus de 2 utilisateurs sont nécessaires pour former une discussion de groupe',
         })
       }
 
@@ -158,7 +158,7 @@ module.exports = class ChatController extends BaseController {
       if (!isAdmin) {
         return this.handleError(res, {
           statusCode: 401,
-          message: 'You are not authorized',
+          message: "Vous n'êtes pas autorisé",
         })
       }
 
@@ -170,7 +170,7 @@ module.exports = class ChatController extends BaseController {
       if (!removed) {
         return this.handleError(res, {
           statusCode: 404,
-          message: 'Chat Not Found',
+          message: 'Chat introuvable',
         })
       }
 
@@ -188,7 +188,7 @@ module.exports = class ChatController extends BaseController {
       if (!isAdmin) {
         return this.handleError(res, {
           statusCode: 401,
-          message: 'You are not authorized',
+          message: "Vous n'êtes pas autorisé",
         })
       }
 
@@ -200,7 +200,7 @@ module.exports = class ChatController extends BaseController {
       if (!updatedChat) {
         return this.handleError(res, {
           statusCode: 404,
-          message: 'Chat Not Found',
+          message: 'Chat introuvable',
         })
       }
 

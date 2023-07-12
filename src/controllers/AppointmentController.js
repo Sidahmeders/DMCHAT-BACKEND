@@ -46,7 +46,7 @@ module.exports = class AppointmentController extends BaseController {
 
       const baseAppointment = await this.#Appointment.findById(appointment.baseAppointmentId)
       if (!baseAppointment) {
-        return this.handleError(res, { message: 'baseAppointment not found!' })
+        return this.handleError(res, { message: 'baseRendez-vous introuvable!' })
       }
 
       const { diagnostic, treatmentPlan, totalPrice } = baseAppointment
@@ -88,7 +88,7 @@ module.exports = class AppointmentController extends BaseController {
       const targetAppointment = await this.#Appointment.findById(params.id)
 
       if (!targetAppointment) {
-        return this.handleError(res, { statusCode: 404, message: 'Appointment not Found!' })
+        return this.handleError(res, { statusCode: 404, message: 'Rendez-vous introuvable!' })
       }
 
       const { payment: targetPreviousPayment } = targetAppointment

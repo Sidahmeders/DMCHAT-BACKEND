@@ -30,7 +30,7 @@ module.exports = class MessageController extends BaseController {
       return res.status(400).json({
         success: false,
         statusCode: 400,
-        message: 'Invalid data passed into request',
+        message: 'Données invalides transmises dans la requête',
       })
     }
 

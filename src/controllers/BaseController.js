@@ -16,7 +16,7 @@ module.exports = class BaseController {
 
   handleError(res, error) {
     const statusCode = error.statusCode || 500
-    const errorMessage = error.message || 'Unexpected Internal Error'
+    const errorMessage = error.message || 'Erreur de serveur interne inattendue'
 
     const errorResponse = {
       error: {
