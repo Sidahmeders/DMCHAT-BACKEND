@@ -23,7 +23,7 @@ module.exports = {
   appointmentController: new AppointmentController({ Appointment }),
   calendarController: new CalendarController({ Calendar }),
   messageController: new MessageController({ Message, Chat }),
-  chatController: new ChatController({ Chat, User }),
+  chatController: new ChatController({ Chat, User, Message }),
   paymentController: new PaymentController({ Payment }),
   statisticsController: new StatisticsController({ Patient, Payment, Appointment }),
 }

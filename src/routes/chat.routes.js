@@ -13,7 +13,7 @@ const router = express.Router()
 
 /**
  * @openapi
- * /api/chat:
+ * /api/chats:
  *   get:
  *     summary: Fetch User chats
  *     description: Retrieve a list of all chats for the logged in user.
@@ -38,7 +38,7 @@ router.get(Endpoints.CHAT.GET.fetchUserChats, authenticate, accessControl, chatC
 
 /**
  * @openapi
- * /api/chat:
+ * /api/chats:
  *   post:
  *     summary: Access a chat
  *     description: Access a chat by providing the user's ID.
@@ -76,7 +76,7 @@ router.post(Endpoints.CHAT.POST.accessChat, authenticate, accessControl, chatCon
 
 /**
  * @openapi
- * /api/chat/groups:
+ * /api/chats/group:
  *   post:
  *     summary: Create a group chat
  *     description: Create a new group chat.
@@ -115,7 +115,7 @@ router.post(Endpoints.CHAT.POST.createGroupChat, authenticate, accessControl, ch
 
 /**
  * @openapi
- * /api/chat/groups/rename:
+ * /api/chats/group/rename:
  *   put:
  *     summary: Rename a group chat
  *     description: Rename an existing group chat.
@@ -154,7 +154,7 @@ router.put(Endpoints.CHAT.PUT.renameGroup, authenticate, accessControl, chatCont
 
 /**
  * @openapi
- * /api/chat/groups/join:
+ * /api/chats/group/join:
  *   put:
  *     summary: Join a user to a group chat
  *     description: Add a user to an existing group chat.
@@ -193,7 +193,7 @@ router.put(Endpoints.CHAT.PUT.addToGroup, authenticate, accessControl, chatContr
 
 /**
  * @openapi
- * /api/chat/groups/leave:
+ * /api/chats/group/leave:
  *   put:
  *     summary: Remove a user from a group chat
  *     description: Remove a user from an existing group chat.
@@ -225,5 +225,29 @@ router.put(Endpoints.CHAT.PUT.addToGroup, authenticate, accessControl, chatContr
  *         description: Internal Server Error.
  */
 router.put(Endpoints.CHAT.PUT.removeFromGroup, authenticate, accessControl, chatController.removeFromGroup)
+
+/**
+ * @openapi
+ * /api/chats/{chatId}:
+ *   delete:
+ *     summary: Delete Chat by ID
+ *     tags: [Chats]
+ *     description: Delete a Chat specified by ID
+ *     parameters:
+ *       - in: path
+ *         name: chatId
+ *         schema:
+ *           type: string
+ *         required: true
+ *         description: The ID of the Chat to delete
+ *     responses:
+ *       '200':
+ *         description: Successful operation
+ *       '400':
+ *         description: Bad request
+ *       '404':
+ *         description: Chat not found
+ */
+router.delete(Endpoints.CHAT.DELETE.deleteChatById, authenticate, accessControl, chatController.deleteChatById)
 
 module.exports = router

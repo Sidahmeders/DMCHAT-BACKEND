@@ -3,11 +3,13 @@ const BaseController = require('./BaseController')
 module.exports = class ChatController extends BaseController {
   #Chat
   #User
+  #Message
 
-  constructor({ Chat, User }) {
+  constructor({ Chat, User, Message }) {
     super()
     this.#Chat = Chat
     this.#User = User
+    this.#Message = Message
   }
 
   accessChat = async (req, res) => {
@@ -203,6 +205,19 @@ module.exports = class ChatController extends BaseController {
       }
 
       this.handleSuccess(res, updatedChat)
+    } catch (error) {
+      this.handleError(res, error)
+    }
+  }
+
+  deleteChatById = async (req, res) => {
+    try {
+      const { chatId } = req.params
+
+      await this.#Chat.findByIdAndDelete(chatId)
+      await this.#Message.deleteMany({ chat: chatId })
+
+      this.handleSuccess(res)
     } catch (error) {
       this.handleError(res, error)
     }

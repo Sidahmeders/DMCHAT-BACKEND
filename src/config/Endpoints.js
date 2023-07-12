@@ -30,6 +30,9 @@ module.exports = {
       addToGroup: '/chats/group/join',
       removeFromGroup: '/chats/group/leave',
     },
+    DELETE: {
+      deleteChatById: '/chats/:chatId',
+    },
   },
   MESSAGE: {
     GET: {
