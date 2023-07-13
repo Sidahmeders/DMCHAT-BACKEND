@@ -23,13 +23,13 @@ module.exports = (io, socket) => {
         socket.in(user._id).emit(EVENTS.messageRecieved, payload)
       })
     } catch (error) {
-      io.emit(EVENTS.chatError, error.message)
+      socket.emit(EVENTS.chatError, error.message)
     }
   })
 
   socket.on(LISTENERS.updateGroup, (payload) => {
     // console.log(payload, 'updateGroup')
-    socket.emit(EVENTS.groupUpdated, payload)
+    io.emit(EVENTS.groupUpdated, payload)
   })
 
   socket.off(LISTENERS.setup, () => {
