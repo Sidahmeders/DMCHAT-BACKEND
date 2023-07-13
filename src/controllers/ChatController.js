@@ -60,7 +60,7 @@ module.exports = class ChatController extends BaseController {
     try {
       const { chatId, userId } = req.body
 
-      const isAdmin = await this.#Chat.findOne({ groupAdmin: req.user._id }).exec()
+      const isAdmin = await this.#Chat.findOne({ groupAdmin: req.user._id })
       if (!isAdmin) {
         return this.handleError(res, {
           statusCode: 401,
@@ -153,7 +153,7 @@ module.exports = class ChatController extends BaseController {
     try {
       const { chatId, userId } = req.body
 
-      const isAdmin = await this.#Chat.findOne({ groupAdmin: req.user._id }).exec()
+      const isAdmin = await this.#Chat.findOne({ groupAdmin: req.user._id })
       if (!isAdmin) {
         return this.handleError(res, {
           statusCode: 401,
@@ -183,7 +183,7 @@ module.exports = class ChatController extends BaseController {
     try {
       const { chatId, chatName } = req.body
 
-      const isAdmin = await this.#Chat.findOne({ groupAdmin: req.user._id }).exec()
+      const isAdmin = await this.#Chat.findOne({ groupAdmin: req.user._id })
       if (!isAdmin) {
         return this.handleError(res, {
           statusCode: 401,
