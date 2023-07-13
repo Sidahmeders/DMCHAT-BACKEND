@@ -5,6 +5,7 @@ const LISTENERS = {
   typing: 'typing',
   stopTyping: 'stop typing',
   newMessage: 'new message',
+  updateGroup: 'update group',
   // appointment listeners
   confirmAppointment: 'confirm appointment',
   leaveAppointment: 'leave appointment',
@@ -20,8 +21,9 @@ const EVENTS = {
   connected: 'connected',
   chatError: 'chat error',
   typing: 'typing',
-  stopTyping: 'stop typing',
+  typingStopped: 'typing stopped',
   messageRecieved: 'message recieved',
+  groupUpdated: 'group updated',
   // appointment listeners
   appointmentConfirmation: 'appointment confirmation',
   appointmentleft: 'appointment left',

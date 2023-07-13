@@ -10,7 +10,7 @@ module.exports = (io, socket) => {
 
   socket.on(LISTENERS.typing, (room) => socket.in(room).emit(EVENTS.typing, room))
 
-  socket.on(LISTENERS.stopTyping, (room) => socket.in(room).emit(EVENTS.stopTyping, room))
+  socket.on(LISTENERS.stopTyping, (room) => socket.in(room).emit(EVENTS.typingStopped, room))
 
   socket.on(LISTENERS.newMessage, (payload) => {
     try {
@@ -26,6 +26,8 @@ module.exports = (io, socket) => {
       socket.emit(EVENTS.chatError, error.message)
     }
   })
+
+  socket.on(LISTENERS.updateGroup, (payload) => socket.emit(EVENTS.groupUpdated, payload))
 
   socket.off(LISTENERS.setup, () => {
     socket.leave(userData._id)
