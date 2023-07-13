@@ -20,6 +20,7 @@ module.exports = {
   CHAT: {
     GET: {
       fetchUserChats: '/chats/user',
+      fetchGroupChats: '/chats/group',
     },
     POST: {
       accessChat: '/chats/access',

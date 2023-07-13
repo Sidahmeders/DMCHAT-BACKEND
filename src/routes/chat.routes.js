@@ -12,6 +12,31 @@ const { chatController } = require('../controllers')
 const router = express.Router()
 
 /**
+ * @swagger
+ * /chats/group:
+ *   get:
+ *     summary: Fetch group chats
+ *     description: Retrieve a list of all the group chats.
+ *     tags: [Chats]
+ *     security:
+ *       - bearerAuth: []
+ *     responses:
+ *       '200':
+ *         description: OK. List of chats fetched successfully.
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: array
+ *               items:
+ *                 $ref: '#/components/schemas/Chat'
+ *       '401':
+ *         description: Unauthorized Error
+ *       '500':
+ *         description: Internal Server Error
+ */
+router.get('/chats/group', authenticate, accessControl, chatController.fetchGroupChats)
+
+/**
  * @openapi
  * /api/chats:
  *   get:

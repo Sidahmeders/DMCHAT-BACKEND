@@ -12,6 +12,19 @@ module.exports = class ChatController extends BaseController {
     this.#Message = Message
   }
 
+  fetchGroupChats = async (req, res) => {
+    try {
+      const foundGroups = await this.#Chat
+        .find({ isGroupChat: true })
+        .populate('users', '-password')
+        .populate('latestMessage')
+
+      this.handleSuccess(res, foundGroups)
+    } catch (error) {
+      this.handleError(res, error)
+    }
+  }
+
   accessChat = async (req, res) => {
     try {
       const { userId } = req.body
