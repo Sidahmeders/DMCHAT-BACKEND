@@ -68,20 +68,19 @@ module.exports = class ChatController extends BaseController {
         })
       }
 
-      const added = await this.#Chat
+      const addedUser = await this.#Chat
         .findByIdAndUpdate(chatId, { $push: { users: userId } }, { new: true })
         .populate('users', '-password')
         .populate('groupAdmin', '-password')
 
-      if (!added) {
-        return res.status(404).json({
-          success: false,
+      if (!addedUser) {
+        return this.handleError({
           statusCode: 404,
           message: 'Chat introuvable',
         })
-      } else {
-        return res.status(200).json(added)
       }
+
+      this.handleSuccess(res, addedUser)
     } catch (error) {
       this.handleError(res, error)
     }
@@ -162,19 +161,19 @@ module.exports = class ChatController extends BaseController {
         })
       }
 
-      const removed = await this.#Chat
+      const removedUser = await this.#Chat
         .findByIdAndUpdate(chatId, { $pull: { users: userId } }, { new: true })
         .populate('users', '-password')
         .populate('groupAdmin', '-password')
 
-      if (!removed) {
+      if (!removedUser) {
         return this.handleError(res, {
           statusCode: 404,
           message: 'Chat introuvable',
         })
       }
 
-      this.handleSuccess(res, removed)
+      this.handleSuccess(res, removedUser)
     } catch (error) {
       this.handleError(res, error)
     }

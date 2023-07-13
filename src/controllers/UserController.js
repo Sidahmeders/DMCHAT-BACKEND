@@ -138,7 +138,7 @@ module.exports = class UserController extends BaseController {
       const userCreated = await this.#User.create({ name, email, pic, password: passwordHash })
 
       if (!userCreated) {
-        return this.handleError(res, { statusCode: 400, message: "Impossible de créer l'utilisateur" })
+        return this.handleError(res, { statusCode: 400, message: "Échec de créer l'utilisateur" })
       }
 
       this.handleSuccess(res, { message: 'compte créé avec succès' })
