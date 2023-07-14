@@ -1,10 +1,10 @@
-const chatHandlers = require('./chatHandlers')
-const appointmentsHanlders = require('./appointmentsHanlders')
+const chatEventHandlers = require('./chatEventHandlers')
+const appointmentEventHanlders = require('./appointmentEventHanlders')
 
 function initListener(io) {
   io.on('connection', (socket) => {
-    chatHandlers(io, socket)
-    appointmentsHanlders(io, socket)
+    chatEventHandlers(io, socket)
+    appointmentEventHanlders(io, socket)
   })
 
   io.on('error', (error) => {
