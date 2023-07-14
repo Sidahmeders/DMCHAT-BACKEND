@@ -16,7 +16,7 @@ module.exports = (io, socket) => {
     try {
       const { createdMessage } = payload
       const [firstChat] = createdMessage.chat
-      if (!firstChat.users) return
+      if (!firstChat?.users) return
 
       firstChat.users.forEach((user) => {
         if (user._id === createdMessage.sender._id) return

@@ -229,6 +229,9 @@ module.exports = class ChatController extends BaseController {
 
       const user = await this.#User.findById(req.user._id)
       const chat = await this.#Chat.findById(chatId)
+      if (!chat) {
+        return this.handleError(res, { message: 'chat introuvable!' })
+      }
 
       const isAdminUser = user.role === 'admin'
       const isGroupAdmin = Types.ObjectId(user._id).equals(chat.groupAdmin)
