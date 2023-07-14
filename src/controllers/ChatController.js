@@ -1,3 +1,4 @@
+const { Types } = require('mongoose')
 const BaseController = require('./BaseController')
 
 module.exports = class ChatController extends BaseController {
@@ -225,6 +226,17 @@ module.exports = class ChatController extends BaseController {
   deleteChatById = async (req, res) => {
     try {
       const { chatId } = req.params
+
+      const user = await this.#User.findById(req.user._id)
+      const chat = await this.#Chat.findById(chatId)
+
+      const isAdminUser = user.role === 'admin'
+      const isGroupAdmin = Types.ObjectId(user._id).equals(chat.groupAdmin)
+      if (!isAdminUser && !isGroupAdmin) {
+        return this.handleError(res, {
+          message: "vous devez être l'administrateur du système ou du groupe pour supprimer ce groupe de discussion",
+        })
+      }
 
       await this.#Chat.findByIdAndDelete(chatId)
       await this.#Message.deleteMany({ chat: chatId })
