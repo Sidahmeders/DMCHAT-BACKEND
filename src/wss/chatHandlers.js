@@ -32,6 +32,11 @@ module.exports = (io, socket) => {
     io.emit(EVENTS.groupUpdated, payload)
   })
 
+  socket.on(LISTENERS.deleteChat, (payload) => {
+    // console.log(payload, 'deleteChat')
+    io.emit(EVENTS.chatDeleted, payload)
+  })
+
   socket.off(LISTENERS.setup, () => {
     socket.leave(userData._id)
   })

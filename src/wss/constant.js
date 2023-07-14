@@ -6,6 +6,7 @@ const LISTENERS = {
   stopTyping: 'stop typing',
   newMessage: 'new message',
   updateGroup: 'update group',
+  deleteChat: 'delete chat',
   // appointment listeners
   confirmAppointment: 'confirm appointment',
   leaveAppointment: 'leave appointment',
@@ -24,6 +25,7 @@ const EVENTS = {
   typingStopped: 'typing stopped',
   messageRecieved: 'message recieved',
   groupUpdated: 'group updated',
+  chatDeleted: 'chat deleted',
   // appointment listeners
   appointmentConfirmation: 'appointment confirmation',
   appointmentleft: 'appointment left',
