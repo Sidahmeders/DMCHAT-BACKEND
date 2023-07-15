@@ -12,6 +12,7 @@ module.exports = {
     },
     PUT: {
       updateUser: '/users/:userId',
+      updateUserRole: '/users/role/:userId',
     },
     DELETE: {
       deleteUser: '/users/:userId',

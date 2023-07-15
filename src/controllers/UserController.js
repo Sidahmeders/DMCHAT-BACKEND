@@ -249,8 +249,33 @@ module.exports = class UserController extends BaseController {
   updateUser = async (req, res) => {
     try {
       const { userId } = req.params
-      const updatedUser = await this.#User.findByIdAndUpdate(userId, req.body, { new: true }).select('-password')
-      this.handleSuccess(res, updatedUser)
+      const { name, email, password, pic } = req.body
+      const isAdmin = req.user.role === 'admin'
+
+      let userUpdate = { name, pic }
+      if (password) {
+        const passwordHash = await this.#generatePasswordHash(password)
+        userUpdate = { ...userUpdate, password: passwordHash }
+      }
+      if (!isAdmin && email) {
+        userUpdate = { ...userUpdate, email }
+      }
+
+      await this.#User.findByIdAndUpdate(userId, userUpdate)
+
+      this.handleSuccess(res)
+    } catch (error) {
+      this.handleError(res, error)
+    }
+  }
+
+  updatedUserRole = async (req, res) => {
+    try {
+      const { userId } = req.params
+      const { role } = req.body
+      await this.#User.findByIdAndUpdate(userId, { role })
+
+      this.handleSuccess(res)
     } catch (error) {
       this.handleError(res, error)
     }

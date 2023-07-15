@@ -229,7 +229,7 @@ router.post(Endpoints.USER.POST.resetPassword, userController.resetPassword)
  *           schema:
  *             $ref: '#/components/schemas/User'
  *     responses:
- *       '201':
+ *       '200':
  *         description: Updated created successfully
  *         content:
  *           application/json:
@@ -239,6 +239,37 @@ router.post(Endpoints.USER.POST.resetPassword, userController.resetPassword)
  *         description: Failed to update the user
  */
 router.put(Endpoints.USER.PUT.updateUser, authenticate, accessControl, userController.updateUser)
+
+/**
+ * @openapi
+ * /api/users/role/{userId}:
+ *   put:
+ *     tags: [Users]
+ *     summary: update user role
+ *     parameters:
+ *       - in: path
+ *         name: userId
+ *         schema:
+ *           type: string
+ *         required: true
+ *         description: The ID of the user to update
+ *     requestBody:
+ *       required: true
+ *       content:
+ *         application/json:
+ *           schema:
+ *             type: object
+ *             properties:
+ *               role:
+ *                 type: string
+ *                 description: Enum('admin', 'doctor', 'assistant', 'unauthorized')
+ *     responses:
+ *       '200':
+ *         description: Updated created successfully
+ *       '400':
+ *         description: Failed to update the user
+ */
+router.put(Endpoints.USER.PUT.updateUserRole, authenticate, accessControl, userController.updatedUserRole)
 
 /**
  * @swagger
