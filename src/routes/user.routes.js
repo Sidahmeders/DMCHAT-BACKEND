@@ -1,6 +1,6 @@
 const express = require('express')
 const { Endpoints } = require('../config')
-const { authenticate, accessControl } = require('../middleware')
+const { authenticate, accessControl, validateUserRegistration, validateUserLogin } = require('../middleware')
 const { userController } = require('../controllers')
 
 /**
@@ -58,7 +58,7 @@ router.get(Endpoints.USER.GET.fetchUsers, authenticate, accessControl, userContr
  *       '400':
  *         description: Failed to create the user
  */
-router.post(Endpoints.USER.POST.registerUser, userController.registerUser)
+router.post(Endpoints.USER.POST.registerUser, validateUserRegistration, userController.registerUser)
 
 /**
  * @openapi
@@ -93,7 +93,7 @@ router.post(Endpoints.USER.POST.registerUser, userController.registerUser)
  *       '400':
  *         description: Invalid email or password
  */
-router.post(Endpoints.USER.POST.loginUser, userController.loginUser)
+router.post(Endpoints.USER.POST.loginUser, validateUserLogin, userController.loginUser)
 
 /**
  * @swagger
