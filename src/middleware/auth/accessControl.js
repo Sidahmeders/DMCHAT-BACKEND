@@ -12,7 +12,7 @@ const doctorScope = merge(
   omit(Endpoints.MESSAGE, 'DELETE'),
   Endpoints.PATIENT,
   Endpoints.PAYMENT,
-  omit(Endpoints.USER, 'PUT.updateUserRole'),
+  omit(Endpoints.USER, ['DELETE', 'PUT.updateUserRole']),
 )
 
 const assistantScope = merge(
@@ -23,7 +23,7 @@ const assistantScope = merge(
   omit(Endpoints.MESSAGE, 'DELETE'),
   Endpoints.PATIENT,
   Endpoints.PAYMENT,
-  omit(Endpoints.USER, 'PUT.updateUserRole'),
+  omit(Endpoints.USER, ['DELETE', 'PUT.updateUserRole']),
 )
 
 const findRouteMatch = (originalUrl, scopes = {}) => {
