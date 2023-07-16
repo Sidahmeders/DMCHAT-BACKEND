@@ -235,8 +235,9 @@ module.exports = class ChatController extends BaseController {
 
       const isAdminUser = user.role === 'admin'
       const isGroupAdmin = Types.ObjectId(user._id).equals(chat.groupAdmin)
-      if (!isAdminUser && !isGroupAdmin) {
+      if (chat.isGroupChat && !isAdminUser && !isGroupAdmin) {
         return this.handleError(res, {
+          statusCode: 403,
           message: "vous devez être l'administrateur du système ou du groupe pour supprimer ce groupe de discussion",
         })
       }
