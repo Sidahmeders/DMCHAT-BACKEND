@@ -49,4 +49,31 @@ module.exports = class StatisticsController extends BaseController {
       this.handleError(res, error)
     }
   }
+
+  fetchPatientsAgeRatio = async (req, res) => {
+    try {
+      const patients = await this.#Patient.aggregate([
+        {
+          $group: {
+            _id: {
+              $switch: {
+                branches: [
+                  { case: { $and: [{ $gte: ['$age', 4] }, { $lte: ['$age', 18] }] }, then: '4-18' },
+                  { case: { $and: [{ $gte: ['$age', 19] }, { $lte: ['$age', 30] }] }, then: '19-30' },
+                  { case: { $and: [{ $gte: ['$age', 31] }, { $lte: ['$age', 45] }] }, then: '31-45' },
+                ],
+                default: '46+',
+              },
+            },
+            count: { $sum: 1 },
+          },
+        },
+        { $project: { _id: 0, name: '$_id', count: 1 } },
+      ])
+
+      this.handleSuccess(res, patients)
+    } catch (error) {
+      this.handleError(res, error)
+    }
+  }
 }

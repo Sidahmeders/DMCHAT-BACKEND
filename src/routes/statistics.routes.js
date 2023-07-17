@@ -101,4 +101,36 @@ router.get(
   statisticsController.fetchAppointmentsRevenueByDateRange,
 )
 
+/**
+ * @swagger
+ * /api/statistics/patients/age-ratio:
+ *   get:
+ *     summary: Fetch Patients Age Ratio
+ *     tags: [Statistics]
+ *     description: Retrieve statistics on the age ratio of patients.
+ *     responses:
+ *       '200':
+ *         description: OK
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: array
+ *               items:
+ *                 type: object
+ *                 properties:
+ *                   name:
+ *                     type: string
+ *                     description: Age range name.
+ *                   count:
+ *                     type: integer
+ *                     description: Number of patients in the age range.
+ *       '400':
+ *         description: Bad request
+ *       '500':
+ *         description: Internal server error
+ */
+router.get(Endpoints.STATISTIC.GET.fetchPatientsAgeRatio, statisticsController.fetchPatientsAgeRatio)
+
+router.get(Endpoints.STATISTIC.GET.fetchPatientsAgeRatio, statisticsController.fetchPatientsAgeRatio)
+
 module.exports = router

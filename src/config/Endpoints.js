@@ -102,6 +102,7 @@ module.exports = {
     GET: {
       fetchPaymentsByDateRange: '/statistics/:startDate/:endDate/payments-revenue',
       fetchAppointmentsRevenueByDateRange: '/statistics/:startDate/:endDate/appointments-revenue',
+      fetchPatientsAgeRatio: '/statistics/patients/age-ratio',
     },
   },
 }
