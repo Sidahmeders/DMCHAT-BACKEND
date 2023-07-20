@@ -18,6 +18,7 @@ module.exports = class PatientController extends BaseController {
 
       const patients = await this.#Patient
         .find({ fullName: { $regex: fullName, $options: 'i' } })
+        .sort({ createdAt: -1 })
         .skip((page - 1) * pageSize)
         .limit(pageSize)
 
