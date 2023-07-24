@@ -76,4 +76,28 @@ module.exports = class StatisticsController extends BaseController {
       this.handleError(res, error)
     }
   }
+
+  fetchPaymentMotifByDateRange = async (req, res) => {
+    try {
+      const { startDate, endDate } = req.params
+      const motifPayments = await this.#Appointment.aggregate([
+        {
+          $match: {
+            startDate: { $gte: new Date(startDate) },
+            endDate: { $lte: new Date(endDate) },
+          },
+        },
+        {
+          $group: {
+            _id: '$motif.value',
+            totalPayment: { $sum: '$payment' },
+          },
+        },
+      ])
+
+      this.handleSuccess(res, motifPayments)
+    } catch (error) {
+      this.handleError(res, error)
+    }
+  }
 }

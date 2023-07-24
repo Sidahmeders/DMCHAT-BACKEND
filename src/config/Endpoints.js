@@ -103,6 +103,7 @@ module.exports = {
       fetchPaymentsByDateRange: '/statistics/:startDate/:endDate/payments-revenue',
       fetchAppointmentsRevenueByDateRange: '/statistics/:startDate/:endDate/appointments-revenue',
       fetchPatientsAgeRatio: '/statistics/patients/age-ratio',
+      fetchPaymentMotifByDateRange: '/statistics/:startDate/:endDate/motif-payments',
     },
   },
 }

@@ -131,6 +131,6 @@ router.get(
  */
 router.get(Endpoints.STATISTIC.GET.fetchPatientsAgeRatio, statisticsController.fetchPatientsAgeRatio)
 
-router.get(Endpoints.STATISTIC.GET.fetchPatientsAgeRatio, statisticsController.fetchPatientsAgeRatio)
+router.get(Endpoints.STATISTIC.GET.fetchPaymentMotifByDateRange, statisticsController.fetchPaymentMotifByDateRange)
 
 module.exports = router
