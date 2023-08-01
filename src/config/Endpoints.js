@@ -64,7 +64,7 @@ module.exports = {
   },
   CALENDAR: {
     GET: {
-      fetchMonthCalendar: '/calendar/:year/:month',
+      fetchMonthCalendarAvailability: '/calendar/:year/:month/availability',
     },
     PUT: {
       setCalendarDayAvailability: '/calendar/:year/:month/:day/availability',

@@ -8,7 +8,7 @@ module.exports = class CalendarController extends BaseController {
     this.#Calendar = Calendar
   }
 
-  fetchMonthCalendar = async (req, res) => {
+  fetchMonthCalendarAvailability = async (req, res) => {
     try {
       const { year, month } = req.params
       const monthCalendar = await this.#Calendar.find({

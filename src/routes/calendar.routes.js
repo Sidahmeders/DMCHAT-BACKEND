@@ -13,11 +13,11 @@ const router = express.Router()
 
 /**
  * @openapi
- * /api/calendar/{year}/{month}:
+ * /api/calendar/{year}/{month}/availability:
  *   get:
- *     summary: Fetch month calendar
+ *     summary: Fetch month calendar Availability
  *     tags: [Calendar]
- *     description: Retrieve the calendar for a specific month
+ *     description: Retrieve the calendar availabilities for a specific month
  *     parameters:
  *       - in: path
  *         name: year
@@ -44,10 +44,10 @@ const router = express.Router()
  *         description: Calendar not found
  */
 router.get(
-  Endpoints.CALENDAR.GET.fetchMonthCalendar,
+  Endpoints.CALENDAR.GET.fetchMonthCalendarAvailability,
   authenticate,
   accessControl,
-  calendarController.fetchMonthCalendar,
+  calendarController.fetchMonthCalendarAvailability,
 )
 
 /**
