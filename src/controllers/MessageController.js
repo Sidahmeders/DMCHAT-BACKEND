@@ -47,7 +47,7 @@ module.exports = class MessageController extends BaseController {
         path: 'chat',
         select: 'chatName isGroupChat users',
         model: 'Chat',
-        populate: { path: 'users', select: 'name email pic', model: 'User' },
+        populate: { path: 'users', select: 'name email pic createdAt', model: 'User' },
       })
 
       await this.#Chat.findByIdAndUpdate(req.body.chatId, { latestMessage: message })
