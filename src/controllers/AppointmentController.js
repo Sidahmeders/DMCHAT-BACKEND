@@ -147,7 +147,7 @@ module.exports = class AppointmentController extends BaseController {
         .find({
           startDate: {
             $gte: new Date(`${year}-${month}-1`),
-            $lt: new Date(`${year}-${month}-31`),
+            $lt: new Date(`${year}-${month}-31T23:59:00`),
           },
         })
         .populate('patient')
