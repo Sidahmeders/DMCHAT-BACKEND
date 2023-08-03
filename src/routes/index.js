@@ -111,8 +111,9 @@ const statisticsRoutes = require('./statistics.routes')
  *           type: string
  *         fullName:
  *           type: string
- *         age:
- *           type: integer
+ *         birthDate:
+ *           type: string
+ *           format: date-time
  *         phoneNumber:
  *           type: string
  *         generalState:
