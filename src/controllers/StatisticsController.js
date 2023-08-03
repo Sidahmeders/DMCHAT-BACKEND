@@ -54,6 +54,16 @@ module.exports = class StatisticsController extends BaseController {
     try {
       const patients = await this.#Patient.aggregate([
         {
+          $project: {
+            birthDate: 1,
+            age: {
+              $floor: {
+                $divide: [{ $subtract: [new Date(), '$birthDate'] }, 365.25 * 24 * 60 * 60 * 1000],
+              },
+            },
+          },
+        },
+        {
           $group: {
             _id: {
               $switch: {
