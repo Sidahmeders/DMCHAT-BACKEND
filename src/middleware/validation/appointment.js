@@ -1,4 +1,5 @@
 const Joi = require('joi')
+const { ENUMs } = require('../../config')
 
 const appointmentSchema = Joi.object({
   sender: Joi.string().required(),
@@ -6,8 +7,10 @@ const appointmentSchema = Joi.object({
   baseAppointmentId: Joi.string(),
   title: Joi.string().min(2).max(50).required(),
   motif: Joi.object({
-    name: Joi.string().min(5).max(30).required(),
-    value: Joi.string().valid('pain', 'functional', 'aesthetic', 'others').required(),
+    name: Joi.string().min(2).max(30).required(),
+    value: Joi.string()
+      .valid(...ENUMs.APPOINTMENT_MOTIF)
+      .required(),
   }),
   diagnostic: Joi.string().min(3).max(500).empty(''),
   treatmentPlan: Joi.string().min(3).max(500).empty(''),
