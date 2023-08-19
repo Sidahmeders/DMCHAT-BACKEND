@@ -1,5 +1,16 @@
 module.exports = {
-  APPOINTMENT_MOTIF: ['pain', 'functional', 'aesthetic', 'others'],
+  APPOINTMENT_MOTIF: [
+    'consultation',
+    'extraction',
+    'control',
+    'surgery',
+    'care',
+    'fixed_prosthesis',
+    'removable_prosthesis',
+    'implant',
+    'odf',
+    'others',
+  ],
   CALENDAR_AVAILABILITIES: ['EMPTY', 'REST', 'BUSY', 'LOADED'],
   USER_ROLES: ['admin', 'doctor', 'assistant', 'unauthorized'],
 }
