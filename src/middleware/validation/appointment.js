@@ -16,7 +16,7 @@ const appointmentSchema = Joi.object({
   treatmentPlan: Joi.string().min(3).max(500).empty(''),
   startDate: Joi.date().iso().required(),
   endDate: Joi.date().iso().min(Joi.ref('startDate')).required(),
-  totalPrice: Joi.number().min(1000),
+  totalPrice: Joi.number(),
   payment: Joi.number(),
   paymentLeft: Joi.number(),
   isNewTreatment: Joi.boolean(),

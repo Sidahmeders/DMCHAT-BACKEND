@@ -10,7 +10,7 @@ const AppointmentSchema = mongoose.Schema(
     endDate: { type: Date, required: true },
     title: { type: String, trim: true, required: true },
     isNewTreatment: { type: Boolean, default: false },
-    totalPrice: { type: Number, required: true, min: [1000, 'total price is too low'] },
+    totalPrice: { type: Number, default: 0 },
     payment: { type: Number, default: 0 },
     paymentLeft: { type: Number },
     motif: {
