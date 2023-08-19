@@ -68,7 +68,8 @@ module.exports = class StatisticsController extends BaseController {
             _id: {
               $switch: {
                 branches: [
-                  { case: { $and: [{ $gte: ['$age', 4] }, { $lte: ['$age', 18] }] }, then: '4-18' },
+                  { case: { $and: [{ $gte: ['$age', 0] }, { $lte: ['$age', 12] }] }, then: '1-12' },
+                  { case: { $and: [{ $gte: ['$age', 13] }, { $lte: ['$age', 18] }] }, then: '13-18' },
                   { case: { $and: [{ $gte: ['$age', 19] }, { $lte: ['$age', 30] }] }, then: '19-30' },
                   { case: { $and: [{ $gte: ['$age', 31] }, { $lte: ['$age', 45] }] }, then: '31-45' },
                 ],
