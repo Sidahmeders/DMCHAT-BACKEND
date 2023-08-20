@@ -134,12 +134,6 @@ module.exports = class AppointmentController extends BaseController {
         .find({ startDate: { $gte: start, $lte: end } })
         .populate('patient')
 
-      console.log('BGN___________________')
-      const formatMyDate = (date) => new Date(date).toISOString().split(':')[0]
-      console.log(formatMyDate(start), '<->', formatMyDate(end))
-      console.log(dayAppointments.map((item) => formatMyDate(item.startDate)))
-      console.log('END___________________')
-
       this.handleSuccess(res, dayAppointments)
     } catch (error) {
       this.handleError(res, error)
