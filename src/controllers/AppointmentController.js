@@ -128,8 +128,8 @@ module.exports = class AppointmentController extends BaseController {
   fetchDayAppointments = async (req, res) => {
     try {
       const { year, month, day } = req.params
-      const start = new Date(`${year}-${month}-${day}`).setHours(-1)
-      const end = new Date(`${year}-${month}-${day}`).setHours(23)
+      const start = new Date(`${year}-${month}-${day}`).setHours(-2)
+      const end = new Date(`${year}-${month}-${day}`).setHours(22)
       const dayAppointments = await this.#Appointment
         .find({ startDate: { $gte: start, $lte: end } })
         .populate('patient')
