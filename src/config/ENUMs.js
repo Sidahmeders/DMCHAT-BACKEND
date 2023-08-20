@@ -9,6 +9,7 @@ module.exports = {
     'removable_prosthesis',
     'implant',
     'odf',
+    'scaling',
     'others',
   ],
   CALENDAR_AVAILABILITIES: ['EMPTY', 'REST', 'BUSY', 'LOADED'],
