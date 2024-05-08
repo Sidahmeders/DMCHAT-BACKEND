@@ -5,7 +5,6 @@ const appointmentSchema = Joi.object({
   sender: Joi.string().required(),
   patient: Joi.string().required(),
   baseAppointmentId: Joi.string(),
-  title: Joi.string().min(2).max(50).required(),
   motif: Joi.object({
     name: Joi.string().min(2).max(30).required(),
     value: Joi.string()

@@ -8,7 +8,7 @@ const AppointmentSchema = mongoose.Schema(
     baseAppointmentId: { type: mongoose.Schema.Types.ObjectId, ref: 'Appointment', default: null },
     startDate: { type: Date, required: true },
     endDate: { type: Date, required: true },
-    title: { type: String, trim: true, required: true },
+    title: { type: String, trim: true },
     isNewTreatment: { type: Boolean, default: false },
     totalPrice: { type: Number, default: 0 },
     payment: { type: Number, default: 0 },
